@@ -7,10 +7,12 @@ namespace Slang.Generator.Generator;
 
 public static class Helper
 {
+    private const char TabChar = '\t';
+
     public static void AppendWithTab(this StringBuilder builder, string text, int tabCount)
     {
         for (int i = 0; i < tabCount; i++)
-            builder.Append('\t');
+            builder.Append(TabChar);
 
         builder.Append(text);
     }
@@ -18,19 +20,19 @@ public static class Helper
     public static void AppendLineWithTab(this StringBuilder builder, string text, int tabCount)
     {
         for (int i = 0; i < tabCount; i++)
-            builder.Append('\t');
+            builder.Append(TabChar);
 
         builder.AppendLine(text);
     }
-    
+
     public static void AppendWithTab(this StringBuilder builder, char text, int tabCount)
     {
         for (int i = 0; i < tabCount; i++)
-            builder.Append('\t');
+            builder.Append(TabChar);
 
         builder.Append(text);
     }
-    
+
     /// Returns the class name of the root translation class.
     public static string GetClassNameRoot(
         string baseName,
@@ -51,7 +53,7 @@ public static class Helper
         CultureInfo? locale = null
     )
     {
-        string languageTag = locale != null ? locale.TwoLetterISOLanguageName.ToCaseOfLocale(CaseStyle.Pascal) : "";
+        string languageTag = locale != null ? locale.TwoLetterISOLanguageName.ToCaseOfLocale(CaseStyle.Pascal) : string.Empty;
 
         return $"{parentName}{childName.ToCase(CaseStyle.Pascal)}{languageTag}";
     }

@@ -1,6 +1,7 @@
 {
   "Core": {
     "B": "B",
+    "@B": "Byte short",
     "Gb": "GB",
     "KB": "KB",
     "MB": "MB",

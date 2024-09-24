@@ -32,7 +32,7 @@ internal static partial class NodesRepository
             }
 
             (string path, var modifiers) = NodeUtils.ParseModifiers(key);
-            
+
             string newKey = path.ToCase(keyCase);
 
             string currPath = !string.IsNullOrEmpty(parentPath) ? $"{parentPath}.{newKey}" : newKey;
@@ -184,10 +184,10 @@ internal static partial class NodesRepository
             case Dictionary<string, object> dictionary:
                 dict = dictionary;
                 break;
-            case JsonElement {ValueKind: JsonValueKind.Object} jsonElement: 
+            case JsonElement {ValueKind: JsonValueKind.Object} jsonElement:
                 dict = new Dictionary<string, object>();
 
-                foreach (var property in jsonElement.EnumerateObject()) 
+                foreach (var property in jsonElement.EnumerateObject())
                     dict.Add(property.Name, property.Value);
 
                 break;
@@ -229,7 +229,7 @@ internal static partial class NodesRepository
             Dictionary<string, StringTextNode> digestedMap = [];
 
             var entries = children.ToList();
-            
+
             foreach (var entry in entries)
             {
                 string[] split = entry.Key.Split(KeyDelimiter);
@@ -303,16 +303,10 @@ internal static partial class NodesRepository
         if (node == null)
             return null;
 
-        if (node is string s)
+        if (node is string or JsonElement {ValueKind: JsonValueKind.String})
         {
             // parse string directly
-            return s;
-        }
-
-        if (node is Dictionary<string, object> dictionary)
-        {
-            // ARB style
-            return dictionary["description"].ToString();
+            return node.ToString();
         }
 
         return null;

@@ -29,8 +29,7 @@ internal static partial class Generator
         do
         {
             var task = queue.Dequeue();
-
-
+            
             if (root)
                 GenerateRootClass(buffer, config, localeData, queue, task.ClassName, task.Node);
             else
@@ -675,10 +674,12 @@ internal static partial class Generator
             buffer.AppendLine(",");
     }
 
+    private const char TabChar = '\t';
+    
     /// Appends count times \t to the buffer
     private static void AddTabs(StringBuilder buffer, int count)
     {
         for (int i = 0; i < count; i++)
-            buffer.Append('\t');
+            buffer.Append(TabChar);
     }
 }

@@ -60,7 +60,10 @@ namespace Slang.Showcase
 		protected override StringsRu _root { get; } // ignore: unused_field
 
 	// Translations
+
+	/// Byte short
 	public override string B => "Б";
+
 	public override string Gb => "ГБ";
 	public override string Kb => "КБ";
 	public override string Mb => "МБ";

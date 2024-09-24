@@ -60,7 +60,10 @@ namespace Slang.Showcase
 		protected virtual Strings _root { get; } // ignore: unused_field
 
 	// Translations
+
+	/// Byte short
 	public virtual string B => "B";
+
 	public virtual string Gb => "GB";
 	public virtual string Kb => "KB";
 	public virtual string Mb => "MB";
