@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Text.Json;
-using Slang.Generator.Utils;
 using Slang.Gpt.Models;
 
 namespace Slang.Gpt.Utils;

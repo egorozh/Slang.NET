@@ -4,7 +4,6 @@ using Slang.Generator.Config.Domain.Entities;
 using Slang.Generator.Nodes.Domain;
 using Slang.Generator.Nodes.Nodes;
 using Slang.Generator.Translations;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Data;
 
@@ -230,6 +229,7 @@ internal static partial class NodesRepository
             Dictionary<string, StringTextNode> digestedMap = [];
 
             var entries = children.ToList();
+            
             foreach (var entry in entries)
             {
                 string[] split = entry.Key.Split(KeyDelimiter);
@@ -274,7 +274,7 @@ internal static partial class NodesRepository
                 PluralType: detectedType.NodeType == DetectionType.PluralCardinal
                     ? PluralType.Cardinal
                     : PluralType.Ordinal,
-                Quantities: digestedMap.Select((v) =>
+                Quantities: digestedMap.Select(v =>
                         new KeyValuePair<Quantity, StringTextNode>(v.Key.ToQuantity()!.Value, v.Value))
                     .ToDictionary(),
                 ParamName: paramName,

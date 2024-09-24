@@ -1,5 +1,4 @@
 using Slang.Generator.Nodes.Data;
-using Slang.Generator.Utils;
 
 namespace Slang.Gpt.Utils;
 

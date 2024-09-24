@@ -1,15 +1,9 @@
-using System.Text;
-using System.Text.RegularExpressions;
 using Slang.Generator.Config.Domain.Entities;
 
-namespace Slang.Generator.Utils;
+namespace Slang.Generator.Nodes.Data;
 
-public static partial class StringExtensions
+public static class StringExtensions
 {
-    private static readonly Regex UpperAlphaRegex = MyUpperAlphaRegex();
-
-    private static readonly HashSet<char> SymbolSet = [' ', '.', '_', '-', '/', '\\'];
-
     /// de-DE will be interpreted as [de,DE]
     /// normally, it would be [de,D,E] which we do not want
     public static string ToCaseOfLocale(this string s, CaseStyle style) => s.ToLower().ToCase(style);
@@ -22,8 +16,7 @@ public static partial class StringExtensions
         {
             case CaseStyle.Camel:
                 return string.Join(string.Empty, s.GetWords()
-                    .Select((word, index) =>
-                        index == 0 ? word.ToLower() : word.Capitalize()));
+                    .Select((word, index) => index == 0 ? word.ToLower() : word.Capitalize()));
             case CaseStyle.Pascal:
                 return string.Join(string.Empty, s.GetWords().Select(word => word.Capitalize()));
             case null:
@@ -33,7 +26,7 @@ public static partial class StringExtensions
                 return s;
         }
     }
-    
+
     /// transforms the string to the specified case
     /// if case is null, then no transformation will be applied
     public static string ToCaseWithDots(this string s, CaseStyle? style)
@@ -52,45 +45,58 @@ public static partial class StringExtensions
         if (string.IsNullOrEmpty(s))
             return string.Empty;
 
-        char first = s[0];
+        Span<char> result = stackalloc char[s.Length];
+        s.AsSpan().CopyTo(result);
 
-        return $"{first.ToString().ToUpper()}{s[1..].ToLower()}";
+        result[0] = char.ToUpper(result[0]);
+
+        for (int i = 1; i < result.Length; i++)
+            result[i] = char.ToLower(result[i]);
+
+        return new string(result);
     }
+    
+    private static readonly HashSet<char> SymbolSet = [' ', '.', '_', '-', '/', '\\'];
 
     /// get word list from string input
     /// assume that words are separated by special characters or by camel case
-    private static List<string> GetWords(this string s)
+    private static IEnumerable<string> GetWords(this string s)
     {
-        StringBuilder buffer = new();
-        List<string> words = [];
+        bool isAllCaps = true;
 
-        bool isAllCaps = s.All(c => !char.IsLetter(c) || char.IsUpper(c));
+        // Проверяем, состоит ли вся строка из заглавных букв
+        foreach (char c in s)
+        {
+            if (char.IsLetter(c) && char.IsLower(c))
+            {
+                isAllCaps = false;
+                break;
+            }
+        }
+
+        int wordStart = -1;
 
         for (int i = 0; i < s.Length; i++)
         {
             char currChar = s[i];
-
-            char? nextChar = i + 1 == s.Length ? null : s[i + 1];
+            
+            char? nextChar = i + 1 < s.Length ? s[i + 1] : null;
 
             if (SymbolSet.Contains(currChar))
                 continue;
-
-            buffer.Append(currChar);
+            
+            if (wordStart == -1) 
+                wordStart = i;
 
             bool isEndOfWord = !nextChar.HasValue ||
-                               (!isAllCaps && UpperAlphaRegex.Match(nextChar.Value.ToString()).Success) ||
+                               (!isAllCaps && char.IsUpper(nextChar.Value)) ||
                                SymbolSet.Contains(nextChar.Value);
 
             if (isEndOfWord)
-            {
-                words.Add(buffer.ToString());
-                buffer.Clear();
+            { 
+                yield return s.Substring(wordStart, i - wordStart + 1);
+                wordStart = -1;
             }
         }
-
-        return words;
     }
-
-    [GeneratedRegex("[A-Z]")]
-    private static partial Regex MyUpperAlphaRegex();
 }

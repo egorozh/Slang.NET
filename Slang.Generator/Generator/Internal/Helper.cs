@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 using Slang.Generator.Config.Domain.Entities;
-using Slang.Generator.Utils;
+using Slang.Generator.Nodes.Data;
 
 namespace Slang.Generator.Generator;
 

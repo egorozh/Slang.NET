@@ -1,8 +1,8 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Nodes.Data;
 using Slang.Generator.Nodes.Nodes;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Domain;
 
@@ -12,18 +12,20 @@ internal static partial class NodeHelpers
 
     public static string DetermineGenericType(IReadOnlyCollection<Node> entries)
     {
+        const string dynamicType = "dynamic";
+
         if (entries.All(child => child is StringTextNode {Params.Count: 0}))
             return "string";
 
         if (entries.All(child => child is ListNode))
         {
-            string? childGenericType = (entries.First() as ListNode).GenericType;
+            string? childGenericType = ((ListNode)entries.First()).GenericType;
 
-            foreach (var child in entries)
+            foreach (ListNode child in entries)
             {
-                if (childGenericType != (child as ListNode).GenericType)
+                if (childGenericType != child.GenericType)
                 {
-                    childGenericType = "dynamic"; // default
+                    childGenericType = dynamicType; // default
                 }
             }
 
@@ -32,22 +34,22 @@ internal static partial class NodeHelpers
 
         if (entries.All(child => child is ObjectNode {IsMap: true}))
         {
-            string? childGenericType = (entries.First() as ObjectNode).GenericType;
+            string? childGenericType = ((ObjectNode) entries.First()).GenericType;
 
-            foreach (var child in entries)
+            foreach (ObjectNode child in entries)
             {
-                if (childGenericType != (child as ObjectNode).GenericType)
+                if (childGenericType != child.GenericType)
                 {
-                    childGenericType = "dynamic"; // default
+                    childGenericType = dynamicType; // default
                 }
             }
 
-            return $"Map<string, {childGenericType}>"; // all maps have same generics
+            return $"Dictionary<string, {childGenericType}>"; // all maps have same generics
         }
 
-        return "dynamic";
+        return dynamicType;
     }
-    
+
     internal record struct ParseLinksResult(string ParsedContent, HashSet<string> Links);
 
     public static ParseLinksResult ParseLinks(string input, Dictionary<string, HashSet<string>>? linkParamMap)
@@ -58,7 +60,7 @@ internal static partial class NodeHelpers
             match =>
             {
                 string linkedPath = match.Groups[1].Value.ToCaseWithDots(CaseStyle.Pascal);
-                
+
                 links.Add(linkedPath);
 
                 if (linkParamMap == null)
@@ -81,7 +83,7 @@ internal static partial class NodeHelpers
 
         return new ParseLinksResult(parsedContent, links);
     }
-    
+
     /// <param name="ParsedContent"></param>
     /// <param name="Params"> Map of parameter name -> parameter type</param>
     internal record struct ParseInterpolationResult(string ParsedContent, Dictionary<string, string> Params);
@@ -139,7 +141,7 @@ internal static partial class NodeHelpers
             replacer: replacer
         );
     }
-    
+
     private static string ReplaceBetween(string input,
         string startCharacter,
         string endCharacter,
@@ -194,7 +196,7 @@ internal static partial class NodeHelpers
 
         return buffer.ToString();
     }
-    
+
     /// matches @:translation.key
     [GeneratedRegex(@"@:(\w[\w|.]*\w|\w)")]
     private static partial Regex MyLinkedRegex();
