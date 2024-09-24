@@ -1,5 +1,4 @@
 using Slang.Generator.Nodes.Domain;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Nodes;
 
@@ -18,7 +17,7 @@ internal enum PluralType
 /// <param name="ParamType">type of the plural parameter defaults to num</param>
 internal record PluralNode(
     string Path,
-    CustomDictionary<string, string> Modifiers,
+    Dictionary<string, string> Modifiers,
     string? Comment,
     PluralType PluralType,
     Dictionary<Quantity, StringTextNode> Quantities,

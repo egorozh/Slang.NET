@@ -1,11 +1,10 @@
 using System.Globalization;
 using Slang.Generator.Files;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Translations;
 
 public class TranslationsMap(Dictionary<string, object?> translations)
-    : CustomDictionary<string, object>(translations);
+    : Dictionary<string, object?>(translations);
 
 /// Contains ALL translations of ALL locales
 /// Represented as pure maps without modifications

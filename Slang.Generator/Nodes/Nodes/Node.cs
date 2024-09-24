@@ -1,5 +1,4 @@
 using Slang.Generator.Nodes.Domain;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Nodes;
 
@@ -11,7 +10,7 @@ namespace Slang.Generator.Nodes.Nodes;
 /// <param name="Comment"></param>
 internal abstract record Node(
     string Path,
-    CustomDictionary<string, string> Modifiers,
+    Dictionary<string, string> Modifiers,
     string? Comment);
 
 /// <summary>
@@ -23,7 +22,7 @@ internal abstract record Node(
 /// <param name="GenericType">The generic type of the container, i.e. Map<String, T> or List<T></param>
 internal abstract record IterableNode(
     string Path,
-    CustomDictionary<string, string> Modifiers,
+    Dictionary<string, string> Modifiers,
     string? Comment,
     string GenericType)
     : Node(Path, Modifiers, Comment);
@@ -31,13 +30,13 @@ internal abstract record IterableNode(
 internal record ListNode(
     string Path,
     string? Comment,
-    CustomDictionary<string, string> Modifiers,
+    Dictionary<string, string> Modifiers,
     List<Node> Entries)
     : IterableNode(Path, Modifiers, Comment, NodeHelpers.DetermineGenericType(Entries));
 
 internal record ObjectNode(
     string Path,
-    CustomDictionary<string, string> Modifiers,
+    Dictionary<string, string> Modifiers,
     string? Comment,
     Dictionary<string, Node> Entries,
     bool IsMap)

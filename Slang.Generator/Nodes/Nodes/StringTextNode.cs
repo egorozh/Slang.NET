@@ -1,11 +1,9 @@
-using Slang.Generator.Utils;
-
 namespace Slang.Generator.Nodes.Nodes;
 
 internal record StringTextNode : Node, ILeafNode
 {
     public StringTextNode(string Path,
-        CustomDictionary<string, string> Modifiers,
+        Dictionary<string, string> Modifiers,
         string? Comment,
         HashSet<string> Params,
         Dictionary<string, string> ParamTypeMap,

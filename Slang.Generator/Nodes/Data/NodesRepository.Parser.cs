@@ -41,7 +41,9 @@ internal static partial class NodesRepository
 
             string currPath = !string.IsNullOrEmpty(parentPath) ? $"{parentPath}.{newKey}" : newKey;
 
-            string? comment = _parseCommentNode(curr[$"@{key}"]);
+            string? comment = !curr.ContainsKey($"@{key}")
+                ? null
+                : _parseCommentNode(curr[$"@{key}"]);
 
             var node = GetNode(
                 currPath,
@@ -68,7 +70,7 @@ internal static partial class NodesRepository
         Dictionary<string, ILeafNode> leavesMap,
         BuildModelResult? baseData,
         object? value,
-        CustomDictionary<string, string> modifiers)
+        Dictionary<string, string> modifiers)
     {
         if (value is string or int or JsonElement {ValueKind: JsonValueKind.String})
         {
@@ -147,7 +149,7 @@ internal static partial class NodesRepository
         string? comment,
         BuildModelConfig config,
         string value,
-        CustomDictionary<string, string> modifiers)
+        Dictionary<string, string> modifiers)
     {
         (string? parsedContent, var paramTypeMap) = NodeHelpers.ParseInterpolation(
             raw: value,
@@ -156,7 +158,7 @@ internal static partial class NodesRepository
         );
 
         var @params = paramTypeMap.Keys.ToHashSet();
-        
+
         var parsedLinksResult = NodeHelpers.ParseLinks(
             input: parsedContent,
             linkParamMap: null
@@ -181,7 +183,7 @@ internal static partial class NodesRepository
         object? value,
         string currPath,
         string currRawPath,
-        CustomDictionary<string, string> modifiers,
+        Dictionary<string, string> modifiers,
         string? comment)
     {
         Dictionary<string, object> dict;
@@ -253,8 +255,10 @@ internal static partial class NodesRepository
                 }
             }
 
+            string paramName = !modifiers.ContainsKey(NodeModifiers.Param)
+                ? config.PluralParameter
+                : modifiers[NodeModifiers.Param];
 
-            string paramName = modifiers[NodeModifiers.Param] ?? config.PluralParameter;
             string paramType = "int";
 
             foreach (var textNode in digestedMap.Values)
@@ -322,7 +326,7 @@ internal static partial class NodesRepository
     private static DetectionResult _determineNodeType(
         BuildModelConfig config,
         string nodePath,
-        CustomDictionary<string, string> modifiers,
+        Dictionary<string, string> modifiers,
         Dictionary<string, Node> children
     )
     {

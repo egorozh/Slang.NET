@@ -70,7 +70,7 @@ internal static partial class NodesRepository
         var root = new ObjectNode(
             Path: "",
             Comment: null,
-            Modifiers: new CustomDictionary<string, string>([]),
+            Modifiers: new Dictionary<string, string>([]),
             Entries: resultNodeTree,
             IsMap: false);
 

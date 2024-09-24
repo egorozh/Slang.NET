@@ -1,11 +1,10 @@
 using System.Text.RegularExpressions;
-using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Data;
 
 public record NodePathInfo(
     string Path,
-    CustomDictionary<string, string> Modifiers
+    Dictionary<string, string> Modifiers
 );
 
 public static partial class NodeUtils
@@ -21,7 +20,7 @@ public static partial class NodeUtils
         var match = ModifierRegex.Match(originalKey);
 
         if (!match.Success)
-            return new NodePathInfo(Path: originalKey, Modifiers: new CustomDictionary<string, string>([]));
+            return new NodePathInfo(Path: originalKey, Modifiers: new Dictionary<string, string>([]));
 
         string[] modifiers = match.Groups[2].Value.Split(",");
 
@@ -47,7 +46,7 @@ public static partial class NodeUtils
 
         return new NodePathInfo(
             Path: match.Groups[1].Value,
-            Modifiers: new CustomDictionary<string, string>(resultMap)
+            Modifiers: new Dictionary<string, string>(resultMap)
         );
     }
 
