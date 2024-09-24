@@ -65,9 +65,9 @@ public static class GeneratorFacade
     private static GenerateFallbackStrategy ToGenerateFallbackStrategy(this FallbackStrategy fallbackStrategy) =>
         fallbackStrategy switch
         {
-            FallbackStrategy.none => GenerateFallbackStrategy.None,
-            FallbackStrategy.baseLocale => GenerateFallbackStrategy.BaseLocale,
-            FallbackStrategy.baseLocaleEmptyString => GenerateFallbackStrategy.BaseLocale,
+            FallbackStrategy.None => GenerateFallbackStrategy.None,
+            FallbackStrategy.BaseLocale => GenerateFallbackStrategy.BaseLocale,
+            FallbackStrategy.BaseLocaleEmptyString => GenerateFallbackStrategy.BaseLocale,
             _ => throw new ArgumentOutOfRangeException(nameof(fallbackStrategy), fallbackStrategy, null)
         };
 }

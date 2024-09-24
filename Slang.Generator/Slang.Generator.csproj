@@ -16,4 +16,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Slang\Slang.csproj" />
+    </ItemGroup>
+
 </Project>

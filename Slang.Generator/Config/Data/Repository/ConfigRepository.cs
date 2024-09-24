@@ -9,11 +9,11 @@ namespace Slang.Generator.Config.Data.Repository;
 internal static class ConfigRepository
 {
     private const string DefaultBaseLocale = "en";
-    private const FallbackStrategy DefaultFallbackStrategy = FallbackStrategy.none;
+    private const FallbackStrategy DefaultFallbackStrategy = FallbackStrategy.None;
     private const string? DefaultInputDirectory = null;
     private const string DefaultInputFilePattern = ".i18n.json";
     private const string DefaultPluralParameter = "n";
-    private const PluralAuto DefaultPluralAuto = PluralAuto.cardinal;
+    private const PluralAuto DefaultPluralAuto = PluralAuto.Cardinal;
 
     /// Parses the full build.yaml file to get the config
     /// May return null if no config entry is found.

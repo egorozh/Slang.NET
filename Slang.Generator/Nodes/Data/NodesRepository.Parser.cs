@@ -68,7 +68,7 @@ internal static partial class NodesRepository
     {
         if (value is string or int or JsonElement {ValueKind: JsonValueKind.String})
         {
-            if (config.FallbackStrategy == FallbackStrategy.baseLocaleEmptyString && value is string s &&
+            if (config.FallbackStrategy == FallbackStrategy.BaseLocaleEmptyString && value is string s &&
                 string.IsNullOrEmpty(s))
             {
                 return null;
@@ -216,11 +216,11 @@ internal static partial class NodesRepository
             {
                 switch (config.FallbackStrategy)
                 {
-                    case FallbackStrategy.none:
+                    case FallbackStrategy.None:
                         throw new Exception(
                             "\"$currPath\" in <$localeDebug> is empty but it is marked for pluralization / context. Define \"fallback_strategy: base_locale\" to ignore this node.");
-                    case FallbackStrategy.baseLocale:
-                    case FallbackStrategy.baseLocaleEmptyString:
+                    case FallbackStrategy.BaseLocale:
+                    case FallbackStrategy.BaseLocaleEmptyString:
                         return null;
                 }
             }
@@ -338,7 +338,7 @@ internal static partial class NodesRepository
             return new DetectionResult(DetectionType.ClassType);
         }
 
-        if (config.PluralAuto != PluralAuto.off)
+        if (config.PluralAuto != PluralAuto.Off)
         {
             // check if every children is 'zero', 'one', 'two', 'few', 'many' or 'other'
             bool isPlural = childrenSplitByComma.Count <= Pluralization.AllQuantities.Length &&
@@ -349,11 +349,11 @@ internal static partial class NodesRepository
             {
                 switch (config.PluralAuto)
                 {
-                    case PluralAuto.cardinal:
+                    case PluralAuto.Cardinal:
                         return new DetectionResult(DetectionType.PluralCardinal);
-                    case PluralAuto.ordinal:
+                    case PluralAuto.Ordinal:
                         return new DetectionResult(DetectionType.PluralOrdinal);
-                    case PluralAuto.off:
+                    case PluralAuto.Off:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
