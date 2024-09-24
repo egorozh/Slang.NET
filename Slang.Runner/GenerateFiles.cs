@@ -2,8 +2,7 @@ using BenchmarkDotNet.Attributes;
 using Slang.Generator;
 using Slang.Generator.Config.Domain.Entities;
 using Slang.Generator.Files;
-using Slang.Generator.Translations.Data;
-using Slang.Generator.Translations.Domain;
+using Slang.Generator.Translations;
 
 namespace Slang.Runner;
 
@@ -43,19 +42,17 @@ public class GenerateFiles
             config: _config,
             allFiles: files
         );
-        
+
         _translationMap = await TranslationsRepository.Build(
-            fileCollection: _fileCollection,
-            verbose: false
+            fileCollection: _fileCollection
         );
     }
-    
+
     [Benchmark]
     public async Task GetTranslationMap()
     {
         _translationMap = await TranslationsRepository.Build(
-            fileCollection: _fileCollection,
-            verbose: false
+            fileCollection: _fileCollection
         );
     }
 
@@ -70,7 +67,7 @@ public class GenerateFiles
             translationComposition: _translationMap
         );
     }
-    
+
     [Benchmark]
     public void GetNodes()
     {

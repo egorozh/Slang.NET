@@ -1,5 +1,5 @@
 using Slang.Generator.Nodes.Domain;
-using Slang.Generator.Translations.Domain;
+using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Nodes;
 

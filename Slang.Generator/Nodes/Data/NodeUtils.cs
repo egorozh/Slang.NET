@@ -1,5 +1,5 @@
 using System.Text.RegularExpressions;
-using Slang.Generator.Translations.Domain;
+using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Data;
 

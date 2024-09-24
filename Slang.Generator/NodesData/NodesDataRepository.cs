@@ -3,7 +3,7 @@ using Slang.Generator.Config.Domain.Entities;
 using Slang.Generator.Nodes.Data;
 using Slang.Generator.Nodes.Domain;
 using Slang.Generator.Nodes.Nodes;
-using Slang.Generator.Translations.Domain;
+using Slang.Generator.Translations;
 
 namespace Slang.Generator.NodesData;
 

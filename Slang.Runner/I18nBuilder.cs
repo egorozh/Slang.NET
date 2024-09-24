@@ -1,7 +1,7 @@
 using Slang.Generator;
 using Slang.Generator.Config.Domain.Entities;
 using Slang.Generator.Files;
-using Slang.Generator.Translations.Data;
+using Slang.Generator.Translations;
 
 namespace Slang.Runner;
 
@@ -46,10 +46,7 @@ internal class I18NBuilder(RawConfig config)
         string outputFilePath = DetermineOutputPath(fileCollection, outputFileName, outputDirectory);
 
         // STEP 2: scan translations
-        var translationMap = await TranslationsRepository.Build(
-            fileCollection: fileCollection,
-            verbose: false
-        );
+        var translationMap = await TranslationsRepository.Build(fileCollection: fileCollection);
 
         //todo: get namespace from SG
         const string @namespace = "Slang.Showcase";

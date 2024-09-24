@@ -3,7 +3,7 @@ using System.Text.Json;
 using Slang.Generator.Config.Domain.Entities;
 using Slang.Generator.Nodes.Domain;
 using Slang.Generator.Nodes.Nodes;
-using Slang.Generator.Translations.Domain;
+using Slang.Generator.Translations;
 using Slang.Generator.Utils;
 
 namespace Slang.Generator.Nodes.Data;

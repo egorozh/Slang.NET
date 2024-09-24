@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Slang.Generator.Translations.Domain;
+namespace Slang.Generator.Utils;
 
 public class CustomDictionary<TKey, TValue>(Dictionary<TKey, TValue?> translations)
     : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : notnull
@@ -21,11 +21,6 @@ public class CustomDictionary<TKey, TValue>(Dictionary<TKey, TValue?> translatio
     }
 
     public Dictionary<TKey, TValue?>.KeyCollection Keys => _dictionary.Keys;
-
-    public void Add(TKey key, TValue item)
-    {
-        _dictionary.Add(key, item);
-    }
 
     // // Дополнительные методы и свойства при необходимости
     // public void Add(TKey key, TValue value)
