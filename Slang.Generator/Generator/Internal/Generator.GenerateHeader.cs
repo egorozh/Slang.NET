@@ -1,6 +1,5 @@
 using System.Text;
 using Slang.Generator.Generator.Entities;
-using Slang.Generator.Nodes.Nodes;
 using Slang.Generator.NodesData;
 using static Slang.Generator.Generator.Helper;
 
@@ -10,14 +9,24 @@ internal static partial class Generator
 {
     private static string GenerateHeader(GenerateConfig config, List<I18NData> allLocales)
     {
+        var now = DateTime.Now;
+
         return
             $$"""
-              {{GenerateHeaderComment(
-                  translations: allLocales,
-                  now: DateTime.Now.ToLocalTime()
-              )}}
+              /// Generated file. Do not edit.
+              ///
+              ///
+              /// Locales: {{allLocales.Count}}
+              ///
+              /// Built on {{now.ToShortDateString()}} at {{now.ToShortTimeString()}} UTC
 
-              {{GenerateImports(config.Namespace)}}
+              using Slang;
+              using {{config.Namespace}};
+              using System;
+              using System.Collections.Generic;
+              using System.Globalization;
+              using System.Linq;
+              using System.Threading;
 
               namespace {{config.Namespace}}
               {
@@ -59,69 +68,6 @@ internal static partial class Generator
               """;
     }
 
-    private static string GenerateHeaderComment(List<I18NData> translations, DateTime now)
-    {
-        StringBuilder buffer = new();
-
-        int count = translations.Aggregate(
-            0,
-            (prev, curr) => prev + CountTranslations(curr.Root)
-        );
-
-        string countPerLocale = "";
-
-        if (translations.Count != 1)
-            countPerLocale = $" ({Math.Floor((double) count / translations.Count)} per locale)";
-
-        string statisticsStr =
-            $"""
-             ///
-             /// Locales: {translations.Count}
-             /// Strings: {count}{countPerLocale}
-             """;
-
-        string date = $"{now.Year}-{TwoDigits(now.Month)}-{TwoDigits(now.Day)}";
-        string time = $"{TwoDigits(now.Hour)}:{TwoDigits(now.Minute)}";
-        string timestampStr = $"""
-                               ///
-                               /// Built on {date} at {time} UTC
-                               """;
-
-
-        buffer.AppendLine($"""
-                           /// Generated file. Do not edit.
-                           ///
-                           {statisticsStr}{timestampStr}
-                           """);
-        
-        return buffer.ToString();
-
-        string TwoDigits(int value) => value.ToString().PadLeft(2, '0');
-    }
-
-    private static string GenerateImports(string @namespace)
-    {
-        StringBuilder buffer = new();
-
-        List<string> imports =
-        [
-            "Slang",
-            "System.Collections.Generic",
-            "System.Globalization",
-            "System.Linq",
-            "System",
-            "System.Threading",
-            @namespace
-        ];
-
-        imports = imports.Order().ToList();
-
-        foreach (string i in imports)
-            buffer.AppendLine($"using {i};");
-
-        return buffer.ToString();
-    }
-
     private static string GenerateCultures(GenerateConfig config, List<I18NData> allLocales)
     {
         StringBuilder buffer = new();
@@ -130,8 +76,9 @@ internal static partial class Generator
         {
             var locale = allLocales[i].Locale;
 
-            buffer.AppendLine(
-                $"\t\tprivate readonly static CultureInfo _{locale.TwoLetterISOLanguageName} = new CultureInfo(\"{locale.Name}\");");
+            buffer.AppendLineWithTab(
+                $"private readonly static CultureInfo _{locale.TwoLetterISOLanguageName} = new CultureInfo(\"{locale.Name}\");",
+                tabCount: 2);
         }
 
         buffer.AppendLine();
@@ -149,13 +96,10 @@ internal static partial class Generator
 
             string className = allLocales[i].BaseLocale
                 ? config.ClassName
-                : GetClassNameRoot(
-                    baseName: config.BaseName,
-                    locale: locale
-                );
+                : GetClassNameRoot(baseName: config.BaseName, locale: locale);
 
-            buffer.Append(
-                $"\t\t\t\t{{_{locale.TwoLetterISOLanguageName}, new {className}() }}");
+            buffer.AppendWithTab(
+                $"{{_{locale.TwoLetterISOLanguageName}, new {className}() }}", tabCount: 4);
 
             if (i < allLocales.Count - 1)
                 buffer.Append(',');
@@ -168,13 +112,4 @@ internal static partial class Generator
 
         return buffer.ToString();
     }
-
-    private static int CountTranslations(Node node) => node switch
-    {
-        StringTextNode => 1,
-        ListNode listNode => listNode.Entries.Sum(CountTranslations),
-        ObjectNode objectNode => objectNode.Entries.Values.Sum(CountTranslations),
-        PluralNode pluralNode => pluralNode.Quantities.Count,
-        _ => 0
-    };
 }
