@@ -1,6 +1,6 @@
 namespace Slang.Generator.Nodes.Domain;
 
-public static class NodeModifiers
+internal static class NodeModifiers
 {
     public const string Map = "map";
     public const string Cardinal = "cardinal";

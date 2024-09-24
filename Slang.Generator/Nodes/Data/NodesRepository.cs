@@ -52,7 +52,6 @@ internal static partial class NodesRepository
         // Reason: Not all TextNodes are built, so var parameters are unknown
         var resultNodeTree = ParseMapNode(
             parentPath: "",
-            parentRawPath: "",
             curr: map,
             config: buildConfig,
             keyCase: buildConfig.KeyCase,
@@ -70,7 +69,7 @@ internal static partial class NodesRepository
         var root = new ObjectNode(
             Path: "",
             Comment: null,
-            Modifiers: new Dictionary<string, string>([]),
+            Modifiers: [],
             Entries: resultNodeTree,
             IsMap: false);
 

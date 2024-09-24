@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Slang.Generator.Nodes.Data;
 
-public record NodePathInfo(
+public record struct NodePathInfo(
     string Path,
     Dictionary<string, string> Modifiers
 );
@@ -20,7 +20,7 @@ public static partial class NodeUtils
         var match = ModifierRegex.Match(originalKey);
 
         if (!match.Success)
-            return new NodePathInfo(Path: originalKey, Modifiers: new Dictionary<string, string>([]));
+            return new NodePathInfo(Path: originalKey, Modifiers: new Dictionary<string, string>());
 
         string[] modifiers = match.Groups[2].Value.Split(",");
 

@@ -16,7 +16,6 @@ internal static partial class NodesRepository
     /// and returns the node model.
     private static Dictionary<string, Node> ParseMapNode(
         string parentPath,
-        string parentRawPath,
         TranslationsMap curr,
         BuildModelConfig config,
         CaseStyle? keyCase,
@@ -34,9 +33,7 @@ internal static partial class NodesRepository
             }
 
             (string path, var modifiers) = NodeUtils.ParseModifiers(key);
-
-            string currRawPath = !string.IsNullOrEmpty(parentRawPath) ? $"{parentRawPath}.{key}" : key;
-
+            
             string newKey = path.ToCase(keyCase);
 
             string currPath = !string.IsNullOrEmpty(parentPath) ? $"{parentPath}.{newKey}" : newKey;
@@ -47,7 +44,6 @@ internal static partial class NodesRepository
 
             var node = GetNode(
                 currPath,
-                currRawPath,
                 comment,
                 config,
                 leavesMap,
@@ -64,7 +60,6 @@ internal static partial class NodesRepository
 
     private static Node? GetNode(
         string currPath,
-        string currRawPath,
         string? comment,
         BuildModelConfig config,
         Dictionary<string, ILeafNode> leavesMap,
@@ -114,7 +109,6 @@ internal static partial class NodesRepository
 
             var children = ParseMapNode(
                 parentPath: currPath,
-                parentRawPath: currRawPath,
                 curr: new TranslationsMap(listAsMap),
                 config: config,
                 keyCase: config.KeyCase,
@@ -139,7 +133,6 @@ internal static partial class NodesRepository
             baseData,
             value,
             currPath,
-            currRawPath,
             modifiers,
             comment);
     }
@@ -182,7 +175,6 @@ internal static partial class NodesRepository
         BuildModelResult? baseData,
         object? value,
         string currPath,
-        string currRawPath,
         Dictionary<string, string> modifiers,
         string? comment)
     {
@@ -206,7 +198,6 @@ internal static partial class NodesRepository
 
         var children = ParseMapNode(
             parentPath: currPath,
-            parentRawPath: currRawPath,
             curr: new TranslationsMap(dict),
             config: config,
             keyCase: config.KeyCase != config.KeyMapCase &&
