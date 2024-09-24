@@ -1,0 +1,214 @@
+{
+  "Core": {
+    "B": "B",
+    "Gb": "GB",
+    "KB": "KB",
+    "MB": "MB",
+    "TB": "TB",
+    "Error": "Error"
+  },
+  "someKey": {
+    "apple": {
+      "one": "I have {n} apple.",
+      "few": "I have {n} apples",
+      "other": "I have {n} apples."
+    },
+    "fields": {
+      "name": "my name is {firstName: string}",
+      "age": "I am {age: int} years old",
+      "date": "My birthday date: {date: DateOnly}"
+    },
+    "a(map)": {
+      "hello world": "hello"
+    },
+    "b": {
+      "b0": "hey",
+      "b1(map)": {
+        "hi there": "hi"
+      }
+    },
+    "niceList": [
+      "hello",
+      "nice",
+      [
+        "first item in nested list",
+        "second item in nested list"
+      ],
+      {
+        "wow": "WOW!",
+        "ok": "OK!"
+      },
+      {
+        "a map entry": "access via key",
+        "another entry": "access via second key"
+      }
+    ],
+    "introduce": "Hello, @:someKey.fields.name and @:someKey.fields.age"
+  },
+  "Alert": {
+    "OkButtonText": "Understood"
+  },
+  "Bookmarks": {
+    "NewFolder": "New Folder",
+    "RootFolder": "Bookmarks Panel"
+  },
+  "ContextMenu": {
+    "AddToBookmarks": "Add to bookmarks",
+    "Copy": "Copy",
+    "Cut": "Cut",
+    "Delete": "Delete",
+    "Open": "Open",
+    "OpenInNativeExplorer": "Open in Windows Explorer",
+    "OpenInNewSideTab": "Open in new side tab",
+    "OpenInNewTab": "Open in new tab",
+    "OpenInNewWindow": "Open in new window",
+    "Paste": "Paste",
+    "Rename": "Rename"
+  },
+  "ExplorerTab": {
+    "ContextMenu": {
+      "OpenInNativeExplorer": "Open in Windows Explorer",
+      "BackButtonGesture": "Alt + Left Arrow",
+      "BackButtonHeader": "Back",
+      "Create": "Create",
+      "Create.Folder": "Folder",
+      "Create.TextFile": "Text Document",
+      "ForwardButtonGesture": "Alt + Right Arrow",
+      "ForwardButtonHeader": "Forward",
+      "Grouping": "Grouping",
+      "Paste": "Paste",
+      "Properties": "Properties",
+      "Sorting": "Sorting",
+      "UpdateButtonHeader": "Update",
+      "View": "View"
+    }
+  },
+  "FileOperations": {
+    "FileAlreadyExist": "{file} already exists",
+    "OperationColumnName": "Operation",
+    "ProgressColumnName": "Progress",
+    "CopyAction": "is being copied",
+    "MoveAction": "is being moved",
+    "FileOperationTitle": "File {source} {operation} to {target}",
+    "FolderOperationTitle": "Folder {source} {operation} to {target}",
+    "FileAlreadyExistAlertView": {
+      "Title": "Warning",
+      "ReplaceButtonText": "Replace",
+      "SaveBothButtonText": "Save Both",
+      "SkipButtonText": "Skip",
+      "CancelButtonText": "Cancel",
+      "AcceptAllFiles": "Apply to remaining files"
+    }
+  },
+  "Pages": {
+    "Explorer": {
+      "NewFolder": "New Folder",
+      "NewTextFile": "New Text Document",
+      "GridNameColumnHeader": "Name",
+      "GridChangedAtColumnHeader": "Date Modified",
+      "SelectedItems": "Selected: {count}",
+      "FolderEmpty": "Folder is empty",
+      "NotAccess": "No access"
+    },
+    "Main": {
+      "Title": "Home"
+    },
+    "NotFound": {
+      "PageNotFound": "Page not found"
+    },
+    "Settings": {
+      "Title": "Settings",
+      "GeneralTabLabel": "General",
+      "ExplorerTabLabel": "Folders and Files",
+      "YandexDiskTabLabel": "Yandex Disk",
+      "PresenterGridType": "Table",
+      "PresenterIconsType": "Tile",
+      "ThemeLightVariant": "Light",
+      "ThemeDarkVariant": "Dark",
+      "StartLayoutLastMode": "Remember last configuration",
+      "StartLayoutOnePanelMode": "Single-panel mode",
+      "StartLayoutTwoPanelMode": "Double-panel mode",
+      "ShowHiddenItemsLabel": "Show Hidden Folders and Files",
+      "ShowSystemItemsLabel": "Show System Folders and Files",
+      "PresentationLabel": "Presentation",
+      "ThemeLabel": "Theme",
+      "LayoutModeLabel": "Number of Panels",
+      "YandexDiskTitle": "Yandex Disk",
+      "YandexDiskAuthTitle": "Authorization:",
+      "GetCodeLabel": "Get Code",
+      "EnterCodeLabel": "Enter Code",
+      "YandexSuccessAuthoriseLabel": "You are authorized"
+    }
+  },
+  "Tab": {
+    "SearchControl": {
+      "AddBookmark": "Add Bookmark",
+      "NameLabel": "Name: ",
+      "FolderLabel": "Folder: ",
+      "PathLabel": "Path: ",
+      "AdditionalButtonText": "More",
+      "DoneButtonText": "Done",
+      "RemoveButtonText": "Remove",
+      "ChangeFavorites": "Change Favorites",
+      "NewFolderButtonText": "New Folder",
+      "SaveButtonText": "Save",
+      "CancelButtonText": "Cancel"
+    }
+  },
+  "MyComputer": {
+    "DrivesHeader": "Drives",
+    "FolderHeader": "Folders",
+    "FreeFromText": "free from"
+  },
+  "Presenters": {
+    "Content": "Content",
+    "LargeIcons": "Large icons",
+    "RegularIcons": "Regular icons",
+    "SmallIcons": "Small icons",
+    "Table": "Table",
+    "TableDateOfChangeRow": "Date of change",
+    "TableNameRow": "Name",
+    "TableSizeRow": "Size",
+    "TableTypeRow": "Type",
+    "Tiles": "Tiles",
+    "DirectoryTypeName": "Folder with files",
+    "Grouping": {
+      "Name": "Name",
+      "None": "None",
+      "Type": "Type"
+    },
+    "Sorting": {
+      "DateOfChange": "Date of change",
+      "Name": "Name",
+      "Size": "Size",
+      "Type": "Type"
+    }
+  },
+  "NotifyIcon": {
+    "ToolTipText": "Double click to show the window, right click - open menu",
+    "ContextMenu": {
+      "ExitHeader": "Exit",
+      "ShowWindowHeader": "Show window"
+    }
+  },
+  "PageFactory": {
+    "NotAccessCaption": "\"No access\"",
+    "NotAccessText": "You do not have access to the folder"
+  },
+  "SearchHandler": {
+    "RouteText": "Go to \"{route}\"",
+    "SearchAllDrivesText": "Search \"{query}\" in all folders",
+    "SearchDirectoryText": "Search \"{query}\" in \"{directory}\"",
+    "SearchDriveText": "Search \"{query}\" in \"{drive}\""
+  },
+  "TabsControl": {
+    "ContextMenu": {
+      "Close": "Close",
+      "CloseOtherTabs": "Close other tabs",
+      "Duplicate": "Duplicate",
+      "NewTabOnRight": "New tab to the right",
+      "OpenTabInNewWindow": "Open tab in new window",
+      "Refresh": "Refresh"
+    }
+  }
+}

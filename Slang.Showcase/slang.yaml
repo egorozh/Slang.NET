@@ -1,0 +1,20 @@
+base_locale: en
+fallback_strategy: base_locale
+input_directory: i18n
+input_file_pattern: .i18n.json
+locale_handling: true
+enum_name: AppLocale
+pluralization:
+  auto: cardinal
+  default_parameter: n
+#  cardinal:
+#    - someKey.apple
+#  ordinal:
+#    - someKey.place
+imports:
+  - 'System'
+
+gpt:
+  model: gpt-4o-mini
+  description: |
+    "musoroff" is a garbage collection service.

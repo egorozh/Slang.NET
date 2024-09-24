@@ -1,0 +1,214 @@
+{
+  "Core": {
+    "B": "Б",
+    "Gb": "ГБ",
+    "KB": "КБ",
+    "MB": "МБ",
+    "TB": "ТБ",
+    "Error": "Ошибка"
+  },
+  "someKey": {
+    "apple": {
+      "one": "У меня {n} яблоко.",
+      "few": "У меня {n} яблока.",
+      "other": "У меня {n} яблок."
+    },
+    "fields": {
+      "name": "моё имя {firstName: string}",
+      "age": "Мне {age: int} лет",
+      "date": "Дата моего дня рождения: {date: DateOnly}"
+    },
+    "a(map)": {
+      "helloWorld": "привет"
+    },
+    "b": {
+      "b0": "Хай",
+      "b1(map)": {
+        "hiThere": "хай"
+      }
+    },
+    "niceList": [
+      "привет",
+      "блеск",
+      [
+        "первый элемент в вложенном списке",
+        "второй элемент в вложенном списке"
+      ],
+      {
+        "wow": "WOW!",
+        "ok": "OK!"
+      },
+      {
+        "a map entry": "доступ через ключ",
+        "another entry": "доступ через второй ключ"
+      }
+    ],
+    "introduce": "Привет, @:someKey.fields.name и @:someKey.fields.age"
+  },
+  "Alert": {
+    "OkButtonText": "Понятно"
+  },
+  "Bookmarks": {
+    "NewFolder": "Новая папка",
+    "RootFolder": "Панель закладок"
+  },
+  "ContextMenu": {
+    "AddToBookmarks": "Добавить в закладки",
+    "Copy": "Копировать",
+    "Cut": "Вырезать",
+    "Delete": "Удалить",
+    "Open": "Открыть",
+    "OpenInNativeExplorer": "Открыть в проводнике Windows",
+    "OpenInNewSideTab": "Открыть в новой вкладке боковой панели",
+    "OpenInNewTab": "Открыть в новой вкладке",
+    "OpenInNewWindow": "Открыть в новом окне",
+    "Paste": "Вставить",
+    "Rename": "Переименовать"
+  },
+  "ExplorerTab": {
+    "ContextMenu": {
+      "OpenInNativeExplorer": "Открыть в проводнике Windows",
+      "BackButtonGesture": "Alt + Стрелка влево",
+      "BackButtonHeader": "Назад",
+      "Create": "Создать",
+      "Create.Folder": "Папку",
+      "Create.TextFile": "Текстовый документ",
+      "ForwardButtonGesture": "Alt + Стрелка вправо",
+      "ForwardButtonHeader": "Вперёд",
+      "Grouping": "Группировка",
+      "Paste": "Вставить",
+      "Properties": "Свойства",
+      "Sorting": "Сортировка",
+      "UpdateButtonHeader": "Обновить",
+      "View": "Вид"
+    }
+  },
+  "FileOperations": {
+    "FileAlreadyExist": "{file} уже существует",
+    "OperationColumnName": "Операция",
+    "ProgressColumnName": "Прогресс",
+    "CopyAction": "копируется",
+    "MoveAction": "перемещается",
+    "FileOperationTitle": "Файл {source} {operation} в {target}",
+    "FolderOperationTitle": "Папка {source} {operation} в {target}",
+    "FileAlreadyExistAlertView": {
+      "Title": "Предупреждение",
+      "ReplaceButtonText": "Заменить",
+      "SaveBothButtonText": "Сохранить оба",
+      "SkipButtonText": "Пропустить",
+      "CancelButtonText": "Отмена",
+      "AcceptAllFiles": "Применить для оставшихся файлов"
+    }
+  },
+  "Pages": {
+    "Explorer": {
+      "NewFolder": "Новая папка",
+      "NewTextFile": "Новый текстовый документ",
+      "GridNameColumnHeader": "Имя",
+      "GridChangedAtColumnHeader": "Дата изменения",
+      "SelectedItems": "Выбрано: {count}",
+      "FolderEmpty": "Папка пустая",
+      "NotAccess": "Нет доступа"
+    },
+    "Main": {
+      "Title": "Главная"
+    },
+    "NotFound": {
+      "PageNotFound": "Страница не найдена"
+    },
+    "Settings": {
+      "Title": "Настройки",
+      "GeneralTabLabel": "Общие",
+      "ExplorerTabLabel": "Папки и файлы",
+      "YandexDiskTabLabel": "Yandex Disk",
+      "PresenterGridType": "Таблица",
+      "PresenterIconsType": "Плитка",
+      "ThemeLightVariant": "Светлая",
+      "ThemeDarkVariant": "Темная",
+      "StartLayoutLastMode": "Запоминать последнюю конфигурацию",
+      "StartLayoutOnePanelMode": "Однопанельный режим",
+      "StartLayoutTwoPanelMode": "Двухпанельный режим",
+      "ShowHiddenItemsLabel": "Показывать скрытые папки и файлы",
+      "ShowSystemItemsLabel": "Показывать системные папки и файлы",
+      "PresentationLabel": "Представление",
+      "ThemeLabel": "Тема",
+      "LayoutModeLabel": "Кол-во панелей",
+      "YandexDiskTitle": "Yandex Disk",
+      "YandexDiskAuthTitle": "Авторизация:",
+      "GetCodeLabel": "Получить код",
+      "EnterCodeLabel": "Ввести код",
+      "YandexSuccessAuthoriseLabel": "Вы авторизованы"
+    }
+  },
+  "Tab": {
+    "SearchControl": {
+      "AddBookmark": "Добавить закладку",
+      "NameLabel": "Имя: ",
+      "FolderLabel": "Папка: ",
+      "PathLabel": "Путь: ",
+      "AdditionalButtonText": "Дополнительно",
+      "DoneButtonText": "Готово",
+      "RemoveButtonText": "Удалить",
+      "ChangeFavorites": "Изменить избранное",
+      "NewFolderButtonText": "Новая папка",
+      "SaveButtonText": "Сохранить",
+      "CancelButtonText": "Отмена"
+    }
+  },
+  "MyComputer": {
+    "DrivesHeader": "Диски",
+    "FolderHeader": "Папки",
+    "FreeFromText": "свободно из"
+  },
+  "Presenters": {
+    "Content": "Содержимое",
+    "LargeIcons": "Огромные значки",
+    "RegularIcons": "Нормальные значки",
+    "SmallIcons": "Маленькие значки",
+    "Table": "Таблица",
+    "TableDateOfChangeRow": "Дата изменения",
+    "TableNameRow": "Имя",
+    "TableSizeRow": "Размер",
+    "TableTypeRow": "Тип",
+    "Tiles": "Плитка",
+    "DirectoryTypeName": "Папка с файлами",
+    "Grouping": {
+      "Name": "Имя",
+      "None": "Нет",
+      "Type": "Тип"
+    },
+    "Sorting": {
+      "DateOfChange": "Дата изменения",
+      "Name": "Имя",
+      "Size": "Размер",
+      "Type": "Тип"
+    }
+  },
+  "NotifyIcon": {
+    "ToolTipText": "Двойной клик для показа окна, правый клик - открыть меню",
+    "ContextMenu": {
+      "ExitHeader": "Выйти",
+      "ShowWindowHeader": "Показать окно"
+    }
+  },
+  "PageFactory": {
+    "NotAccessCaption": "\"Нет доступа\"",
+    "NotAccessText": "У вас нет доступа к папке"
+  },
+  "SearchHandler": {
+    "RouteText": "Перейти в \"{route}\"",
+    "SearchAllDrivesText": "Поиск \"{query}\" по всем папкам",
+    "SearchDirectoryText": "Поиск \"{query}\" в \"{directory}\"",
+    "SearchDriveText": "Поиск \"{query}\" в \"{drive}\""
+  },
+  "TabsControl": {
+    "ContextMenu": {
+      "Close": "Закрыть",
+      "CloseOtherTabs": "Закрыть другие вкладки",
+      "Duplicate": "Дублировать",
+      "NewTabOnRight": "Новая вкладка справа",
+      "OpenTabInNewWindow": "Открыть вкладку в новом окне",
+      "Refresh": "Обновить"
+    }
+  }
+}

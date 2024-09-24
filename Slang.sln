@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang", "Slang\Slang.csproj", "{A5F280CF-4EE7-46D6-97B8-5E9F9BD46110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Tests", "Slang.Tests\Slang.Tests.csproj", "{BF5F7222-E781-4251-A3D2-C5935940403B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Gpt", "Slang.Gpt\Slang.Gpt.csproj", "{67475DC2-7D75-4BFC-84B9-E7CF9469E214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Gpt.Cli", "Slang.Gpt.Cli\Slang.Gpt.Cli.csproj", "{4301487B-1F80-4284-80BA-0A9766AE8D89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Showcase", "Slang.Showcase\Slang.Showcase.csproj", "{097A2DF0-CBA3-4B1D-8CF5-5347DFE4A243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Generator", "Slang.Generator\Slang.Generator.csproj", "{F8980F86-E94F-4ED8-9D22-14C1A19F5DFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Runner", "Slang.Runner\Slang.Runner.csproj", "{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3014112-BF27-449A-8356-2A5ED8980420}"
+    ProjectSection(SolutionItems) = preProject
+		Benchmarks.md = Benchmarks.md
+	EndProjectSection
+EndProject
+
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5F280CF-4EE7-46D6-97B8-5E9F9BD46110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F280CF-4EE7-46D6-97B8-5E9F9BD46110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F280CF-4EE7-46D6-97B8-5E9F9BD46110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F280CF-4EE7-46D6-97B8-5E9F9BD46110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF5F7222-E781-4251-A3D2-C5935940403B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5F7222-E781-4251-A3D2-C5935940403B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5F7222-E781-4251-A3D2-C5935940403B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5F7222-E781-4251-A3D2-C5935940403B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67475DC2-7D75-4BFC-84B9-E7CF9469E214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67475DC2-7D75-4BFC-84B9-E7CF9469E214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67475DC2-7D75-4BFC-84B9-E7CF9469E214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67475DC2-7D75-4BFC-84B9-E7CF9469E214}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4301487B-1F80-4284-80BA-0A9766AE8D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4301487B-1F80-4284-80BA-0A9766AE8D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4301487B-1F80-4284-80BA-0A9766AE8D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4301487B-1F80-4284-80BA-0A9766AE8D89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{097A2DF0-CBA3-4B1D-8CF5-5347DFE4A243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{097A2DF0-CBA3-4B1D-8CF5-5347DFE4A243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{097A2DF0-CBA3-4B1D-8CF5-5347DFE4A243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{097A2DF0-CBA3-4B1D-8CF5-5347DFE4A243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8980F86-E94F-4ED8-9D22-14C1A19F5DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8980F86-E94F-4ED8-9D22-14C1A19F5DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8980F86-E94F-4ED8-9D22-14C1A19F5DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8980F86-E94F-4ED8-9D22-14C1A19F5DFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
