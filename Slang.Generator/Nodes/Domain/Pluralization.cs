@@ -10,7 +10,7 @@ public enum Quantity
     other
 }
 
-public class Pluralization
+public static class Pluralization
 {
     public static Quantity[] AllQuantities =>
     [

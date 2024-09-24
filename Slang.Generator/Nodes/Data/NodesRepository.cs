@@ -64,7 +64,7 @@ internal static partial class NodesRepository
         //
         // TextNodes with parameterized linked translations are rebuilt with correct parameters.
         if (handleLinks)
-            ResolveLinks(buildConfig, leavesMap);
+            ResolveLinks(leavesMap);
 
         // imaginary root node
         var root = new ObjectNode(
@@ -77,7 +77,7 @@ internal static partial class NodesRepository
         return new BuildModelResult(Root: root);
     }
 
-    private static void ResolveLinks(BuildModelConfig buildConfig, Dictionary<string, ILeafNode> leavesMap)
+    private static void ResolveLinks(Dictionary<string, ILeafNode> leavesMap)
     {
         var textLeavesNodes = leavesMap
             .Where(entry => entry.Value is StringTextNode)
@@ -161,7 +161,7 @@ internal static partial class NodesRepository
             {
                 // rebuild TextNode because its linked translations have parameters
                 UpdateWithLinkParams(
-                    (StringTextNode) value,
+                    value,
                     linkParamMap: linkParamMap,
                     paramTypeMap: paramTypeMap
                 );

@@ -43,7 +43,7 @@ internal static partial class NodesRepository
 
             string? comment = !curr.ContainsKey($"@{key}")
                 ? null
-                : _parseCommentNode(curr[$"@{key}"]);
+                : ParseCommentNode(curr[$"@{key}"]);
 
             var node = GetNode(
                 currPath,
@@ -98,7 +98,7 @@ internal static partial class NodesRepository
             else
             {
                 var jsonList = (JsonElement) value;
-                l = JsonSerializer.Deserialize<IList>(jsonList.GetRawText())!;
+                l = jsonList.EnumerateArray().ToList();
             }
 
             // key: [ ...value ]
@@ -193,8 +193,12 @@ internal static partial class NodesRepository
             case Dictionary<string, object> dictionary:
                 dict = dictionary;
                 break;
-            case JsonElement {ValueKind: JsonValueKind.Object} jsonElement:
-                dict = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonElement.GetRawText())!;
+            case JsonElement {ValueKind: JsonValueKind.Object} jsonElement: 
+                dict = new Dictionary<string, object>();
+
+                foreach (var property in jsonElement.EnumerateObject()) 
+                    dict.Add(property.Name, property.Value);
+
                 break;
             default:
                 return null;
@@ -213,7 +217,7 @@ internal static partial class NodesRepository
             baseData: baseData
         );
         Node varNode;
-        var detectedType = _determineNodeType(config, currPath, modifiers, children);
+        var detectedType = DetermineNodeType(config, modifiers, children);
 
         // split by comma if necessary
         if (detectedType.NodeType is DetectionType.PluralCardinal or DetectionType.PluralOrdinal)
@@ -265,7 +269,7 @@ internal static partial class NodesRepository
             {
                 var tempType = textNode.ParamTypeMap[paramName];
                 if (tempType != null &&
-                    ((textNode is StringTextNode && tempType != "object")))
+                    (textNode is StringTextNode && tempType != "object"))
                 {
                     paramType = tempType;
                     break;
@@ -303,7 +307,7 @@ internal static partial class NodesRepository
         return varNode;
     }
 
-    private static string? _parseCommentNode(object? node)
+    private static string? ParseCommentNode(object? node)
     {
         if (node == null)
             return null;
@@ -323,9 +327,8 @@ internal static partial class NodesRepository
         return null;
     }
 
-    private static DetectionResult _determineNodeType(
+    private static DetectionResult DetermineNodeType(
         BuildModelConfig config,
-        string nodePath,
         Dictionary<string, string> modifiers,
         Dictionary<string, Node> children
     )
@@ -333,19 +336,13 @@ internal static partial class NodesRepository
         var modifierFlags = modifiers.Keys.ToHashSet();
 
         if (modifierFlags.Contains(NodeModifiers.Map))
-        {
             return new DetectionResult(DetectionType.Map);
-        }
 
         if (modifierFlags.Contains(NodeModifiers.Cardinal))
-        {
             return new DetectionResult(DetectionType.PluralCardinal);
-        }
 
         if (modifierFlags.Contains(NodeModifiers.Ordinal))
-        {
             return new DetectionResult(DetectionType.PluralOrdinal);
-        }
 
         var childrenSplitByComma =
             children.Keys.SelectMany(key => key.Split(KeyDelimiter)).ToList();
@@ -391,7 +388,5 @@ internal static partial class NodesRepository
         PluralOrdinal
     }
 
-    private record DetectionResult(
-        DetectionType NodeType
-    );
+    private record struct DetectionResult(DetectionType NodeType);
 }
