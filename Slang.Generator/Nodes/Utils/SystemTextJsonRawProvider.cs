@@ -18,14 +18,14 @@ internal class SystemTextJsonRawProvider : IRawProvider
         return false;
     }
 
-    public bool TryGetArray(object? input, out IList value)
+    public bool TryGetArray(object? input, out IEnumerable<object> value)
     {
         if (input is IList or JsonElement {ValueKind: JsonValueKind.Array})
         {
             if (input is IList list)
-                value = list;
+                value = list.Cast<object>();
             else
-                value = ((JsonElement) input).EnumerateArray().ToList();
+                value = ((JsonElement) input).EnumerateArray().Cast<object>();
 
             return true;
         }

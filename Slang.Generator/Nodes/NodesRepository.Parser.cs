@@ -74,12 +74,11 @@ internal static partial class NodesRepository
             return textNode;
         }
 
-        if (RawProvider.TryGetArray(value, out var list))
+        if (RawProvider.TryGetArray(value, out var array))
         {
             // key: [ ...value ]
             // interpret the list as map
-            Dictionary<string, object> listAsMap = list
-                .Cast<object>()
+            Dictionary<string, object> listAsMap = array
                 .Select((v, i) => (v, i))
                 .ToDictionary(
                     v => v.i.ToString(),
@@ -181,16 +180,12 @@ internal static partial class NodesRepository
         if (detectedType.NodeType is DetectionType.PluralCardinal or DetectionType.PluralOrdinal)
         {
             if (children.Count == 0)
-            {
                 return null;
-            }
 
             // split children by comma for plurals and contexts
             Dictionary<string, StringTextNode> digestedMap = [];
-
-            var entries = children.ToList();
-
-            foreach (var entry in entries)
+            
+            foreach (var entry in children)
             {
                 string[] split = entry.Key.Split(KeyDelimiter);
 
