@@ -34,14 +34,14 @@ internal record PluralNode(
 
 internal static class Pluralization
 {
-    public static Quantity[] AllQuantities =>
+    public static HashSet<string> AllQuantities =>
     [
-        Quantity.zero,
-        Quantity.one,
-        Quantity.two,
-        Quantity.few,
-        Quantity.many,
-        Quantity.other
+        "zero",
+        "one",
+        "two",
+        "few",
+        "many",
+        "other"
     ];
 }
 

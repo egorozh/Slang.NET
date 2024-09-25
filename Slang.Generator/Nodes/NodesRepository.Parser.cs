@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Text.Json;
 using Slang.Generator.Config.Entities;
 using Slang.Generator.Nodes.Nodes;
 using Slang.Generator.Nodes.Utils;
-using Slang.Generator.Translations;
-using NodeHelpers = Slang.Generator.Nodes.Utils.NodeHelpers;
 
 namespace Slang.Generator.Nodes;
 
 internal static partial class NodesRepository
 {
+    private static readonly IRawProvider RawProvider = new SystemTextJsonRawProvider();
+
     private const char KeyDelimiter = ','; // used by plural or context
 
     /// Takes the [curr] map which is (a part of) the raw tree from json / yaml
@@ -67,39 +65,26 @@ internal static partial class NodesRepository
         object? value,
         IReadOnlyDictionary<string, string> modifiers)
     {
-        if (value is string or int or JsonElement {ValueKind: JsonValueKind.String})
+        if (RawProvider.TryGetString(value, out string raw))
         {
-            var textNode = CreateTextNode(currPath, comment, config, value.ToString()!, modifiers);
+            var textNode = CreateTextNode(currPath, comment, config, raw, modifiers);
 
             leavesMap[currPath] = textNode;
 
             return textNode;
         }
 
-        if (value is IList or JsonElement {ValueKind: JsonValueKind.Array})
+        if (RawProvider.TryGetArray(value, out var list))
         {
-            IList l;
-
-            if (value is IList list)
-            {
-                l = list;
-            }
-            else
-            {
-                var jsonList = (JsonElement) value;
-                l = jsonList.EnumerateArray().ToList();
-            }
-
             // key: [ ...value ]
             // interpret the list as map
-            Dictionary<string, object> listAsMap = l
+            Dictionary<string, object> listAsMap = list
                 .Cast<object>()
                 .Select((v, i) => (v, i))
                 .ToDictionary(
                     v => v.i.ToString(),
                     v => v.v
                 );
-
 
             var children = ParseMapNode(
                 parentPath: currPath,
@@ -172,23 +157,10 @@ internal static partial class NodesRepository
         IReadOnlyDictionary<string, string> modifiers,
         string? comment)
     {
-        Dictionary<string, object?> dict;
+        var dict = RawProvider.GetDictionary(value);
 
-        switch (value)
-        {
-            case Dictionary<string, object?> dictionary:
-                dict = dictionary;
-                break;
-            case JsonElement {ValueKind: JsonValueKind.Object} jsonElement:
-                dict = [];
-
-                foreach (var property in jsonElement.EnumerateObject())
-                    dict.Add(property.Name, property.Value);
-
-                break;
-            default:
-                return null;
-        }
+        if (dict == null)
+            return null;
 
         var children = ParseMapNode(
             parentPath: currPath,
@@ -201,6 +173,7 @@ internal static partial class NodesRepository
             leavesMap: leavesMap,
             baseData: baseData
         );
+
         Node varNode;
         var detectedType = DetermineNodeType(config, modifiers, children);
 
@@ -247,14 +220,14 @@ internal static partial class NodesRepository
             {
                 var tempType = textNode.ParamTypeMap[paramName];
                 if (tempType != null &&
-                    (textNode is StringTextNode && tempType != "object"))
+                    textNode is StringTextNode && tempType != "object")
                 {
                     paramType = tempType;
                     break;
                 }
             }
 
-            varNode = new PluralNode(
+            var pluralNode = new PluralNode(
                 Path: currPath,
                 Modifiers: modifiers,
                 Comment: comment,
@@ -267,6 +240,9 @@ internal static partial class NodesRepository
                 ParamName: paramName,
                 ParamType: paramType
             );
+            
+            varNode = pluralNode;
+            leavesMap[currPath] = pluralNode;
         }
         else
         {
@@ -278,23 +254,14 @@ internal static partial class NodesRepository
                 IsMap: detectedType.NodeType == DetectionType.Map
             );
         }
-
-        if (varNode is PluralNode node)
-            leavesMap[currPath] = node;
-
+        
         return varNode;
     }
 
     private static string? ParseCommentNode(object? node)
     {
-        if (node == null)
-            return null;
-
-        if (node is string or JsonElement {ValueKind: JsonValueKind.String})
-        {
-            // parse string directly
-            return node.ToString();
-        }
+        if (RawProvider.TryGetString(node, out string comment))
+            return comment;
 
         return null;
     }
@@ -305,21 +272,16 @@ internal static partial class NodesRepository
         Dictionary<string, Node> children
     )
     {
-        var modifierFlags = modifiers.Keys.ToHashSet();
-
-        if (modifierFlags.Contains(NodeModifiers.Map))
+        if (modifiers.ContainsKey(NodeModifiers.Map))
             return new DetectionResult(DetectionType.Map);
 
-        if (modifierFlags.Contains(NodeModifiers.Cardinal))
+        if (modifiers.ContainsKey(NodeModifiers.Cardinal))
             return new DetectionResult(DetectionType.PluralCardinal);
 
-        if (modifierFlags.Contains(NodeModifiers.Ordinal))
+        if (modifiers.ContainsKey(NodeModifiers.Ordinal))
             return new DetectionResult(DetectionType.PluralOrdinal);
-
-        var childrenSplitByComma =
-            children.Keys.SelectMany(key => key.Split(KeyDelimiter)).ToList();
-
-        if (childrenSplitByComma.Count == 0)
+        
+        if (children.Keys.Count == 0)
         {
             // fallback: empty node is a class by default
             return new DetectionResult(DetectionType.ClassType);
@@ -328,10 +290,10 @@ internal static partial class NodesRepository
         if (config.PluralAuto != PluralAuto.Off)
         {
             // check if every children is 'zero', 'one', 'two', 'few', 'many' or 'other'
-            bool isPlural = childrenSplitByComma.Count <= Pluralization.AllQuantities.Length &&
-                            childrenSplitByComma
-                                .All(key =>
-                                    Pluralization.AllQuantities.Any(q => q.ParamName().ToCase(config.KeyCase) == key));
+            bool isPlural = children.Keys.Count <= Pluralization.AllQuantities.Count &&
+                            children.Keys
+                                .SelectMany(key => key.Split(KeyDelimiter))
+                                .All(key => Pluralization.AllQuantities.Contains(key.ToLower()));
             if (isPlural)
             {
                 switch (config.PluralAuto)
