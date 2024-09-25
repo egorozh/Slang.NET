@@ -1,24 +1,18 @@
 namespace Slang;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class TranslationsAttribute(
-    string inputFileName,
-    string baseLocale = "en",
-    string inputFilePattern = ".i18n.json",
-    PluralAuto pluralAuto = PluralAuto.Cardinal,
-    string? inputDirectory = null,
-    string pluralParameter = "n")
+public class TranslationsAttribute
     : Attribute
 {
-    public string InputFileName { get; } = inputFileName;
-    
-    public string InputFilePattern { get; } = inputFilePattern;
-    
-    public string BaseLocale { get; } = baseLocale;
-    
-    public PluralAuto PluralAuto { get; } = pluralAuto;
-    
-    public string? InputDirectory { get; } = inputDirectory;
-    
-    public string PluralParameter { get; } = pluralParameter;
+    public string InputFileName { get; init; }
+
+    public string InputFilePattern { get; init; } = ".i18n.json";
+
+    public string BaseLocale { get; init; } = "en";
+
+    public PluralAuto PluralAuto { get; init; } = PluralAuto.Cardinal;
+
+    public string? InputDirectory { get; init; }
+
+    public string PluralParameter { get; init; } = "n";
 }
