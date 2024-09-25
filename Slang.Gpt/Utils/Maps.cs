@@ -1,4 +1,4 @@
-using Slang.Generator.Nodes.Data;
+using Slang.Generator.Nodes.Utils;
 
 namespace Slang.Gpt.Utils;
 

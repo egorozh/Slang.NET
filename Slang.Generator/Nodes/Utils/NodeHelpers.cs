@@ -1,10 +1,9 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using Slang.Generator.Config.Domain.Entities;
-using Slang.Generator.Nodes.Data;
+using Slang.Generator.Config.Entities;
 using Slang.Generator.Nodes.Nodes;
 
-namespace Slang.Generator.Nodes.Domain;
+namespace Slang.Generator.Nodes.Utils;
 
 internal static partial class NodeHelpers
 {
@@ -14,12 +13,12 @@ internal static partial class NodeHelpers
     {
         const string dynamicType = "dynamic";
 
-        if (entries.All(child => child is StringTextNode {Params.Count: 0}))
+        if (entries.All(child => child is StringTextNode {ParamTypeMap.Count: 0}))
             return "string";
 
         if (entries.All(child => child is ListNode))
         {
-            string? childGenericType = ((ListNode)entries.First()).GenericType;
+            string? childGenericType = ((ListNode) entries.First()).GenericType;
 
             foreach (ListNode child in entries)
             {

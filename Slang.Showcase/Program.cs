@@ -3,6 +3,7 @@
 using System;
 using System.Globalization;
 using Slang.Showcase;
+using Slang.Showcase.MyNamespace;
 
 Console.WriteLine("Hello, World!");
 
@@ -30,4 +31,6 @@ void ShowLocales()
     string cMap = Strings.Translations.SomeKey.B.B1["hiThere"];
 
     Console.WriteLine($"{aMap}, {bMap}, {cMap}");
+
+    Console.WriteLine(Feature1.Translations.Screen.Locale1);
 }

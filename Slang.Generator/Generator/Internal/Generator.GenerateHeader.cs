@@ -38,7 +38,7 @@ internal static partial class Generator
               
               		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
               
-              		public static Strings Translations
+              		public static {{config.ClassName}} Translations
               		{
               			get
               			{
@@ -84,9 +84,9 @@ internal static partial class Generator
         buffer.AppendLine();
 
         buffer.AppendLine(
-            """
-                    private readonly static IReadOnlyDictionary<CultureInfo, Strings> _translations =
-                        new Dictionary<CultureInfo, Strings>()
+            $$"""
+                    private readonly static IReadOnlyDictionary<CultureInfo, {{config.ClassName}}> _translations =
+                        new Dictionary<CultureInfo, {{config.ClassName}}>()
                         {
             """);
 
@@ -96,7 +96,7 @@ internal static partial class Generator
 
             string className = allLocales[i].BaseLocale
                 ? config.ClassName
-                : GetClassNameRoot(baseName: config.BaseName, locale: locale);
+                : GetClassNameRoot(baseName: config.ClassName, locale: locale);
 
             buffer.AppendWithTab(
                 $"{{_{locale.TwoLetterISOLanguageName}, new {className}() }}", tabCount: 4);

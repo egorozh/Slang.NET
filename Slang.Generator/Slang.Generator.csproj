@@ -7,11 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="YamlDotNet" Version="16.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Nodes\Data\NodesRepository.Parser.cs">
+      <Compile Update="Generator\Internal\Generator.GenerateHeader.cs">
+        <DependentUpon>Generator.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Generator\Internal\Generator.Translations.cs">
+        <DependentUpon>Generator.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\NodesRepository.Links.cs">
+        <DependentUpon>NodesRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Nodes\NodesRepository.Parser.cs">
         <DependentUpon>NodesRepository.cs</DependentUpon>
       </Compile>
     </ItemGroup>

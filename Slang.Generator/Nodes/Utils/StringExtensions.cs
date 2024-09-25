@@ -1,6 +1,6 @@
-using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Config.Entities;
 
-namespace Slang.Generator.Nodes.Data;
+namespace Slang.Generator.Nodes.Utils;
 
 public static class StringExtensions
 {
@@ -64,7 +64,6 @@ public static class StringExtensions
     {
         bool isAllCaps = true;
 
-        // Проверяем, состоит ли вся строка из заглавных букв
         foreach (char c in s)
         {
             if (char.IsLetter(c) && char.IsLower(c))

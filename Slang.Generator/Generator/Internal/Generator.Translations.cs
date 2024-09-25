@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Text;
 using Slang.Generator.Generator.Entities;
-using Slang.Generator.Nodes.Domain;
 using Slang.Generator.Nodes.Nodes;
 using Slang.Generator.NodesData;
 using static Slang.Generator.Generator.Helper;
@@ -19,7 +18,7 @@ internal static partial class Generator
         StringBuilder buffer = new();
 
         queue.Enqueue(new ClassTask(
-            GetClassNameRoot(baseName: config.BaseName, locale: null),
+            GetClassNameRoot(baseName: config.ClassName, locale: null),
             localeData.Root
         ));
 
@@ -29,7 +28,7 @@ internal static partial class Generator
         do
         {
             var task = queue.Dequeue();
-            
+
             if (root)
                 GenerateRootClass(buffer, config, localeData, queue, task.ClassName, task.Node);
             else
@@ -69,7 +68,7 @@ internal static partial class Generator
         // The root class of **this** locale (path-independent).
         string rootClassName = localeData.BaseLocale
             ? config.ClassName
-            : GetClassNameRoot(baseName: config.BaseName, locale: localeData.Locale);
+            : GetClassNameRoot(baseName: config.ClassName, locale: localeData.Locale);
 
         // The current class name.
         string varClassName = localeData.BaseLocale
@@ -97,109 +96,14 @@ internal static partial class Generator
 
         buffer.AppendLineWithTab("_root = this;", tabCount: 3);
 
-        GenerateConstructorInitializers(buffer, localeData, className, node);
+        GenerateConstructorInitializers(buffer, localeData, className, node, tabAnchor: 3);
 
         buffer.AppendLineWithTab("}", tabCount: 2);
 
         buffer.AppendLine();
-        buffer.AppendLine("\t// Translations");
+        buffer.AppendLineWithTab("// Translations", tabCount: 2);
 
-        bool prevHasComment = false;
-
-        foreach ((string key, var value) in node.Entries)
-        {
-            // comment handling
-            if (value.Comment != null)
-            {
-                // add comment add on the line above
-                buffer.AppendLine();
-                buffer.AppendLine($"\t/// {value.Comment}");
-                prevHasComment = true;
-            }
-            else
-            {
-                if (prevHasComment)
-                {
-                    // add a new line to separate from previous entry with comment
-                    buffer.AppendLine();
-                }
-
-                prevHasComment = false;
-            }
-
-            buffer.Append('\t');
-
-            bool isOverride = !localeData.BaseLocale;
-
-            string overrideString = isOverride ? "override " : "virtual ";
-
-            if (value is StringTextNode stringTextNode)
-            {
-                string stringLiteral = GetStringLiteral(
-                    stringTextNode.Content, stringTextNode.Links.Count);
-
-                buffer.AppendLine(stringTextNode.Params.Count == 0
-                    ? $"public {overrideString}string {key} => {stringLiteral};"
-                    : $"public {overrideString}string {key}{_toParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => ${stringLiteral};");
-            }
-            else if (value is ListNode listNode)
-            {
-                buffer.Append($"public {overrideString}List<{listNode.GenericType}> {key} => ");
-                GenerateList(
-                    config: config,
-                    @base: localeData.BaseLocale,
-                    locale: localeData.Locale,
-                    buffer: buffer,
-                    queue: queue,
-                    className: className,
-                    node: listNode,
-                    listName: key,
-                    depth: 0
-                );
-            }
-            else if (value is ObjectNode objectNode)
-            {
-                string childClassNoLocale = GetClassName(parentName: className, childName: key);
-
-                if (objectNode.IsMap)
-                {
-                    // inline map
-                    buffer.Append(
-                        $"public {overrideString}IReadOnlyDictionary<string, {objectNode.GenericType}> {key} => ");
-
-                    GenerateMap(
-                        config: config,
-                        @base: localeData.BaseLocale,
-                        locale: localeData.Locale,
-                        buffer: buffer,
-                        queue: queue,
-                        className: childClassNoLocale,
-                        node: objectNode,
-                        depth: 0
-                    );
-                }
-                else
-                {
-                    // generate a class later on
-                    queue.Enqueue(new ClassTask(childClassNoLocale, objectNode));
-                    string childClassWithLocale = GetClassName(
-                        parentName: className, childName: key, locale: localeData.Locale);
-                    buffer.AppendLine(
-                        $"public {overrideString}{childClassWithLocale} {key} {{ get; }}");
-                }
-            }
-            else if (value is PluralNode pluralNod)
-            {
-                buffer.Append($"public {overrideString}string {key}");
-
-                AddPluralCall(
-                    buffer: buffer,
-                    language: localeData.Locale.TwoLetterISOLanguageName,
-                    node: pluralNod,
-                    depth: 0
-                );
-            }
-        }
+        GenerateProperties(buffer, config, localeData, queue, className, node, tabAnchor: 2);
     }
 
     /// generates a class and all of its members of ONE locale
@@ -212,163 +116,175 @@ internal static partial class Generator
     {
         buffer.AppendLine();
 
-        buffer.AppendLineWithTab($"// Path: {node.Path}", tabCount: 1);
+        buffer.AppendLineWithTab($"// Path: {node.Path}", tabCount: 2);
 
         // The root class of **this** locale (path-independent).
         string rootClassName = localeData.BaseLocale
             ? config.ClassName
-            : GetClassNameRoot(baseName: config.BaseName, locale: localeData.Locale);
+            : GetClassNameRoot(baseName: config.ClassName, locale: localeData.Locale);
 
         // The current class name.
         string varClassName = GetClassName(parentName: className, locale: localeData.Locale);
 
         if (localeData.BaseLocale)
         {
-            buffer.AppendLineWithTab($"public class {varClassName}", tabCount: 1);
+            buffer.AppendLineWithTab($"public class {varClassName}", tabCount: 2);
         }
         else
         {
             // The class name of the **base** locale (path-dependent).
             string baseClassName = GetClassName(parentName: className, locale: config.BaseLocale);
 
-            buffer.AppendLineWithTab($"public class {varClassName} : {baseClassName}", tabCount: 1);
+            buffer.AppendLineWithTab($"public class {varClassName} : {baseClassName}", tabCount: 2);
         }
 
-        buffer.AppendLineWithTab("{", tabCount: 1);
+        buffer.AppendLineWithTab("{", tabCount: 2);
 
         // constructor and custom fields
-        bool callSuperConstructor = !localeData.BaseLocale &&
-                                    config.FallbackStrategy == GenerateFallbackStrategy.BaseLocale;
+        bool callSuperConstructor = !localeData.BaseLocale;
 
         buffer.AppendLineWithTab(
             callSuperConstructor
                 ? $"public {varClassName}({rootClassName} root) : base(root)"
                 : $"public {varClassName}({rootClassName} root)",
-            tabCount: 2);
+            tabCount: 3);
 
-        buffer.AppendLineWithTab("{", tabCount: 2);
-        buffer.AppendLineWithTab("this._root = root;", tabCount: 3);
+        buffer.AppendLineWithTab("{", tabCount: 3);
+        buffer.AppendLineWithTab("this._root = root;", tabCount: 4);
 
-        GenerateConstructorInitializers(buffer, localeData, className, node);
+        GenerateConstructorInitializers(buffer, localeData, className, node, tabAnchor: 4);
 
-        buffer.AppendLineWithTab("}", tabCount: 2);
+        buffer.AppendLineWithTab("}", tabCount: 3);
 
         // root
         buffer.AppendLine();
 
         string overrideOrVirtual = !localeData.BaseLocale ? "override" : "virtual";
 
-        buffer.AppendWithTab($"protected {overrideOrVirtual} {rootClassName} _root {{ get; }}", tabCount: 2);
+        buffer.AppendWithTab($"protected {overrideOrVirtual} {rootClassName} _root {{ get; }}", tabCount: 3);
 
         buffer.AppendLine(" // ignore: unused_field");
 
         buffer.AppendLine();
-        buffer.AppendLine("\t// Translations");
+        buffer.AppendLineWithTab("// Translations", tabCount: 3);
 
+        GenerateProperties(buffer, config, localeData, queue, className, node, tabAnchor: 3);
+
+        buffer.AppendLineWithTab("}", tabCount: 2);
+    }
+
+    private static void GenerateProperties(StringBuilder buffer, GenerateConfig config, I18NData localeData,
+        Queue<ClassTask> queue,
+        string className,
+        ObjectNode node,
+        int tabAnchor)
+    {
         bool prevHasComment = false;
 
         foreach ((string key, var value) in node.Entries)
         {
-            // comment handling
-            if (value.Comment != null)
-            {
-                // add comment add on the line above
-                buffer.AppendLine();
-                buffer.AppendLine($"\t/// {value.Comment}");
-                prevHasComment = true;
-            }
-            else
-            {
-                if (prevHasComment)
-                {
-                    // add a new line to separate from previous entry with comment
-                    buffer.AppendLine();
-                }
-
-                prevHasComment = false;
-            }
-
-            buffer.Append('\t');
+            prevHasComment = HandleComment(buffer, value, prevHasComment, tabAnchor);
 
             bool isOverride = !localeData.BaseLocale;
 
             string overrideString = isOverride ? "override " : "virtual ";
 
-            if (value is StringTextNode stringTextNode)
+            switch (value)
             {
-                string stringLiteral = GetStringLiteral(
-                    stringTextNode.Content, stringTextNode.Links.Count);
-
-                buffer.AppendLine(stringTextNode.Params.Count == 0
-                    ? $"public {overrideString}string {key} => {stringLiteral};"
-                    : $"public {overrideString}string {key}{_toParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => ${stringLiteral};");
-            }
-            else if (value is ListNode listNode)
-            {
-                buffer.Append($"public {overrideString}List<{listNode.GenericType}> {key} => ");
-                GenerateList(
-                    config: config,
-                    @base: localeData.BaseLocale,
-                    locale: localeData.Locale,
-                    buffer: buffer,
-                    queue: queue,
-                    className: className,
-                    node: listNode,
-                    listName: key,
-                    depth: 0
-                );
-            }
-            else if (value is ObjectNode objectNode)
-            {
-                string childClassNoLocale = GetClassName(parentName: className, childName: key);
-
-                if (objectNode.IsMap)
-                {
-                    buffer.Append(
-                        $"public {overrideString}IReadOnlyDictionary<string, {objectNode.GenericType}> {key} => ");
-
-                    GenerateMap(
-                        config: config,
-                        @base: localeData.BaseLocale,
-                        locale: localeData.Locale,
-                        buffer: buffer,
-                        queue: queue,
-                        className: childClassNoLocale,
-                        node: objectNode,
-                        depth: 0
-                    );
-                }
-                else
-                {
-                    // generate a class later on
-                    queue.Enqueue(new ClassTask(childClassNoLocale, objectNode));
-                    string childClassWithLocale = GetClassName(
-                        parentName: className, childName: key, locale: localeData.Locale);
-                    buffer.AppendLine(
-                        $"public {overrideString}{childClassWithLocale} {key} {{ get; }}");
-                }
-            }
-            else if (value is PluralNode pluralNod)
-            {
-                buffer.Append($"public {overrideString}string {key}");
-
-                AddPluralCall(
-                    buffer: buffer,
-                    language: localeData.Locale.TwoLetterISOLanguageName,
-                    node: pluralNod,
-                    depth: 0
-                );
+                case StringTextNode stringTextNode:
+                    GenerateProperty(buffer, stringTextNode, overrideString, key, tabAnchor);
+                    break;
+                case ListNode listNode:
+                    GenerateListProperty(buffer, config, localeData, queue, className, overrideString, listNode, key,
+                        tabAnchor);
+                    break;
+                case ObjectNode objectNode:
+                    GenerateObjectProperty(buffer, config, localeData, queue, className, key, objectNode,
+                        overrideString, tabAnchor);
+                    break;
+                case PluralNode pluralNod:
+                    GeneratePluralProperty(buffer, localeData, overrideString, key, pluralNod, tabAnchor);
+                    break;
             }
         }
-
-        buffer.AppendLine("}");
     }
+
+    private static void GeneratePluralProperty(StringBuilder buffer, I18NData localeData, string overrideString,
+        string key, PluralNode pluralNod, int tabAnchor)
+    {
+        buffer.AppendWithTab($"public {overrideString}string {key}", tabCount: tabAnchor);
+
+        AddPluralCall(
+            buffer: buffer,
+            language: localeData.Locale.TwoLetterISOLanguageName,
+            node: pluralNod,
+            depth: 0,
+            tabAnchor
+        );
+    }
+
+    private static void GenerateObjectProperty(StringBuilder buffer, GenerateConfig config, I18NData localeData,
+        Queue<ClassTask> queue, string className, string key, ObjectNode objectNode, string overrideString,
+        int tabAnchor)
+    {
+        string childClassNoLocale = GetClassName(parentName: className, childName: key);
+
+        if (objectNode.IsMap)
+        {
+            // inline map
+            buffer.AppendWithTab(
+                $"public {overrideString}IReadOnlyDictionary<string, {objectNode.GenericType}> {key} => ",
+                tabCount: tabAnchor);
+
+            GenerateMap(
+                config: config,
+                @base: localeData.BaseLocale,
+                locale: localeData.Locale,
+                buffer: buffer,
+                queue: queue,
+                className: childClassNoLocale,
+                node: objectNode,
+                depth: 0,
+                tabAnchor: tabAnchor
+            );
+        }
+        else
+        {
+            // generate a class later on
+            queue.Enqueue(new ClassTask(childClassNoLocale, objectNode));
+            string childClassWithLocale = GetClassName(
+                parentName: className, childName: key, locale: localeData.Locale);
+            buffer.AppendLineWithTab(
+                $"public {overrideString}{childClassWithLocale} {key} {{ get; }}", tabCount: tabAnchor);
+        }
+    }
+
+    private static void GenerateListProperty(StringBuilder buffer, GenerateConfig config, I18NData localeData,
+        Queue<ClassTask> queue,
+        string className, string overrideString, ListNode listNode, string key, int tabAnchor)
+    {
+        buffer.AppendWithTab($"public {overrideString}List<{listNode.GenericType}> {key} => ", tabCount: tabAnchor);
+        GenerateList(
+            config: config,
+            @base: localeData.BaseLocale,
+            locale: localeData.Locale,
+            buffer: buffer,
+            queue: queue,
+            className: className,
+            node: listNode,
+            listName: key,
+            depth: 0,
+            tabAnchor: tabAnchor
+        );
+    }
+
 
     private static void GenerateConstructorInitializers(
         StringBuilder buffer,
         I18NData localeData,
         string className,
-        ObjectNode node)
+        ObjectNode node,
+        int tabAnchor)
     {
         foreach ((string key, _) in node.Entries.Where(n => n.Value is ObjectNode {IsMap: false}))
         {
@@ -379,8 +295,44 @@ internal static partial class Generator
 
             buffer.AppendLineWithTab(
                 $"{key} = new {childClassWithLocale}(_root);",
-                tabCount: 3);
+                tabCount: tabAnchor);
         }
+    }
+
+    private static bool HandleComment(StringBuilder buffer, Node value, bool prevHasComment, int tabAnchor)
+    {
+        // comment handling
+        if (value.Comment != null)
+        {
+            // add comment add on the line above
+            buffer.AppendLine();
+            buffer.AppendLineWithTab($"/// {value.Comment}", tabCount: tabAnchor);
+            prevHasComment = true;
+        }
+        else
+        {
+            if (prevHasComment)
+            {
+                // add a new line to separate from previous entry with comment
+                buffer.AppendLine();
+            }
+
+            prevHasComment = false;
+        }
+
+        return prevHasComment;
+    }
+
+    private static void GenerateProperty(StringBuilder buffer, StringTextNode stringTextNode, string overrideString,
+        string key, int tabAnchor)
+    {
+        string stringLiteral = GetStringLiteral(
+            stringTextNode.Content, stringTextNode.Links.Count);
+
+        buffer.AppendLineWithTab(stringTextNode.Params.Count == 0
+                ? $"public {overrideString}string {key} => {stringLiteral};"
+                : $"public {overrideString}string {key}{ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => ${stringLiteral};",
+            tabCount: tabAnchor);
     }
 
     /// generates a map of ONE locale
@@ -393,13 +345,14 @@ internal static partial class Generator
         Queue<ClassTask> queue,
         string className, // without locale
         ObjectNode node,
-        int depth)
+        int depth,
+        int tabAnchor)
     {
         buffer.AppendLine("new Dictionary<string, string> {");
 
         foreach ((string? key, var value) in node.Entries)
         {
-            AddTabs(buffer, depth + 2);
+            AddTabs(buffer, depth + tabAnchor + 2);
 
             // Note:
             // Maps cannot contain rich texts
@@ -415,7 +368,7 @@ internal static partial class Generator
                 else
                 {
                     buffer.AppendLine(
-                        $"{{\"{key}\", {_toParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => {stringLiteral}}},");
+                        $"{{\"{key}\", {ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => {stringLiteral}}},");
                 }
             }
             else if (value is ListNode listNode)
@@ -430,7 +383,8 @@ internal static partial class Generator
                     className: className,
                     node: listNode,
                     listName: key,
-                    depth: depth + 1
+                    depth: depth + 1,
+                    tabAnchor: tabAnchor
                 );
             }
             else if (value is ObjectNode objectNode)
@@ -450,7 +404,8 @@ internal static partial class Generator
                         queue: queue,
                         className: childClassNoLocale,
                         node: objectNode,
-                        depth: depth + 1
+                        depth: depth + 1,
+                        tabAnchor: tabAnchor
                     );
                 }
                 else
@@ -469,12 +424,13 @@ internal static partial class Generator
                     buffer: buffer,
                     language: locale.TwoLetterISOLanguageName,
                     node: pluralNode,
-                    depth: depth + 1
+                    depth: depth + 1,
+                    tabAnchor: tabAnchor
                 );
             }
         }
 
-        AddTabs(buffer, depth + 1);
+        AddTabs(buffer, depth + tabAnchor + 1);
 
         buffer.Append('}');
 
@@ -491,7 +447,8 @@ internal static partial class Generator
         string className,
         ListNode node,
         string? listName,
-        int depth)
+        int depth,
+        int tabAnchor)
     {
         buffer.AppendLine(depth == 0 ? "[" : "new[]{");
 
@@ -499,7 +456,7 @@ internal static partial class Generator
         {
             Node value = node.Entries[i];
 
-            AddTabs(buffer, depth + 2);
+            AddTabs(buffer, depth + tabAnchor + 2);
 
             // Note:
             // Lists cannot contain rich texts
@@ -511,7 +468,7 @@ internal static partial class Generator
 
                 buffer.AppendLine(stringTextNode.Params.Count == 0
                     ? $"{stringLiteral},"
-                    : $"{_toParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => {stringLiteral},");
+                    : $"{ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => {stringLiteral},");
             }
             else if (value is ListNode listNode)
             {
@@ -524,16 +481,16 @@ internal static partial class Generator
                     className: className,
                     node: listNode,
                     listName: listName,
-                    depth: depth + 1
+                    depth: depth + 1,
+                    tabAnchor: tabAnchor
                 );
             }
             else if (value is ObjectNode objectNode)
             {
                 // ignore: prefer_interpolation_to_compose_strings
-                string key = $"_{listName ?? ""}_" +
-                             depth + "i" + i + "_";
-                string childClassNoLocale =
-                    GetClassName(parentName: className, childName: key);
+                string key = $"_{listName ?? ""}_{depth}i{i}_";
+
+                string childClassNoLocale = GetClassName(parentName: className, childName: key);
 
                 if (objectNode.IsMap)
                 {
@@ -546,7 +503,8 @@ internal static partial class Generator
                         queue: queue,
                         className: childClassNoLocale,
                         node: objectNode,
-                        depth: depth + 1
+                        depth: depth + 1,
+                        tabAnchor: tabAnchor
                     );
                 }
                 else
@@ -567,7 +525,8 @@ internal static partial class Generator
                     buffer: buffer,
                     language: locale.TwoLetterISOLanguageName,
                     node: pluralNode,
-                    depth: depth + 1
+                    depth: depth + 1,
+                    tabAnchor: tabAnchor
                 );
             }
         }
@@ -581,7 +540,7 @@ internal static partial class Generator
 
     /// returns the parameter list
     /// e.g. ({required Object name, required Object age})
-    private static string _toParameterList(HashSet<string> @params, Dictionary<string, string> paramTypeMap)
+    private static string ToParameterList(HashSet<string> @params, Dictionary<string, string> paramTypeMap)
     {
         if (@params.Count == 0)
             return "()";
@@ -613,6 +572,7 @@ internal static partial class Generator
         string language,
         PluralNode node,
         int depth,
+        int tabAnchor,
         bool forceSemicolon = false
     )
     {
@@ -658,7 +618,7 @@ internal static partial class Generator
 
             buffer.AppendWithTab(
                 $"{quantity.Key.ParamName()}: ${GetStringLiteral(textNode.Content, textNode.Links.Count)}",
-                depth + 2);
+                depth + tabAnchor + 2);
 
             if (count != node.Quantities.Count - 1)
                 buffer.AppendLine(",");
@@ -666,7 +626,7 @@ internal static partial class Generator
             count++;
         }
 
-        buffer.AppendWithTab(')', depth + 1);
+        buffer.AppendWithTab(')', depth + tabAnchor + 1);
 
         if (depth == 0 || forceSemicolon)
             buffer.AppendLine(";");
@@ -675,7 +635,7 @@ internal static partial class Generator
     }
 
     private const char TabChar = '\t';
-    
+
     /// Appends count times \t to the buffer
     private static void AddTabs(StringBuilder buffer, int count)
     {

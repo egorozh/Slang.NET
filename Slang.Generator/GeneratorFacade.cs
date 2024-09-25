@@ -1,4 +1,4 @@
-using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Config.Entities;
 using Slang.Generator.Generator.Entities;
 using Slang.Generator.NodesData;
 using Slang.Generator.Translations;
@@ -9,10 +9,7 @@ public static class GeneratorFacade
 {
     /// Common step used by custom runner and builder to get the .g.cs content
     public static BuildResult Generate(
-        string @namespace,
-        string className,
         RawConfig rawConfig,
-        string baseName,
         TranslationComposition translationComposition)
     {
         // build translation model
@@ -20,12 +17,9 @@ public static class GeneratorFacade
             rawConfig,
             translationComposition
         );
-        
+
         // generate config
         var config = GetConfig(
-            @namespace: @namespace,
-            className: className,
-            baseName: baseName,
             config: rawConfig
         );
 
@@ -47,27 +41,37 @@ public static class GeneratorFacade
         );
     }
 
-    private static GenerateConfig GetConfig(
-        string baseName,
-        string @namespace,
-        string className,
-        RawConfig config)
+    // test method for benchmark
+    public static BuildResult GenerateOnly(BenchmarkGeneratorData input)
     {
-        return new GenerateConfig(
-            Namespace: @namespace,
-            BaseName: baseName,
-            BaseLocale: config.BaseLocale,
-            FallbackStrategy: config.FallbackStrategy.ToGenerateFallbackStrategy(),
-            className
+        return Generator.Generator.Generate(
+            config: input.Config,
+            translations: input.TranslationModelList
         );
     }
 
-    private static GenerateFallbackStrategy ToGenerateFallbackStrategy(this FallbackStrategy fallbackStrategy) =>
-        fallbackStrategy switch
-        {
-            FallbackStrategy.None => GenerateFallbackStrategy.None,
-            FallbackStrategy.BaseLocale => GenerateFallbackStrategy.BaseLocale,
-            FallbackStrategy.BaseLocaleEmptyString => GenerateFallbackStrategy.BaseLocale,
-            _ => throw new ArgumentOutOfRangeException(nameof(fallbackStrategy), fallbackStrategy, null)
-        };
+    private static GenerateConfig GetConfig(
+        RawConfig config)
+    {
+        return new GenerateConfig(
+            Namespace: config.Namespace,
+            ClassName: config.ClassName,
+            BaseLocale: config.BaseLocale
+        );
+    }
+
+    // test data for benchmark
+    public class BenchmarkGeneratorData(
+        RawConfig rawConfig,
+        TranslationComposition translationMap)
+    {
+        internal readonly GenerateConfig Config = GetConfig(
+            config: rawConfig
+        );
+
+        internal readonly List<I18NData> TranslationModelList = NodesDataRepository.GetNodesData(
+            rawConfig,
+            translationMap
+        );
+    }
 }

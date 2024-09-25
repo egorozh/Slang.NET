@@ -1,7 +1,5 @@
 using System.Collections;
 using Slang.Generator;
-using Slang.Generator.Nodes.Data;
-using Slang.Generator.Nodes.Domain;
 
 namespace Slang.Gpt;
 

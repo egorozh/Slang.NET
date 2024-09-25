@@ -3,14 +3,11 @@ using Slang.Generator.Files;
 
 namespace Slang.Generator.Translations;
 
-public class TranslationsMap(Dictionary<string, object?> translations)
-    : Dictionary<string, object?>(translations);
-
 /// Contains ALL translations of ALL locales
 /// Represented as pure maps without modifications
 ///
 /// locale -> translation map
-public class TranslationComposition : Dictionary<CultureInfo, TranslationsMap>;
+public class TranslationComposition : Dictionary<CultureInfo, Dictionary<string, object?>>;
 
 public abstract class TranslationsRepository
 {
@@ -34,10 +31,10 @@ public abstract class TranslationsRepository
             {
                 throw new Exception($"File: {file.Path}\n{e}");
             }
-            
+
             if (!translationComposition.ContainsKey(file.Locale))
             {
-                translationComposition[file.Locale] = new TranslationsMap(translations);
+                translationComposition[file.Locale] = translations;
             }
         }
 

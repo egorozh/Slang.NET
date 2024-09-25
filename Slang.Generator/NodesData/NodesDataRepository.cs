@@ -1,7 +1,6 @@
 using System.Globalization;
-using Slang.Generator.Config.Domain.Entities;
-using Slang.Generator.Nodes.Data;
-using Slang.Generator.Nodes.Domain;
+using Slang.Generator.Config.Entities;
+using Slang.Generator.Nodes;
 using Slang.Generator.Nodes.Nodes;
 using Slang.Generator.Translations;
 
@@ -30,7 +29,7 @@ internal static class NodesDataRepository
     {
         var buildConfig = NodesRepository.ToBuildModelConfig(rawConfig);
 
-        KeyValuePair<CultureInfo, TranslationsMap>? baseEntry = composition
+        KeyValuePair<CultureInfo, Dictionary<string, object?>>? baseEntry = composition
             .FirstOrDefault(entry => Equals(entry.Key, rawConfig.BaseLocale));
 
         if (!baseEntry.HasValue)
@@ -39,10 +38,7 @@ internal static class NodesDataRepository
         // Create the base data first.
         var map = baseEntry.Value.Value;
 
-        var baseResult = NodesRepository.GetNodes(
-            buildConfig: buildConfig,
-            map: map
-        );
+        var baseResult = NodesRepository.GetNodes(buildConfig, map);
 
         return composition
             .Select(localeEntry =>
@@ -57,7 +53,7 @@ internal static class NodesDataRepository
     private static I18NData CreateNodesData(
         RawConfig rawConfig,
         CultureInfo locale,
-        TranslationsMap map,
+        Dictionary<string, object?> map,
         BuildModelResult baseResult,
         BuildModelConfig buildConfig)
     {

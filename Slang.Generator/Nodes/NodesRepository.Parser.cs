@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Text.Json;
-using Slang.Generator.Config.Domain.Entities;
-using Slang.Generator.Nodes.Domain;
+using Slang.Generator.Config.Entities;
 using Slang.Generator.Nodes.Nodes;
+using Slang.Generator.Nodes.Utils;
 using Slang.Generator.Translations;
+using NodeHelpers = Slang.Generator.Nodes.Utils.NodeHelpers;
 
-namespace Slang.Generator.Nodes.Data;
+namespace Slang.Generator.Nodes;
 
 internal static partial class NodesRepository
 {
@@ -15,7 +16,7 @@ internal static partial class NodesRepository
     /// and returns the node model.
     private static Dictionary<string, Node> ParseMapNode(
         string parentPath,
-        TranslationsMap curr,
+        Dictionary<string, object?> curr,
         BuildModelConfig config,
         CaseStyle? keyCase,
         Dictionary<string, ILeafNode> leavesMap,
@@ -64,16 +65,10 @@ internal static partial class NodesRepository
         Dictionary<string, ILeafNode> leavesMap,
         BuildModelResult? baseData,
         object? value,
-        Dictionary<string, string> modifiers)
+        IReadOnlyDictionary<string, string> modifiers)
     {
         if (value is string or int or JsonElement {ValueKind: JsonValueKind.String})
         {
-            if (config.FallbackStrategy == FallbackStrategy.BaseLocaleEmptyString && value is string s &&
-                string.IsNullOrEmpty(s))
-            {
-                return null;
-            }
-
             var textNode = CreateTextNode(currPath, comment, config, value.ToString()!, modifiers);
 
             leavesMap[currPath] = textNode;
@@ -108,7 +103,7 @@ internal static partial class NodesRepository
 
             var children = ParseMapNode(
                 parentPath: currPath,
-                curr: new TranslationsMap(listAsMap),
+                curr: listAsMap,
                 config: config,
                 keyCase: config.KeyCase,
                 leavesMap: leavesMap,
@@ -141,7 +136,7 @@ internal static partial class NodesRepository
         string? comment,
         BuildModelConfig config,
         string value,
-        Dictionary<string, string> modifiers)
+        IReadOnlyDictionary<string, string> modifiers)
     {
         (string? parsedContent, var paramTypeMap) = NodeHelpers.ParseInterpolation(
             raw: value,
@@ -174,18 +169,18 @@ internal static partial class NodesRepository
         BuildModelResult? baseData,
         object? value,
         string currPath,
-        Dictionary<string, string> modifiers,
+        IReadOnlyDictionary<string, string> modifiers,
         string? comment)
     {
-        Dictionary<string, object> dict;
+        Dictionary<string, object?> dict;
 
         switch (value)
         {
-            case Dictionary<string, object> dictionary:
+            case Dictionary<string, object?> dictionary:
                 dict = dictionary;
                 break;
             case JsonElement {ValueKind: JsonValueKind.Object} jsonElement:
-                dict = new Dictionary<string, object>();
+                dict = [];
 
                 foreach (var property in jsonElement.EnumerateObject())
                     dict.Add(property.Name, property.Value);
@@ -197,7 +192,7 @@ internal static partial class NodesRepository
 
         var children = ParseMapNode(
             parentPath: currPath,
-            curr: new TranslationsMap(dict),
+            curr: dict,
             config: config,
             keyCase: config.KeyCase != config.KeyMapCase &&
                      modifiers.ContainsKey(NodeModifiers.Map)
@@ -214,15 +209,7 @@ internal static partial class NodesRepository
         {
             if (children.Count == 0)
             {
-                switch (config.FallbackStrategy)
-                {
-                    case FallbackStrategy.None:
-                        throw new Exception(
-                            "\"$currPath\" in <$localeDebug> is empty but it is marked for pluralization / context. Define \"fallback_strategy: base_locale\" to ignore this node.");
-                    case FallbackStrategy.BaseLocale:
-                    case FallbackStrategy.BaseLocaleEmptyString:
-                        return null;
-                }
+                return null;
             }
 
             // split children by comma for plurals and contexts
@@ -314,7 +301,7 @@ internal static partial class NodesRepository
 
     private static DetectionResult DetermineNodeType(
         BuildModelConfig config,
-        Dictionary<string, string> modifiers,
+        IReadOnlyDictionary<string, string> modifiers,
         Dictionary<string, Node> children
     )
     {
@@ -343,7 +330,7 @@ internal static partial class NodesRepository
             // check if every children is 'zero', 'one', 'two', 'few', 'many' or 'other'
             bool isPlural = childrenSplitByComma.Count <= Pluralization.AllQuantities.Length &&
                             childrenSplitByComma
-                                .All((key) =>
+                                .All(key =>
                                     Pluralization.AllQuantities.Any(q => q.ParamName().ToCase(config.KeyCase) == key));
             if (isPlural)
             {

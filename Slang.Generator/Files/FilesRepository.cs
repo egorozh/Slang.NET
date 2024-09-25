@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Config.Entities;
 
 namespace Slang.Generator.Files;
 

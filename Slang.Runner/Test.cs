@@ -1,21 +1,33 @@
-using Slang.Generator.Config.Domain;
-using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Config;
+using Slang.Generator.Config.Entities;
 
 namespace Slang.Runner;
 
 public static class Test
 {
-    public static RawConfig GetConfig(string[] args)
+    public static RawConfig GetConfig()
     {
-        string configPath = args.Length == 0 ? "slang.yaml" : args[0];
+        var config = ConfigRepository.Create(
+            className: "Strings",
+            @namespace: "Slang.Showcase",
+            baseLocale: "en",
+            inputFileName: "strings",
+            inputDirectory: "i18n",
+            inputFilePattern: "*.i18n.json"
+        );
 
-        //todo: getting input info from NET SOURCE GENERATOR
-        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
-
-        string yaml = File.ReadAllText(Path.Combine(targetDirectory, configPath));
-
-        var config = ConfigUseCases.GetRawConfig(yaml);
-        
         return config;
+    }
+
+    public static RawConfig GetConfig2()
+    {
+        return ConfigRepository.Create(
+            className: "Feature1",
+            @namespace: "Slang.Showcase.MyNamespace",
+            baseLocale: "en",
+            inputFileName: "feature1",
+            inputDirectory: "i18n",
+            inputFilePattern: "*.i18n.json"
+        );
     }
 }

@@ -3,7 +3,7 @@ namespace Slang.Generator.Nodes.Nodes;
 internal record StringTextNode : Node, ILeafNode
 {
     public StringTextNode(string Path,
-        Dictionary<string, string> Modifiers,
+        IReadOnlyDictionary<string, string> Modifiers,
         string? Comment,
         HashSet<string> Params,
         Dictionary<string, string> ParamTypeMap,

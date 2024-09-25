@@ -1,4 +1,4 @@
-namespace Slang.Generator.Nodes.Domain;
+namespace Slang.Generator.Nodes.Nodes;
 
 internal static class NodeModifiers
 {

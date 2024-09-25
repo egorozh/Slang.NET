@@ -1,5 +1,5 @@
 using Slang.Generator;
-using Slang.Generator.Config.Domain.Entities;
+using Slang.Generator.Config.Entities;
 using Slang.Generator.Files;
 using Slang.Generator.Translations;
 
@@ -9,32 +9,17 @@ internal class I18NBuilder(RawConfig config)
 {
     public async Task Build()
     {
-        // Glob findAssetsPattern = config.inputDirectory != null
-        //     ? Glob($"**{config.inputDirectory}/**{config.inputFilePattern}")
-        //     : Glob($"**{config.inputFilePattern}");
-
-        // STEP 1: determine base name and output file name / path
-
-        // var assets = await buildStep.findAssets(findAssetsPattern).toList();
-        //
-        // var files = assets.Select((f) =>
-        // {
-        //     return new PlainTranslationFile(
-        //         path: f.path,
-        //         read: () => buildStep.readAsString(f)
-        //     );
-        // }).toList();
-
         //todo: getting input info from NET SOURCE GENERATOR
         const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
 
-        string outputFileName = "Strings.g.cs";
-        string outputDirectory = "i18n";
+        string sourceFilesDirectory = config.InputDirectory != null
+            ? Path.Combine(targetDirectory, config.InputDirectory)
+            : targetDirectory;
 
-        string[] paths = ["strings_en.i18n.json", "strings_ru.i18n.json"];
+        var paths = Directory.GetFiles(sourceFilesDirectory, config.InputFilePattern)
+            .Where(file => Path.GetFileName(file).StartsWith(config.InputFileName));
 
         var files = paths
-            .Select(p => Path.Combine(targetDirectory, "i18n", p))
             .Select(f => new FileInfo(f))
             .ToList();
 
@@ -43,65 +28,26 @@ internal class I18NBuilder(RawConfig config)
             allFiles: files
         );
 
-        string outputFilePath = DetermineOutputPath(fileCollection, outputFileName, outputDirectory);
-
         // STEP 2: scan translations
         var translationMap = await TranslationsRepository.Build(fileCollection: fileCollection);
 
-        //todo: get namespace from SG
-        const string @namespace = "Slang.Showcase";
-        const string className = "Strings";
-
         // STEP 3: generate .g.dart content
         var result = GeneratorFacade.Generate(
-            @namespace,
-            className,
             rawConfig: config,
-            baseName: PathUtils.GetFileNameNoExtension(outputFileName),
             translationComposition: translationMap
         );
-
-        // STEP 4: write output to hard drive
-        FileUtils.createMissingFolders(filePath: outputFilePath);
-
-
-        // multiple files
-        FileUtils.writeFile(
-            path: BuildResultPaths.MainPath(outputFilePath),
-            content: result.Header
+        
+        await File.WriteAllTextAsync(
+            Path.Combine(sourceFilesDirectory, $"{config.ClassName}.g.cs"),
+            result.Header
         );
 
-        foreach (var entry in result.Translations)
+        foreach ((var locale, string localeTranslations) in result.Translations)
         {
-            var locale = entry.Key;
-            string localeTranslations = entry.Value;
-            FileUtils.writeFile(
-                path: BuildResultPaths.LocalePath(
-                    outputPath: outputFilePath,
-                    locale: locale
-                ),
-                content: localeTranslations
+            await File.WriteAllTextAsync(
+                Path.Combine(sourceFilesDirectory, $"{config.ClassName}_{locale.TwoLetterISOLanguageName}.g.cs"),
+                localeTranslations
             );
         }
-    }
-
-    private static string DetermineOutputPath(SlangFileCollection fileCollection,
-        string outputFileName, string? outputDirectory)
-    {
-        if (outputDirectory != null)
-        {
-            // output directory specified, use this path instead
-            return $"{outputDirectory}/{outputFileName}";
-        }
-
-        // use the directory of the first (random) translation file
-        string tempPath = fileCollection.Files.First().Path;
-
-        // By default, generate to the same directory as the translation file
-        return PathUtils.ReplaceFileName(
-            path: tempPath,
-            newFileName: outputFileName,
-            pathSeparator: "/"
-        );
     }
 }
