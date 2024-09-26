@@ -5,3 +5,55 @@
 Type-safe i18n for .NET
 
 This is a port of the [slang for dart](https://pub.dev/packages/slang)
+
+## Get started:
+
+Install the library as a NuGet package:
+
+```powershell
+Install-Package dotnet add package Slang.Net
+```
+
+Add json files:
+
+i18n/strings_en.i18n.json
+
+```json
+{
+  "screen": {
+    "locale1": "Locale 1"
+  }
+}
+```
+
+i18n/strings_ru.i18n.json
+
+```json
+{
+  "screen": {
+    "locale1": "Локаль 1"
+  }
+}
+```
+Add partial class:
+
+``` csharp
+[Translations(
+    BaseLocale = "en",
+    InputFileName = "strings",
+    InputDirectory = "i18n",
+    InputFilePattern = "*.i18n.json")]
+public partial class Strings;
+```
+
+Done! 
+
+```csharp
+Strings.SetCulture(new CultureInfo("ru-RU")); 
+
+Console.WriteLine(Strings.Translations.Screen.locale1); // Локаль 1
+
+Strings.SetCulture(new CultureInfo("en-US"));
+
+Console.WriteLine(Strings.Translations.Screen.locale1); // Locale 1
+```
