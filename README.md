@@ -6,7 +6,7 @@ Type-safe i18n for .NET
 
 This is a port of the [slang for dart](https://pub.dev/packages/slang)
 
-## Get started:
+## Getting Started:
 
 Install the library as a NuGet package:
 
@@ -14,7 +14,7 @@ Install the library as a NuGet package:
 Install-Package dotnet add package Slang.Net
 ```
 
-Add json files:
+### Add json files:
 
 i18n/strings_en.i18n.json
 
@@ -35,7 +35,7 @@ i18n/strings_ru.i18n.json
   }
 }
 ```
-Add partial class:
+### Add partial class:
 
 ``` csharp
 [Translations(
@@ -46,7 +46,7 @@ Add partial class:
 public partial class Strings;
 ```
 
-Done! 
+### Done! 
 
 ```csharp
 Strings.SetCulture(new CultureInfo("ru-RU")); 
@@ -57,3 +57,19 @@ Strings.SetCulture(new CultureInfo("en-US"));
 
 Console.WriteLine(Strings.Translations.Screen.locale1); // Locale 1
 ```
+
+## Features
+
+- String Interpolation
+- Pluralization
+- Linked Translations
+- Maps
+- Lists
+- Typed Parameters
+- Comments
+
+## Roadmap
+
+- Gpt translator CLI
+- String Formatting (double, dates and etc)
+- Performance improvements
