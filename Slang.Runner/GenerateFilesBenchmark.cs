@@ -1,8 +1,7 @@
 using BenchmarkDotNet.Attributes;
-using Slang.Generator;
-using Slang.Generator.Config.Entities;
-using Slang.Generator.Files;
-using Slang.Generator.Translations;
+using Slang.Generator.Data;
+using Slang.Generator.Domain;
+using Slang.Generator.Domain.Entities;
 
 namespace Slang.Runner;
 

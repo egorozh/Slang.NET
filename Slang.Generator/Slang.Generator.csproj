@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
@@ -11,24 +12,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="Generator\Internal\Generator.GenerateHeader.cs">
-        <DependentUpon>Generator.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Generator\Internal\Generator.Translations.cs">
-        <DependentUpon>Generator.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Nodes\NodesRepository.Links.cs">
-        <DependentUpon>NodesRepository.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Nodes\NodesRepository.Parser.cs">
-        <DependentUpon>NodesRepository.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Generator\Internal\Generator.GenerateHeader.cs">
+            <DependentUpon>Generator.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Generator\Internal\Generator.Translations.cs">
+            <DependentUpon>Generator.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
-    
+
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-<!--        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
+        <!--        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
     </PropertyGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
@@ -38,6 +33,11 @@
     <ItemGroup>
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <Folder Include="Domain\Translations\" />
     </ItemGroup>
 
 </Project>

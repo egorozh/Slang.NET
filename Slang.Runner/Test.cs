@@ -1,5 +1,5 @@
-using Slang.Generator.Config;
-using Slang.Generator.Config.Entities;
+using Slang.Generator.Data;
+using Slang.Generator.Domain.Entities;
 
 namespace Slang.Runner;
 

@@ -1,6 +1,6 @@
 using System.Globalization;
+using Slang.Generator.Data;
 using Slang.Generator.Files;
-using Slang.Generator.Translations;
 using Slang.Gpt.Data;
 using Slang.Gpt.Models;
 using Slang.Gpt.Utils;

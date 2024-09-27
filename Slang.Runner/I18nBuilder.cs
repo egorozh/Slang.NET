@@ -1,7 +1,7 @@
-using Slang.Generator;
-using Slang.Generator.Config.Entities;
-using Slang.Generator.Files;
-using Slang.Generator.Translations;
+using Slang.Generator.Data;
+using Slang.Generator.Domain;
+using Slang.Generator.Domain.Entities;
+
 
 namespace Slang.Runner;
 
@@ -36,7 +36,7 @@ internal class I18NBuilder(RawConfig config)
             rawConfig: config,
             translationComposition: translationMap
         );
-        
+
         await File.WriteAllTextAsync(
             Path.Combine(sourceFilesDirectory, $"{config.ClassName}.g.cs"),
             result.Header

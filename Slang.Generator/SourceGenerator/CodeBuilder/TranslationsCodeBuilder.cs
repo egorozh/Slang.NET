@@ -1,9 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
-using Slang.Generator.Config;
-using Slang.Generator.Config.Entities;
-using Slang.Generator.Files;
+using Slang.Generator.Data;
+using Slang.Generator.Domain;
+using Slang.Generator.Domain.Entities;
 using Slang.Generator.SourceGenerator.Models;
-using Slang.Generator.Translations;
 
 namespace Slang.Generator.SourceGenerator.CodeBuilder;
 

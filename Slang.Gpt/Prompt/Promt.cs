@@ -1,6 +1,6 @@
 using System.Globalization;
 using Slang.Generator.Config.Domain;
-using Slang.Generator.Config.Entities;
+using Slang.Generator.Domain.Entities;
 using Slang.Gpt.Models;
 using Slang.Gpt.Utils;
 using static Slang.Gpt.JsonHelpers;

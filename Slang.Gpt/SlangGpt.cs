@@ -1,8 +1,8 @@
 using System.Globalization;
 using Slang.Generator.Config.Domain;
-using Slang.Generator.Config.Entities;
+using Slang.Generator.Data;
+using Slang.Generator.Domain.Entities;
 using Slang.Generator.Files;
-using Slang.Generator.Translations;
 using Slang.Gpt.Models;
 
 namespace Slang.Gpt;
