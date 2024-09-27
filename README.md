@@ -51,11 +51,11 @@ public partial class Strings;
 ```csharp
 Strings.SetCulture(new CultureInfo("ru-RU")); 
 
-Console.WriteLine(Strings.Translations.Screen.locale1); // Локаль 1
+Console.WriteLine(Strings.Translations.Screen.Locale1); // Локаль 1
 
 Strings.SetCulture(new CultureInfo("en-US"));
 
-Console.WriteLine(Strings.Translations.Screen.locale1); // Locale 1
+Console.WriteLine(Strings.Translations.Screen.Locale1); // Locale 1
 ```
 
 ## Features
