@@ -14,7 +14,8 @@ Install the library as a NuGet package:
 Install-Package dotnet add package Slang.Net
 ```
 
-### Add json files:
+### Add JSON files:
+> **Important** file must end with ".i18n.json". This is necessary so that the SourceGenerator does not track changes to other AdditionalFiles.
 
 i18n/strings_en.i18n.json
 
@@ -35,14 +36,22 @@ i18n/strings_ru.i18n.json
   }
 }
 ```
-### Add partial class:
+
+### Include JSON files as AdditionalFiles
+
+```xml
+   <ItemGroup>
+        <AdditionalFiles Include="i18n\*.i18n.json" />
+    </ItemGroup>
+```
+
+
+### Add a partial class:
 
 ``` csharp
 [Translations(
     BaseLocale = "en",
-    InputFileName = "strings",
-    InputDirectory = "i18n",
-    InputFilePattern = "*.i18n.json")]
+    InputFileName = "strings")]
 public partial class Strings;
 ```
 
