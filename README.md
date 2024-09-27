@@ -40,9 +40,9 @@ i18n/strings_ru.i18n.json
 ### Include JSON files as AdditionalFiles
 
 ```xml
-   <ItemGroup>
-        <AdditionalFiles Include="i18n\*.i18n.json" />
-    </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="i18n\*.i18n.json" />
+  </ItemGroup>
 ```
 
 
