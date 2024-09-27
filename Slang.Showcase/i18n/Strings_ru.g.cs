@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Slang.Showcase
 {
-	class StringsRu : Strings
+	partial class StringsRu : Strings
 	{
 		protected override StringsRu _root { get; } // ignore: unused_field
 

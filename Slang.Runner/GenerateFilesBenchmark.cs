@@ -20,11 +20,9 @@ public class GenerateFilesBenchmark
 
         const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
 
-        string sourceFilesDirectory = _config.InputDirectory != null
-            ? Path.Combine(targetDirectory, _config.InputDirectory)
-            : targetDirectory;
+        string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
 
-        var paths = Directory.GetFiles(sourceFilesDirectory, _config.InputFilePattern)
+        var paths = Directory.GetFiles(sourceFilesDirectory, "*.i18n.json")
             .Where(file => Path.GetFileName(file).StartsWith(_config.InputFileName));
 
         var files = paths

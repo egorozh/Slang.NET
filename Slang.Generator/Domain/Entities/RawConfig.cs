@@ -10,8 +10,6 @@ public record RawConfig(
     string InputFileName,
     string Namespace,
     string ClassName,
-    string? InputDirectory,
-    string InputFilePattern,
     PluralAuto PluralAuto,
     string PluralParameter
 );

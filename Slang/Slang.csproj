@@ -12,8 +12,10 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.0.0.0-preview2</Version>
+        <Version>1.0.0.0-preview3</Version>
         <PackageId>Slang.Net</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +31,11 @@
         <Compile Update="PluralResolverMap.cs">
             <DependentUpon>Pluralization.cs</DependentUpon>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" Visible="false" PackagePath="\" />
+        <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
 
 </Project>

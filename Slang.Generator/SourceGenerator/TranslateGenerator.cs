@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Slang.Generator.Data;
 using Slang.Generator.SourceGenerator.CodeBuilder;
 using Slang.Generator.SourceGenerator.Extensions;
 using Slang.Generator.SourceGenerator.Models;
@@ -7,12 +8,10 @@ using Slang.Generator.SourceGenerator.Models;
 namespace Slang.Generator.SourceGenerator;
 
 public record TranslationsParam(
-    string InputFileName,
-    string InputFilePattern,
-    string BaseLocale,
-    string PluralAuto,
-    string? InputDirectory,
-    string PluralParameter
+    string? InputFileName,
+    string? BaseLocale,
+    string? PluralAuto,
+    string? PluralParameter
 );
 
 [Generator]
@@ -49,44 +48,63 @@ public class TranslateGenerator : IIncrementalGenerator
         IncrementalValuesProvider<(HierarchyInfo Hierarchy, TranslationsParam Info)> generationInfo =
             generationInfoWithErrors.Select(static (item, _) => item.Value)!;
 
-        var configProvider = context.AnalyzerConfigOptionsProvider
-            .Select(static (p, ctx) => p.GlobalOptions)
-            .Select(static (g, ctx) =>
+        var jsonFiles = context.AdditionalTextsProvider
+            .Where(file => file.Path.EndsWith(".i18n.json"))
+            .Select((file, cancellationToken) => new
             {
-                if (!g.TryGetValue("build_property.projectdir", out string? projectDir))
-                    return null;
-
-                return projectDir;
+                FileName = Path.GetFileName(file.Path),
+                Content = file.GetText(cancellationToken)?.ToString()
             });
 
-        context.RegisterSourceOutput(generationInfo.Combine(configProvider), static (productionContext, data) =>
-        {
-            (var (hierarchy, info), string? projectDir) = data;
+        var classWithJson = generationInfo.Combine(jsonFiles
+            .Collect());
 
-            if (string.IsNullOrEmpty(projectDir))
+        context.RegisterSourceOutput(classWithJson, static (productionContext, data) =>
+        {
+            var ((hierarchy, info), jsonFiles) = data;
+
+            if (jsonFiles.Length < 1)
                 return;
 
-            TranslationsCodeBuilder.Generate(productionContext, hierarchy, info, projectDir);
+            if (string.IsNullOrEmpty(info.InputFileName))
+                return;
+
+            string className = hierarchy.MetadataName;
+            string namespaceName = hierarchy.Namespace;
+
+            var config = ConfigRepository.Create(
+                className: className,
+                @namespace: namespaceName,
+                baseLocale: string.IsNullOrEmpty(info.BaseLocale) ? "en" : info.BaseLocale,
+                pluralParameter: string.IsNullOrEmpty(info.PluralParameter) ? "n" : info.PluralParameter,
+                inputFileName: info.InputFileName
+            );
+
+            var paths = jsonFiles
+                .Where(file => file.FileName.StartsWith(config.InputFileName));
+
+            var fileCollection = FilesRepository.GetFileCollection(
+                config: config,
+                allFiles: paths.Select(file => (file.FileName, file.Content))
+            );
+
+            _ = TranslationsCodeBuilder.Generate(productionContext, config, fileCollection);
         });
     }
 
 
     private static TranslationsParam ValidateTargetTypeAndGetInfo(AttributeData attributeData)
     {
-        string? InputFileName = attributeData.GetNamedArgument("InputFileName", "");
-        string? InputFilePattern = attributeData.GetNamedArgument("InputFilePattern", "");
-        string? BaseLocale = attributeData.GetNamedArgument("BaseLocale", "");
-        string? PluralAuto = attributeData.GetNamedArgument("PluralAuto", "");
-        string? InputDirectory = attributeData.GetNamedArgument("InputDirectory", "");
-        string? PluralParameter = attributeData.GetNamedArgument("PluralParameter", "");
+        string? inputFileName = attributeData.GetNamedArgument<string>("InputFileName");
+        string? baseLocale = attributeData.GetNamedArgument<string>("BaseLocale");
+        string? pluralAuto = attributeData.GetNamedArgument<string>("PluralAuto");
+        string? pluralParameter = attributeData.GetNamedArgument<string>("PluralParameter");
 
         return new TranslationsParam(
-            InputFileName: InputFileName,
-            InputFilePattern: InputFilePattern,
-            InputDirectory: InputDirectory,
-            BaseLocale: BaseLocale,
-            PluralAuto: PluralAuto,
-            PluralParameter: PluralParameter
+            InputFileName: inputFileName,
+            BaseLocale: baseLocale,
+            PluralAuto: pluralAuto,
+            PluralParameter: pluralParameter
         );
     }
 }

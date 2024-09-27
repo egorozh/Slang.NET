@@ -6,25 +6,25 @@
 /// Built on 27.09.2024 at 22:11 UTC
 
 using Slang;
-using Slang.Showcase.MyNamespace;
+using Slang.Showcase;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 
-namespace Slang.Showcase.MyNamespace
+namespace Slang.Showcase
 {
-	partial class Feature1
+	partial class Strings
 	{
 		private readonly static CultureInfo _en = new CultureInfo("en");
 		private readonly static CultureInfo _ru = new CultureInfo("ru");
 
-        private readonly static IReadOnlyDictionary<CultureInfo, Feature1> _translations =
-            new Dictionary<CultureInfo, Feature1>()
+        private readonly static IReadOnlyDictionary<CultureInfo, Strings> _translations =
+            new Dictionary<CultureInfo, Strings>()
             {
-				{_en, new Feature1() },
-				{_ru, new Feature1Ru() }
+				{_en, new Strings() },
+				{_ru, new StringsRu() }
             };
 
 
@@ -32,7 +32,7 @@ namespace Slang.Showcase.MyNamespace
 
 		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
 
-		public static Feature1 Translations
+		public static Strings Translations
 		{
 			get
 			{

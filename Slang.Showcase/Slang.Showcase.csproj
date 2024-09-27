@@ -6,8 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup><!--      <PackageReference Include="Slang.Net" Version="1.0.0-preview1" />-->
+    
+      <PackageReference Include="Slang.Net" Version="1.0.0-preview2" />
+    </ItemGroup>
+
     <ItemGroup>
-<!--      <PackageReference Include="Slang.Net" Version="1.0.0-preview1" />-->
+        <AdditionalFiles Include="i18n\*.i18n.json" />
     </ItemGroup>
 
 </Project>

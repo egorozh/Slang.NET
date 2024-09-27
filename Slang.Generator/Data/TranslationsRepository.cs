@@ -28,7 +28,7 @@ public abstract class TranslationsRepository
             }
             catch (Exception e)
             {
-                throw new Exception($"File: {file.Path}\n{e}");
+                throw new Exception($"File: {file}\n{e}");
             }
 
             if (!translationComposition.ContainsKey(file.Locale))

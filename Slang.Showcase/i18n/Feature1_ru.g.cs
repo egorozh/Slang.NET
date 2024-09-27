@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Slang.Showcase.MyNamespace
 {
-	class Feature1Ru : Feature1
+	partial class Feature1Ru : Feature1
 	{
 		protected override Feature1Ru _root { get; } // ignore: unused_field
 

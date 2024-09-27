@@ -11,12 +11,10 @@ internal class I18NBuilder(RawConfig config)
     {
         //todo: getting input info from NET SOURCE GENERATOR
         const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
+    
+        string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
 
-        string sourceFilesDirectory = config.InputDirectory != null
-            ? Path.Combine(targetDirectory, config.InputDirectory)
-            : targetDirectory;
-
-        var paths = Directory.GetFiles(sourceFilesDirectory, config.InputFilePattern)
+        var paths = Directory.GetFiles(sourceFilesDirectory, "*.i18n.json")
             .Where(file => Path.GetFileName(file).StartsWith(config.InputFileName));
 
         var files = paths

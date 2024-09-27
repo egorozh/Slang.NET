@@ -2,46 +2,16 @@
 using Slang.Generator.Data;
 using Slang.Generator.Domain;
 using Slang.Generator.Domain.Entities;
-using Slang.Generator.SourceGenerator.Models;
 
 namespace Slang.Generator.SourceGenerator.CodeBuilder;
 
 internal static class TranslationsCodeBuilder
 {
-    public static async Task Generate(SourceProductionContext context, HierarchyInfo hierarchy, TranslationsParam? info,
-        string projectDir)
+    public static async Task Generate(
+        SourceProductionContext context,
+        RawConfig config,
+        SlangFileCollection fileCollection)
     {
-        string targetDirectory = projectDir;
-
-        string className = hierarchy.MetadataName;
-
-        string namespaceName = hierarchy.Namespace;
-
-        RawConfig config = ConfigRepository.Create(
-            className: className,
-            @namespace: namespaceName,
-            baseLocale: info.BaseLocale,
-            inputFileName: info.InputFileName,
-            inputDirectory: info.InputDirectory,
-            inputFilePattern: info.InputFilePattern
-        );
-
-        string sourceFilesDirectory = config.InputDirectory != null
-            ? Path.Combine(targetDirectory, config.InputDirectory)
-            : targetDirectory;
-
-        var paths = Directory.GetFiles(sourceFilesDirectory, config.InputFilePattern)
-            .Where(file => Path.GetFileName(file).StartsWith(config.InputFileName));
-
-        var files = paths
-            .Select(f => new FileInfo(f))
-            .ToList();
-
-        var fileCollection = FilesRepository.GetFileCollection(
-            config: config,
-            allFiles: files
-        );
-
         // STEP 2: scan translations
         var translationMap = await TranslationsRepository.Build(fileCollection: fileCollection);
 

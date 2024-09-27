@@ -77,7 +77,7 @@ internal static partial class Generator
 
         buffer.AppendLineWithTab(
             // The class name of the **base** locale (path-dependent).
-            localeData.BaseLocale ? $"partial class {varClassName}" : $"class {varClassName} : {config.ClassName}",
+            localeData.BaseLocale ? $"partial class {varClassName}" : $"partial class {varClassName} : {config.ClassName}",
             tabCount: 1);
 
         buffer.AppendWithTab('{', tabCount: 1);
