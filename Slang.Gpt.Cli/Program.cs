@@ -168,6 +168,10 @@ internal static class Program
             baseCulture: gptConfig.BaseCulture,
             allFiles: files);
 
-        await SlangGpt.Execute(fileCollection, gptConfig, apiKey, targetLocales, debug, full);
+        using var httpClient = new HttpClient();
+
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+        
+        await SlangGpt.Execute(httpClient, fileCollection, gptConfig, targetLocales, debug, full);
     }
 }

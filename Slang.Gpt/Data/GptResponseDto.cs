@@ -1,7 +1,7 @@
 namespace Slang.Gpt.Data;
 
 internal record GptResponseDto(
-    List<ChoiseDto>? choises,
+    List<ChoiseDto>? choices,
     UsageDto usage
 );
 

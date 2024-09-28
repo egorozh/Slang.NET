@@ -1,4 +1,5 @@
 using System.Globalization;
+using Slang.Generator.SourceGenerator;
 
 namespace Slang.Generator.Data;
 
@@ -14,7 +15,8 @@ public record struct TranslationFile(
     Func<Task<string>> Read,
     string FileName,
     string? FilePath,
-    CultureInfo Locale
+    CultureInfo Locale,
+    string Namespace
 );
 
 public static class FilesRepository
@@ -70,6 +72,7 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: baseCulture,
+                Namespace: fileName.Replace(Constants.AdditionalFilePattern, ""),
                 FileName: fileName,
                 FilePath: filePath,
                 Read: contentFactory);
@@ -80,6 +83,8 @@ public static class FilesRepository
 
         if (match.Success)
         {
+            string @namespace = match.Groups[1].Value;
+
             string language = match.Groups[2].Value;
 
             //todo: scriptCode not supported
@@ -93,6 +98,7 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: locale,
+                Namespace: @namespace,
                 FileName: fileName,
                 FilePath: filePath,
                 Read: contentFactory);

@@ -4,12 +4,12 @@ namespace Slang.Gpt;
 
 public static class JsonHelpers
 {
-    public static string jsonEncode(Dictionary<string, object> dictionary)
+    public static string JsonEncode(Dictionary<string, object> dictionary)
     {
         return JsonSerializer.Serialize(dictionary);
     }
 
-    public static Dictionary<string, object> jsonDecode(string json)
+    public static Dictionary<string, object> JsonDecode(string json)
     {
         return JsonSerializer.Deserialize<Dictionary<string, object>>(json)!;
     }

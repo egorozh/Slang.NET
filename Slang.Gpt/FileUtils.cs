@@ -1,4 +1,6 @@
+using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Unicode;
 
 namespace Slang.Gpt;
 
@@ -6,24 +8,13 @@ public static class FileUtils
 {
     private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web)
     {
-        WriteIndented = true
+        WriteIndented = true,
+
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
     };
-    
-    public static void writeFile(string path, string content)
-    {
-        File.WriteAllText(path, content);
-    }
 
-    public static void WriteFileOfType(string path, Dictionary<string, dynamic> content)
+    public static void WriteFileOfType(string path, Dictionary<string, object?> content)
     {
-        writeFile(path, EncodeContent(content));
+        File.WriteAllText(path, JsonSerializer.Serialize(content, Options));
     }
-
-    private static string EncodeContent(Dictionary<string, object> content)
-    {
-        // this encoder does not append \n automatically
-        //return $"{JsonEncoder.withIndent(" ").convert(content)}\n";
-        return JsonSerializer.Serialize(content, Options);
-    }
-    
 }

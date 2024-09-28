@@ -15,7 +15,7 @@ public static class Apply
     ///
     /// The returned map is a new instance (i.e. no side effects for the given maps)
     /// </summary>
-    public static Dictionary<string, object> applyMapRecursive(
+    public static Dictionary<string, object> ApplyMapRecursive(
         Dictionary<string, object?> baseMap,
         Dictionary<string, object?> newMap,
         Dictionary<string, object?> oldMap,
@@ -41,17 +41,22 @@ public static class Apply
         foreach (string key in baseMap.Keys)
         {
             string keyWithoutModifiers = key.WithoutModifiers();
-            object? newEntry = newMap[keyWithoutModifiers];
-            object? actualValue = newEntry ?? oldMap[key];
+
+            object? newEntry = null;
+            
+            if (newMap.TryGetValue(keyWithoutModifiers, out object? value)) 
+                newEntry = value;
+
+            object? actualValue = newEntry ?? oldMap.GetValueOrDefault(key);
 
             if (actualValue == null)
                 continue;
 
-            string? currPath = path == null ? key : $"{path}.{key}";
+            string currPath = path == null ? key : $"{path}.{key}";
 
             if (actualValue is IDictionary)
             {
-                actualValue = applyMapRecursive(
+                actualValue = ApplyMapRecursive(
                     path: currPath,
                     baseMap: baseMap[key] as Dictionary<string, object?> ??
                              throw new Exception($"In the base translations, \"{key}\" is not a map."),
@@ -90,7 +95,7 @@ public static class Apply
 
             if (actualValue is IDictionary)
             {
-                actualValue = applyMapRecursive(
+                actualValue = ApplyMapRecursive(
                     baseMap: [],
                     newMap: newEntry as Dictionary<string, object?> ?? [],
                     oldMap: oldMap[key] as Dictionary<string, object?> ?? [],
@@ -121,7 +126,7 @@ public static class Apply
 
             if (actualValue is IDictionary)
             {
-                actualValue = applyMapRecursive(
+                actualValue = ApplyMapRecursive(
                     baseMap: [],
                     newMap: entry.Value as Dictionary<string, object?> ?? [],
                     oldMap: [],

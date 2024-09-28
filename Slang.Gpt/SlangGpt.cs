@@ -7,9 +7,9 @@ namespace Slang.Gpt;
 public static class SlangGpt
 {
     public static async Task Execute(
+        HttpClient httpClient,
         SlangFileCollection fileCollection,
         GptConfig gptConfig,
-        string apiKey,
         List<CultureInfo>? targetLocales = null,
         bool debug = false,
         bool full = false)
@@ -30,6 +30,8 @@ public static class SlangGpt
 
         foreach (var file in fileCollection.Files)
         {
+            string outDir = new FileInfo(file.FilePath!).Directory!.FullName;
+
             if (!Equals(file.Locale, gptConfig.BaseCulture))
             {
                 // Only use base locale as source
@@ -66,22 +68,22 @@ public static class SlangGpt
                         continue;
                     }
 
-                    // var metrics = await SlangGptTranslator.Translate(
-                    //     fileCollection: fileCollection,
-                    //     gptConfig: gptConfig,
-                    //     targetLocale: destFile.Locale,
-                    //     outDir: outDir,
-                    //     full: full,
-                    //     debug: debug,
-                    //     file: file,
-                    //     originalTranslations: originalTranslations,
-                    //     apiKey: apiKey,
-                    //     promptCount: promptCount
-                    // );
+                    var metrics = await SlangGptTranslator.Translate(
+                        httpClient: httpClient,
+                        fileCollection: fileCollection,
+                        gptConfig: gptConfig,
+                        targetLocale: destFile.Locale,
+                        outDir: outDir,
+                        full: full,
+                        debug: debug,
+                        file: file,
+                        originalTranslations: originalTranslations,
+                        promptCount: promptCount
+                    );
 
-                    // promptCount = metrics.EndPromptCount;
-                    // inputTokens += metrics.InputTokens;
-                    // outputTokens += metrics.OutputTokens;
+                    promptCount = metrics.EndPromptCount;
+                    inputTokens += metrics.InputTokens;
+                    outputTokens += metrics.OutputTokens;
                 }
             }
             else
@@ -89,22 +91,22 @@ public static class SlangGpt
                 // translate to specified locales (they may not exist yet)
                 foreach (var targetLocale in targetLocales)
                 {
-                    // var metrics = await SlangGptTranslator.Translate(
-                    //     fileCollection: fileCollection,
-                    //     gptConfig: gptConfig,
-                    //     targetLocale: targetLocale,
-                    //     outDir: outDir,
-                    //     full: full,
-                    //     debug: debug,
-                    //     file: file,
-                    //     originalTranslations: originalTranslations,
-                    //     apiKey: apiKey,
-                    //     promptCount: promptCount
-                    // );
-                    //
-                    // promptCount = metrics.EndPromptCount;
-                    // inputTokens += metrics.InputTokens;
-                    // outputTokens += metrics.OutputTokens;
+                    var metrics = await SlangGptTranslator.Translate(
+                        httpClient: httpClient,
+                        fileCollection: fileCollection,
+                        gptConfig: gptConfig,
+                        targetLocale: targetLocale,
+                        outDir: outDir,
+                        full: full,
+                        debug: debug,
+                        file: file,
+                        originalTranslations: originalTranslations,
+                        promptCount: promptCount
+                    );
+
+                    promptCount = metrics.EndPromptCount;
+                    inputTokens += metrics.InputTokens;
+                    outputTokens += metrics.OutputTokens;
                 }
             }
         }

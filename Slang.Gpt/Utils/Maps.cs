@@ -4,25 +4,25 @@ namespace Slang.Gpt.Utils;
 
 public static class Maps
 {
-    const string ignoreGpt = "ignoreGpt";
+    private const string IgnoreGpt = "ignoreGpt";
 
     /// <summary>
     /// Remove all entries from [map] that have the "ignoreGpt" modifier.
     /// This method removes the entries in-place.
     /// </summary>
-    public static void removeIgnoreGpt(Dictionary<string, object> map)
+    public static void RemoveIgnoreGpt(Dictionary<string, object> map)
     {
         List<string> keysToRemove = [];
 
         foreach (var entry in map)
         {
-            if (NodeUtils.ParseModifiers(entry.Key).Modifiers.ContainsKey(ignoreGpt))
+            if (NodeUtils.ParseModifiers(entry.Key).Modifiers.ContainsKey(IgnoreGpt))
             {
                 keysToRemove.Add(entry.Key);
             }
             else if (entry.Value is Dictionary<string, object> dictionary)
             {
-                removeIgnoreGpt(dictionary);
+                RemoveIgnoreGpt(dictionary);
             }
         }
 

@@ -18,6 +18,7 @@ internal static class SlangGptTranslator
     /// Translates a file to a target locale.
     /// </summary>
     public static async Task<TranslateMetrics> Translate(
+        HttpClient httpClient,
         SlangFileCollection fileCollection,
         GptConfig gptConfig,
         CultureInfo targetLocale,
@@ -26,7 +27,6 @@ internal static class SlangGptTranslator
         bool debug,
         TranslationFile file,
         Dictionary<string, object> originalTranslations,
-        string apiKey,
         int promptCount
     )
     {
@@ -35,35 +35,34 @@ internal static class SlangGptTranslator
             $"Translating <{file.Locale.TwoLetterISOLanguageName}> to <{targetLocale.TwoLetterISOLanguageName}> for {file.FileName} ...");
 
         // existing translations of target locale
-        Dictionary<string, object> existingTranslations = [];
+        Dictionary<string, object?> existingTranslations = [];
 
-        string targetPath = PathUtils.WithFileName(
-            directoryPath: outDir,
-            fileName: $"{targetLocale.TwoLetterISOLanguageName}{Constants.AdditionalFilePattern}",
-            pathSeparator: Path.PathSeparator
+        string targetPath = Path.Combine(
+            outDir,
+            $"{file.Namespace}_{targetLocale.TwoLetterISOLanguageName}{Constants.AdditionalFilePattern}"
         );
 
         if (!full)
         {
             foreach (var destFile in fileCollection.Files)
             {
-                // if ((destFile.NamespaceString == file.NamespaceString) &&
-                //     Equals(destFile.Locale, targetLocale))
-                // {
-                //     string raw = await destFile.Read();
-                //     try
-                //     {
-                //         existingTranslations = TranslationsDecoder.DecodeWithFileType(raw);
-                //         targetPath = destFile.Path;
-                //         Console.WriteLine($" -> With partial translations from {destFile.Path}");
-                //     }
-                //     catch (Exception e)
-                //     {
-                //         throw new Exception($"File: {destFile.Path}\n{e}");
-                //     }
-                //
-                //     break;
-                // }
+                if (destFile.Namespace == file.Namespace && Equals(destFile.Locale, targetLocale))
+                {
+                    string raw = await destFile.Read();
+
+                    try
+                    {
+                        existingTranslations = TranslationsDecoder.DecodeWithFileType(raw);
+                        targetPath = destFile.FilePath!;
+                        Console.WriteLine($" -> With partial translations from {destFile.FilePath!}");
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"File: {destFile.FilePath!}\n{e}");
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -73,7 +72,7 @@ internal static class SlangGptTranslator
         );
 
         // We assume that these translations already exists in the target locale.
-        Maps.removeIgnoreGpt(map: inputTranslations);
+        Maps.RemoveIgnoreGpt(map: inputTranslations);
 
         // extract original comments but keep them in the inputTranslations
         // we will add the original comments later again
@@ -112,8 +111,8 @@ internal static class SlangGptTranslator
 
             var response = await ChatGptRepository.DoRequest(
                 model: gptConfig.Model,
+                httpClient: httpClient,
                 temperature: gptConfig.Temperature,
-                apiKey: apiKey,
                 prompt: prompt
             );
 
@@ -138,7 +137,7 @@ internal static class SlangGptTranslator
 
             if (!hasError)
             {
-                result = Apply.applyMapRecursive(
+                result = Apply.ApplyMapRecursive(
                     baseMap: originalTranslations,
                     newMap: response!.JsonMessage,
                     oldMap: result,
@@ -151,7 +150,7 @@ internal static class SlangGptTranslator
         }
 
         // add existing translations
-        result = Apply.applyMapRecursive(
+        result = Apply.ApplyMapRecursive(
             baseMap: originalTranslations,
             newMap: existingTranslations,
             oldMap: result,
@@ -159,7 +158,7 @@ internal static class SlangGptTranslator
         );
 
         // add comments from base locale to target locale
-        result = Apply.applyMapRecursive(
+        result = Apply.ApplyMapRecursive(
             baseMap: originalTranslations,
             newMap: comments,
             oldMap: result,

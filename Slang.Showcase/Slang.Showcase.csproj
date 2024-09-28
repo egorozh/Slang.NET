@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="feature1_en.i18n.json" />
         <AdditionalFiles Include="i18n\*.i18n.json" />
     </ItemGroup>
 

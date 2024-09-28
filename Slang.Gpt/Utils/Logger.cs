@@ -28,24 +28,22 @@ internal static class Logger
         GptResponse? response
     )
     {
-        string path = PathUtils.WithFileName(
-            directoryPath: outDir,
-            fileName: $"_gpt_{promptCount.ToString().PadLeft(2, '0')}.txt",
-            pathSeparator: Path.PathSeparator
+        string path = Path.Combine(
+            outDir,
+            $"_gpt_{promptCount.ToString().PadLeft(2, '0')}.txt"
         );
 
-        FileUtils.writeFile(
+        File.WriteAllText(
             path: path,
-            content:
             $"""
              ### Meta ###
              From: <{fromLocale.TwoLetterISOLanguageName}> {fromFile}
              To: <{toLocale.TwoLetterISOLanguageName}> {toFile}
 
              ### Tokens ###
-             Input: {response.PromptTokens}
-             Output: {response.CompletionTokens}
-             Total: {response.TotalTokens}
+             Input: {response?.PromptTokens}
+             Output: {response?.CompletionTokens}
+             Total: {response?.TotalTokens}
 
              ### Conversation ###
 
@@ -56,7 +54,7 @@ internal static class Logger
              {prompt.User}
 
              >> Assistant:
-             {response.RawMessage}
+             {response?.RawMessage}
 
              ### JSON ###
              Input:

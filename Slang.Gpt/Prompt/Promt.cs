@@ -47,9 +47,9 @@ internal static class Prompt
                 continue;
             }
 
-            string currentTranslation = jsonEncode(currentTranslationWindow);
+            string currentTranslation = JsonEncode(currentTranslationWindow);
             currentTranslationWindow[entry.Key] = entry.Value;
-            string nextTranslation = jsonEncode(currentTranslationWindow);
+            string nextTranslation = JsonEncode(currentTranslationWindow);
 
             if (systemPromptLength + nextTranslation.Length > config.MaxInputLength)
             {
@@ -57,7 +57,7 @@ internal static class Prompt
                     System: systemPrompt,
                     User: currentTranslation,
                     // currentTranslationWindow has been changed already
-                    UserJson: jsonDecode(currentTranslation)
+                    UserJson: JsonDecode(currentTranslation)
                 ));
 
                 currentTranslationWindow = new Dictionary<string, object>
@@ -72,7 +72,7 @@ internal static class Prompt
             // add the last prompt
             prompts.Add(new GptPrompt(
                 System: systemPrompt,
-                User: jsonEncode(currentTranslationWindow),
+                User: JsonEncode(currentTranslationWindow),
                 UserJson: currentTranslationWindow
             ));
         }

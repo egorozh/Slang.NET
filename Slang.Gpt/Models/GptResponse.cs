@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace Slang.Gpt.Models;
 
 /// <summary>
@@ -12,7 +10,7 @@ namespace Slang.Gpt.Models;
 /// <param name="TotalTokens">The total number of tokens.</param>
 public record GptResponse(
     string RawMessage,
-    Dictionary<string, object> JsonMessage,
+    Dictionary<string, object?> JsonMessage,
     int PromptTokens,
     int CompletionTokens,
     int TotalTokens);

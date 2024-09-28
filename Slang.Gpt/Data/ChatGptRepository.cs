@@ -14,27 +14,23 @@ internal static class ChatGptRepository
     /// </summary>
     public static Task<GptResponse?> DoRequest(
         GptModel.GptModelInfo model,
+        HttpClient httpClient,
         double? temperature,
-        string apiKey,
         GptPrompt prompt)
     {
         return model.Provider switch
         {
-            GptProvider.OpenAi => DoRequestForOpenAi(model, temperature, apiKey, prompt),
+            GptProvider.OpenAi => DoRequestForOpenAi(model, httpClient, temperature, prompt),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
 
     private static async Task<GptResponse?> DoRequestForOpenAi(
         GptModel.GptModelInfo model,
+        HttpClient httpClient,
         double? temperature,
-        string apiKey,
         GptPrompt prompt)
     {
-        using var httpClient = new HttpClient();
-
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-
         string jsonRequestBody = temperature != null
             ? JsonSerializer.Serialize(new
             {
@@ -64,16 +60,16 @@ internal static class ChatGptRepository
 
         var rawMap = JsonSerializer.Deserialize<GptResponseDto>(responseBody);
 
-        if (rawMap?.choises == null || rawMap.choises.Count == 0)
+        if (rawMap?.choices == null || rawMap.choices.Count == 0)
             return null;
 
-        string rawMessage = rawMap.choises[0].message.content;
+        string rawMessage = rawMap.choices[0].message.content;
 
-        Dictionary<string, object>? jsonMessage = null;
+        Dictionary<string, object?>? jsonMessage = null;
 
         try
         {
-            jsonMessage = JsonSerializer.Deserialize<Dictionary<string, object>>(rawMessage);
+            jsonMessage = JsonSerializer.Deserialize<Dictionary<string, object?>>(rawMessage);
         }
         catch (Exception _)
         {
