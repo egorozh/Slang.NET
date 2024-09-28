@@ -26,7 +26,7 @@ internal static class SlangGptTranslator
         bool full,
         bool debug,
         TranslationFile file,
-        Dictionary<string, object> originalTranslations,
+        Dictionary<string, object?> originalTranslations,
         int promptCount
     )
     {
@@ -76,7 +76,7 @@ internal static class SlangGptTranslator
 
         // extract original comments but keep them in the inputTranslations
         // we will add the original comments later again
-        var comments = Maps.extractComments(
+        var comments = Maps.ExtractComments(
             map: inputTranslations,
             remove: false
         );
@@ -98,7 +98,7 @@ internal static class SlangGptTranslator
             translations:
             inputTranslations);
 
-        Dictionary<string, object> result = [];
+        Dictionary<string, object?> result = [];
 
         int inputTokens = 0;
         int outputTokens = 0;

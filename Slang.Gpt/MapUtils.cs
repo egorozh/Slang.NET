@@ -5,7 +5,7 @@ public static class MapUtils
     /// <summary>
     /// Removes all keys from [target] that also exist in [other].
     /// </summary>
-    public static Dictionary<string, object> Subtract(
+    public static Dictionary<string, object?> Subtract(
         Dictionary<string, object?> target,
         Dictionary<string, object?> other
     )

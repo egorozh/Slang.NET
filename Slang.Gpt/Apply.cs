@@ -15,7 +15,7 @@ public static class Apply
     ///
     /// The returned map is a new instance (i.e. no side effects for the given maps)
     /// </summary>
-    public static Dictionary<string, object> ApplyMapRecursive(
+    public static Dictionary<string, object?> ApplyMapRecursive(
         Dictionary<string, object?> baseMap,
         Dictionary<string, object?> newMap,
         Dictionary<string, object?> oldMap,
@@ -23,7 +23,7 @@ public static class Apply
         string? path = null
     )
     {
-        Dictionary<string, object> resultMap = [];
+        Dictionary<string, object?> resultMap = [];
 
         List<string> resultKeys = []; // keys without modifiers
 
@@ -43,8 +43,8 @@ public static class Apply
             string keyWithoutModifiers = key.WithoutModifiers();
 
             object? newEntry = null;
-            
-            if (newMap.TryGetValue(keyWithoutModifiers, out object? value)) 
+
+            if (newMap.TryGetValue(keyWithoutModifiers, out object? value))
                 newEntry = value;
 
             object? actualValue = newEntry ?? oldMap.GetValueOrDefault(key);
@@ -72,7 +72,7 @@ public static class Apply
                 appliedKeys.Add(split.First());
 
                 if (verbose)
-                    _printAdding(currPath, actualValue);
+                    PrintAdding(currPath, actualValue);
             }
 
             resultMap[key] = actualValue;
@@ -87,7 +87,7 @@ public static class Apply
 
             if (resultKeys.Contains(keyWithoutModifiers))
                 continue;
-            
+
             string currPath = path == null ? key : $"{path}.{key}";
 
             object? newEntry = newMap[key];
@@ -105,7 +105,7 @@ public static class Apply
 
             if (verbose && newEntry != null)
             {
-                _printAdding(currPath, actualValue);
+                PrintAdding(currPath, actualValue);
             }
 
             resultMap[key] = actualValue;
@@ -137,7 +137,7 @@ public static class Apply
 
             if (verbose)
             {
-                _printAdding(currPath, actualValue);
+                PrintAdding(currPath, actualValue);
             }
 
             resultMap[entry.Key] = actualValue;
@@ -146,7 +146,8 @@ public static class Apply
         return resultMap;
     }
 
-    private static void _printAdding(string path, object value)
+
+    private static void PrintAdding(string path, object? value)
     {
         if (value is IDictionary)
             return;

@@ -10,7 +10,7 @@ public static class Maps
     /// Remove all entries from [map] that have the "ignoreGpt" modifier.
     /// This method removes the entries in-place.
     /// </summary>
-    public static void RemoveIgnoreGpt(Dictionary<string, object> map)
+    public static void RemoveIgnoreGpt(Dictionary<string, object?> map)
     {
         List<string> keysToRemove = [];
 
@@ -20,7 +20,7 @@ public static class Maps
             {
                 keysToRemove.Add(entry.Key);
             }
-            else if (entry.Value is Dictionary<string, object> dictionary)
+            else if (entry.Value is Dictionary<string, object?> dictionary)
             {
                 RemoveIgnoreGpt(dictionary);
             }
@@ -33,8 +33,8 @@ public static class Maps
     /// Remove all entries from [map] that are comments.
     /// This method removes the entries in-place.
     /// A new map is returned containing the comments.
-    public static Dictionary<string, object> extractComments(
-        Dictionary<string, object> map,
+    public static Dictionary<string, object?> ExtractComments(
+        Dictionary<string, object?> map,
         bool remove
     )
     {
@@ -53,7 +53,7 @@ public static class Maps
             }
             else if (entry.Value is Dictionary<string, object> dictionary)
             {
-                var childComments = extractComments(map: dictionary, remove: remove);
+                var childComments = ExtractComments(map: dictionary, remove: remove);
 
                 if (childComments.Count > 0)
                     comments[entry.Key] = childComments;
