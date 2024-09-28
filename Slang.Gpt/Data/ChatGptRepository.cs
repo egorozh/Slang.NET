@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using Slang.Gpt.Models;
+using Slang.Gpt.Prompt;
 
 namespace Slang.Gpt.Data;
 

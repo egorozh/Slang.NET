@@ -13,7 +13,7 @@ internal static class TranslationsCodeBuilder
         SlangFileCollection fileCollection)
     {
         // STEP 2: scan translations
-        var translationMap = await TranslationsRepository.Build(fileCollection: fileCollection);
+        var translationMap = await TranslationsRepository.Build(config, fileCollection: fileCollection);
 
         // STEP 3: generate .g.dart content
         var result = GeneratorFacade.Generate(

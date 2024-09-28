@@ -8,9 +8,7 @@ public static class FileUtils
     {
         WriteIndented = true
     };
-
-    const string INFO_KEY = "@@info";
-
+    
     public static void writeFile(string path, string content)
     {
         File.WriteAllText(path, content);
@@ -27,19 +25,5 @@ public static class FileUtils
         //return $"{JsonEncoder.withIndent(" ").convert(content)}\n";
         return JsonSerializer.Serialize(content, Options);
     }
-
-    public static void createMissingFolders(string filePath)
-    {
-        int index = filePath
-            .Replace('/', Path.PathSeparator)
-            .Replace('\\', Path.PathSeparator)
-            .LastIndexOf(Path.PathSeparator);
-
-        if (index == -1)
-            return;
-
-        string directoryPath = filePath[..index];
-
-        new DirectoryInfo(directoryPath).Create();
-    }
+    
 }

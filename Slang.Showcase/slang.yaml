@@ -1,4 +1,0 @@
-gpt:
-  model: gpt-4o-mini
-  description: |
-    "musoroff" is a garbage collection service.

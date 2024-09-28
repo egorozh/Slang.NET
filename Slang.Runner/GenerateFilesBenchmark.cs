@@ -30,11 +30,12 @@ public class GenerateFilesBenchmark
             .ToList();
 
         var fileCollection = FilesRepository.GetFileCollection(
-            config: _config,
+            _config.BaseLocale,
             allFiles: files
         );
 
         _translationMap = await TranslationsRepository.Build(
+            _config,
             fileCollection: fileCollection
         );
 

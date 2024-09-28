@@ -1,5 +1,4 @@
 using System.Globalization;
-using Slang.Generator.Domain.Entities;
 
 namespace Slang.Generator.Data;
 
@@ -8,90 +7,57 @@ namespace Slang.Generator.Data;
 /// This is an abstraction to support build_runner and the custom CLI by
 /// providing a common [FileReader] interface.
 /// </summary>
-public record struct SlangFileCollection(
-    RawConfig Config,
-    List<TranslationFile> Files
-);
+public record struct SlangFileCollection(List<TranslationFile> Files);
 
 /// <param name="Locale">The inferred locale of this file (by file name, directory name, or config)</param>
 public record struct TranslationFile(
     Func<Task<string>> Read,
+    string FileName,
+    string? FilePath,
     CultureInfo Locale
 );
 
 public static class FilesRepository
 {
-    public static SlangFileCollection GetFileCollection(RawConfig config, IReadOnlyList<FileInfo> allFiles)
+    public static SlangFileCollection GetFileCollection(CultureInfo baseCulture, IReadOnlyList<FileInfo> allFiles)
     {
         var files = allFiles
-            .Select(f => GetTranslationFile(config, f))
+            .Select(f => GetTranslationFile(baseCulture, f))
             .Where(f => f.HasValue)
             .Select(f => f!.Value)
             .OrderBy(file => $"{file.Locale}")
             .ToList();
 
-        return new SlangFileCollection(
-            Config: config,
-            Files: files
-        );
+        return new SlangFileCollection(Files: files);
     }
 
-    public static SlangFileCollection GetFileCollection(RawConfig config, IEnumerable<(string, string)> allFiles)
+    public static SlangFileCollection GetFileCollection(
+        CultureInfo baseCulture,
+        IEnumerable<(string FileName, string Content)> allFiles)
     {
         var files = allFiles
-            .Select(f => GetTranslationFile(config, f.Item1, f.Item2))
+            .Select(f => GetTranslationFile(baseCulture, f.FileName, f.Content))
             .Where(f => f.HasValue)
             .Select(f => f!.Value)
             .OrderBy(file => $"{file.Locale}")
             .ToList();
 
-        return new SlangFileCollection(
-            Config: config,
-            Files: files
-        );
+        return new SlangFileCollection(Files: files);
     }
 
-    private static TranslationFile? GetTranslationFile(RawConfig config, FileInfo f)
+    private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, FileInfo f)
     {
-        string fileNameNoExtension = Path.GetFileNameWithoutExtension(f.Name).Split('.').First();
-
-        var baseFileMatch = Regexes.BaseFileRegex.Match(fileNameNoExtension);
-
-        if (baseFileMatch.Success)
-        {
-            // base file (file without locale, may be multiples due to namespaces!)
-            // could also be a non-base locale when directory name is a locale
-
-            return new TranslationFile(
-                Locale: config.BaseLocale,
-                Read: () => File.ReadAllTextAsync(f.FullName));
-        }
-
-        // secondary files (strings_x)
-        var match = Regexes.FileWithLocaleRegex.Match(fileNameNoExtension);
-
-        if (match.Success)
-        {
-            string language = match.Groups[2].Value;
-
-            //todo: scriptCode not supported
-            string script = match.Groups[3].Value;
-
-            string country = match.Groups[4].Value;
-
-            var locale = new CultureInfo(string.IsNullOrWhiteSpace(country)
-                ? $"{language}"
-                : $"{language}-{country}");
-
-            return new TranslationFile(
-                Locale: locale,
-                Read: () => File.ReadAllTextAsync(f.FullName));
-        }
-
-        return null;
+        return GetTranslationFile(baseCulture, f.Name, f.FullName, () => File.ReadAllTextAsync(f.FullName));
     }
 
-    private static TranslationFile? GetTranslationFile(RawConfig config, string fileName, string content)
+    private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName, string content)
+    {
+        return GetTranslationFile(baseCulture, fileName, null, () => Task.FromResult(content));
+    }
+
+    private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
+        string? filePath,
+        Func<Task<string>> contentFactory)
     {
         string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
 
@@ -103,8 +69,10 @@ public static class FilesRepository
             // could also be a non-base locale when directory name is a locale
 
             return new TranslationFile(
-                Locale: config.BaseLocale,
-                Read: () => Task.FromResult(content));
+                Locale: baseCulture,
+                FileName: fileName,
+                FilePath: filePath,
+                Read: contentFactory);
         }
 
         // secondary files (strings_x)
@@ -125,7 +93,9 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: locale,
-                Read: () => Task.FromResult(content));
+                FileName: fileName,
+                FilePath: filePath,
+                Read: contentFactory);
         }
 
         return null;

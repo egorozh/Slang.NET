@@ -1,11 +1,20 @@
 using System.Globalization;
-using Slang.Generator.Config.Domain;
-using Slang.Generator.Domain.Entities;
 using Slang.Gpt.Models;
-using Slang.Gpt.Utils;
+
 using static Slang.Gpt.JsonHelpers;
 
 namespace Slang.Gpt.Prompt;
+
+/// <summary>
+/// The prompt that will be sent to the GPT API.
+/// </summary>
+/// <param name="System">Contains the general instruction and the app description.</param>
+/// <param name="User">Contains the base translations.</param>
+/// <param name="UserJson">Contains the JSON representation of the prompt. (Debugging)</param>
+internal record GptPrompt(
+    string System,
+    string User,
+    Dictionary<string, object> UserJson);
 
 internal static class Prompt
 {
@@ -14,18 +23,15 @@ internal static class Prompt
     /// There can be multiple prompts if the input is too long.
     /// </summary>
     public static List<GptPrompt> GetPrompts(
-        RawConfig rawConfig,
-        CultureInfo targetLocale,
+        CultureInfo targetCulture,
         GptConfig config,
-        string? namespaceStroke,
-        Dictionary<string, dynamic> translations
+        Dictionary<string, object?> translations
     )
     {
-        string systemPrompt = _getSystemPrompt(
-            rawConfig: rawConfig,
-            targetLocale: targetLocale,
-            config: config,
-            namespaceStroke: namespaceStroke
+        string systemPrompt = GetSystemPrompt(
+            baseCulture: config.BaseCulture,
+            targetCulture: targetCulture,
+            config: config
         );
 
         int systemPromptLength = systemPrompt.Length;
@@ -74,26 +80,20 @@ internal static class Prompt
         return prompts;
     }
 
-    private static string _getSystemPrompt(
-        RawConfig rawConfig,
-        CultureInfo targetLocale,
-        GptConfig config,
-        string? namespaceStroke
+    private static string GetSystemPrompt(
+        CultureInfo baseCulture,
+        CultureInfo targetCulture,
+        GptConfig config
     )
     {
-        const string interpolationHint = "{parameter}";
+        return $$"""
+                 The user wants to internationalize the app. The user will provide you with a JSON file containing the {{baseCulture.EnglishName}} strings.
+                 You will translate it to {{targetCulture.EnglishName}}.
+                 Parameters are interpolated with {parameter}.
+                 Linked translations are denoted with the \"@:path0.path1\" syntax.
 
-        string namespaceHint = namespaceStroke != null ? $" the \"{namespaceStroke}\" part of" : "";
-
-        return $"""
-                The user wants to internationalize{namespaceHint} the app. The user will provide you with a JSON file containing the {rawConfig.BaseLocale.EnglishName} strings.
-                You will translate it to {targetLocale.EnglishName}.
-                Parameters are interpolated with {interpolationHint}.
-                Linked translations are denoted with the \"@:path0.path1\" syntax.
-
-                Here is the app description. Respect this context when translating:
-                {config.Description}
-                """
-            ;
+                 Here is the app description. Respect this context when translating:
+                 {{config.Description}}
+                 """;
     }
 }

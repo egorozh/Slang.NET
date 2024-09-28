@@ -1,10 +1,11 @@
 using System.Globalization;
 using System.Text.Json;
 using Slang.Gpt.Models;
+using Slang.Gpt.Prompt;
 
 namespace Slang.Gpt.Utils;
 
-public static class Logger
+internal static class Logger
 {
     //static JsonEncoder _encoder = JsonEncoder.withIndent("  ");
     private static readonly JsonSerializerOptions Options = new(

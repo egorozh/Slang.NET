@@ -18,44 +18,9 @@ namespace Slang.Gpt.Models;
 /// <param name="Temperature">The temperature parameter for the GPT API (if supported).</param>
 /// <param name="Excludes">List of excluded target locales.</param>
 public record GptConfig(
+    CultureInfo BaseCulture,
     GptModel.GptModelInfo Model,
     string Description,
     int MaxInputLength,
     double? Temperature,
-    List<CultureInfo> Excludes)
-{
-    // static GptConfig FromMap(Dictionary<string, object> map)
-    // {
-
-    // final Map<String, dynamic>?
-    // gpt = map['gpt'];
-    //
-    // if (gpt == null)
-    // {
-    //     throw 'Missing gpt entry in config.';
-    // }
-    //
-    // final model = GptModel.values.firstWhereOrNull((e) => e.id == gpt['model']);
-    // if (model == null)
-    // {
-    //     throw 'Unknown model: ${gpt['model']}\nAvailable models: ${GptModel.values.map((e) => e.id).join(', ')}';
-    // }
-    //
-    // final description = gpt['description'];
-    // if (description == null)
-    // {
-    //     throw 'Missing description';
-    // }
-    //
-    // return GptConfig(
-    //     model: model,
-    //     description: description,
-    //     maxInputLength: gpt['max_input_length'] ?? model.defaultInputLength,
-    //     temperature: gpt['temperature']?.toDouble(),
-    //     excludes: (gpt['excludes'] as List?)
-    //               ?.map((e) => I18nLocale.fromString(e))
-    //               .toList() ??
-    //               [],
-    //     return new GptConfig();
-    // }
-}
+    List<CultureInfo> Excludes);

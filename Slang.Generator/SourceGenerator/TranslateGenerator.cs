@@ -14,6 +14,11 @@ public record TranslationsParam(
     string? PluralParameter
 );
 
+public static class Constants
+{
+    public const string AdditionalFilePattern = ".i18n.json";
+}
+
 [Generator]
 public class TranslateGenerator : IIncrementalGenerator
 {
@@ -49,7 +54,7 @@ public class TranslateGenerator : IIncrementalGenerator
             generationInfoWithErrors.Select(static (item, _) => item.Value)!;
 
         var jsonFiles = context.AdditionalTextsProvider
-            .Where(file => file.Path.EndsWith(".i18n.json"))
+            .Where(file => file.Path.EndsWith(Constants.AdditionalFilePattern))
             .Select((file, cancellationToken) => new
             {
                 FileName = Path.GetFileName(file.Path),
@@ -84,7 +89,7 @@ public class TranslateGenerator : IIncrementalGenerator
                 .Where(file => file.FileName.StartsWith(config.InputFileName));
 
             var fileCollection = FilesRepository.GetFileCollection(
-                config: config,
+                config.BaseLocale,
                 allFiles: paths.Select(file => (file.FileName, file.Content))
             );
 

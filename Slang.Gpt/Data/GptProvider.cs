@@ -1,4 +1,4 @@
-namespace Slang.Gpt.Models;
+namespace Slang.Gpt.Data;
 
 public enum GptProvider
 {

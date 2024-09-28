@@ -1,4 +1,5 @@
 using System.Globalization;
+using Slang.Generator.Domain.Entities;
 
 namespace Slang.Generator.Data;
 
@@ -11,10 +12,8 @@ public class TranslationComposition : Dictionary<CultureInfo, Dictionary<string,
 public abstract class TranslationsRepository
 {
     /// This method transforms files to an intermediate model [TranslationComposition].
-    public static async Task<TranslationComposition> Build(SlangFileCollection fileCollection)
+    public static async Task<TranslationComposition> Build(RawConfig rawConfig, SlangFileCollection fileCollection)
     {
-        var rawConfig = fileCollection.Config;
-
         TranslationComposition translationComposition = new();
 
         foreach (var file in fileCollection.Files)

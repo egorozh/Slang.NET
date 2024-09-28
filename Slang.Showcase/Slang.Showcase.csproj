@@ -4,14 +4,20 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
+
+        <SlangBaseCulture>en</SlangBaseCulture>
+        <SlangModel>gpt-4o-mini</SlangModel>
+        <SlangMaxInputLength>128k</SlangMaxInputLength>
+        <Temperature>1</Temperature>
+        <SlangDescription>Showcase for Slang.Net.Gpt</SlangDescription>
     </PropertyGroup>
 
-    <ItemGroup><!--      <PackageReference Include="Slang.Net" Version="1.0.0-preview1" />-->
-    
-      <PackageReference Include="Slang.Net" Version="1.0.0-preview3" />
+    <ItemGroup>
+        <PackageReference Include="Slang.Net" Version="1.0.0-preview3" />
     </ItemGroup>
 
     <ItemGroup>
+        <AdditionalFiles Include="feature1_en.i18n.json" />
         <AdditionalFiles Include="i18n\*.i18n.json" />
     </ItemGroup>
 

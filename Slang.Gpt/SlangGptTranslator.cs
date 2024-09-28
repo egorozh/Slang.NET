@@ -1,6 +1,6 @@
 using System.Globalization;
 using Slang.Generator.Data;
-using Slang.Generator.Files;
+using Slang.Generator.SourceGenerator;
 using Slang.Gpt.Data;
 using Slang.Gpt.Models;
 using Slang.Gpt.Utils;
@@ -32,15 +32,14 @@ internal static class SlangGptTranslator
     {
         Console.WriteLine("");
         Console.WriteLine(
-            $"Translating <{file.Locale.TwoLetterISOLanguageName}> to <{targetLocale.TwoLetterISOLanguageName}> for {file.Path} ...");
+            $"Translating <{file.Locale.TwoLetterISOLanguageName}> to <{targetLocale.TwoLetterISOLanguageName}> for {file.FileName} ...");
 
         // existing translations of target locale
         Dictionary<string, object> existingTranslations = [];
 
         string targetPath = PathUtils.WithFileName(
             directoryPath: outDir,
-            fileName:
-            $"{targetLocale.TwoLetterISOLanguageName}{fileCollection.Config.InputFilePattern}",
+            fileName: $"{targetLocale.TwoLetterISOLanguageName}{Constants.AdditionalFilePattern}",
             pathSeparator: Path.PathSeparator
         );
 
@@ -48,23 +47,23 @@ internal static class SlangGptTranslator
         {
             foreach (var destFile in fileCollection.Files)
             {
-                if ((destFile.NamespaceString == file.NamespaceString) &&
-                    Equals(destFile.Locale, targetLocale))
-                {
-                    string raw = await destFile.Read();
-                    try
-                    {
-                        existingTranslations = TranslationsDecoder.DecodeWithFileType(raw);
-                        targetPath = destFile.Path;
-                        Console.WriteLine($" -> With partial translations from {destFile.Path}");
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception($"File: {destFile.Path}\n{e}");
-                    }
-
-                    break;
-                }
+                // if ((destFile.NamespaceString == file.NamespaceString) &&
+                //     Equals(destFile.Locale, targetLocale))
+                // {
+                //     string raw = await destFile.Read();
+                //     try
+                //     {
+                //         existingTranslations = TranslationsDecoder.DecodeWithFileType(raw);
+                //         targetPath = destFile.Path;
+                //         Console.WriteLine($" -> With partial translations from {destFile.Path}");
+                //     }
+                //     catch (Exception e)
+                //     {
+                //         throw new Exception($"File: {destFile.Path}\n{e}");
+                //     }
+                //
+                //     break;
+                // }
             }
         }
 
@@ -95,10 +94,8 @@ internal static class SlangGptTranslator
         }
 
         var prompts = Prompt.Prompt.GetPrompts(
-            rawConfig: fileCollection.Config,
-            targetLocale: targetLocale,
+            targetCulture: targetLocale,
             config: gptConfig,
-            namespaceStroke: null,
             translations:
             inputTranslations);
 
@@ -128,9 +125,9 @@ internal static class SlangGptTranslator
                     Console.WriteLine(" -> Error while parsing JSON. Writing to log file.");
 
                 Logger.LogGptRequest(
-                    fromLocale: fileCollection.Config.BaseLocale,
+                    fromLocale: gptConfig.BaseCulture,
                     toLocale: targetLocale,
-                    fromFile: file.Path,
+                    fromFile: file.Locale.Name,
                     toFile: targetPath,
                     outDir: outDir,
                     promptCount: promptCount,
