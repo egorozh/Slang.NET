@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Text.Json;
 using Slang.Gpt.Models;
 using Slang.Gpt.Prompt;
 
@@ -7,15 +6,6 @@ namespace Slang.Gpt.Utils;
 
 internal static class Logger
 {
-    //static JsonEncoder _encoder = JsonEncoder.withIndent("  ");
-    private static readonly JsonSerializerOptions Options = new(
-        JsonSerializerDefaults.Web)
-    {
-        WriteIndented = true
-    };
-
-    private static string Encoder(object? obj) => JsonSerializer.Serialize(obj, Options);
-
     /// Logs the GPT request and response to a file.
     public static void LogGptRequest(
         CultureInfo fromLocale,
@@ -58,10 +48,10 @@ internal static class Logger
 
              ### JSON ###
              Input:
-             {Encoder(prompt.UserJson)}
+             {JsonHelpers.JsonEncode(prompt.UserJson)}
 
              Output:
-             {Encoder(response?.JsonMessage)}
+             {JsonHelpers.JsonEncode(response?.JsonMessage)}
              """);
 
         Console.WriteLine($" -> Logs: {path}");

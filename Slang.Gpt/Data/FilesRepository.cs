@@ -32,31 +32,12 @@ public static class FilesRepository
 
         return new SlangFileCollection(Files: files);
     }
-
-    public static SlangFileCollection GetFileCollection(
-        CultureInfo baseCulture,
-        IEnumerable<(string FileName, string Content)> allFiles)
-    {
-        var files = allFiles
-            .Select(f => GetTranslationFile(baseCulture, f.FileName, f.Content))
-            .Where(f => f.HasValue)
-            .Select(f => f!.Value)
-            .OrderBy(file => $"{file.Locale}")
-            .ToList();
-
-        return new SlangFileCollection(Files: files);
-    }
-
+    
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, FileInfo f)
     {
         return GetTranslationFile(baseCulture, f.Name, f.FullName, () => File.ReadAllTextAsync(f.FullName));
     }
-
-    private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName, string content)
-    {
-        return GetTranslationFile(baseCulture, fileName, null, () => Task.FromResult(content));
-    }
-
+    
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
         string? filePath,
         Func<Task<string>> contentFactory)

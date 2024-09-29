@@ -32,25 +32,40 @@ internal static class ChatGptRepository
         GptPrompt prompt)
     {
         string jsonRequestBody = temperature != null
-            ? JsonSerializer.Serialize(new
-            {
-                model = model.Id,
-                temperature,
-                messages = new[]
+            ? $$"""
                 {
-                    new {role = "system", content = prompt.System},
-                    new {role = "user", content = prompt.User}
+                    "model": "{{model.Id}}",
+                    "temperature": {{temperature}},
+                    "messages":
+                    [
+                        {
+                            "role": "system",
+                            "content": "{{prompt.System.Replace("\n", "\\n")}}"
+                        },
+                        {
+                            "role": "user",
+                            "content": "{{prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"")}}"
+                        }
+                    ]
                 }
-            })
-            : JsonSerializer.Serialize(new
-            {
-                model = model.Id,
-                messages = new[]
+                """
+            : $$"""
                 {
-                    new {role = "system", content = prompt.System},
-                    new {role = "user", content = prompt.User}
+                    "model: {{model.Id}},
+                    "messages:
+                    [
+                        {
+                            "role": "system",
+                            "content": "{{prompt.System.Replace("\n", "\\n")}}"
+                        },
+                        {
+                            "role": "user",
+                            "content": "{{prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"")}}"
+                        }
+                    ]
                 }
-            });
+                """;
+
         var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
 
         var response = await httpClient.PostAsync(ApiUrl, content);
@@ -69,7 +84,7 @@ internal static class ChatGptRepository
 
         try
         {
-            jsonMessage = JsonSerializer.Deserialize<Dictionary<string, object?>>(rawMessage);
+            jsonMessage = JsonHelpers.JsonDecode(rawMessage);
         }
         catch (Exception)
         {

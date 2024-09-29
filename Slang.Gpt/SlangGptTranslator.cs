@@ -143,7 +143,7 @@ internal static class SlangGptTranslator
                 );
             }
 
-            inputTokens += response!.PromptTokens;
+            inputTokens += response.PromptTokens;
             outputTokens += response.CompletionTokens;
         }
 
