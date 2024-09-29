@@ -31,6 +31,9 @@ internal static class ChatGptRepository
         double? temperature,
         GptPrompt prompt)
     {
+        string systemContent = prompt.System.Replace("\n", "\\n");
+        string userContent = prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"");
+        
         string jsonRequestBody = temperature != null
             ? $$"""
                 {
@@ -40,11 +43,11 @@ internal static class ChatGptRepository
                     [
                         {
                             "role": "system",
-                            "content": "{{prompt.System.Replace("\n", "\\n")}}"
+                            "content": "{{systemContent}}"
                         },
                         {
                             "role": "user",
-                            "content": "{{prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"")}}"
+                            "content": "{{userContent}}"
                         }
                     ]
                 }
@@ -56,11 +59,11 @@ internal static class ChatGptRepository
                     [
                         {
                             "role": "system",
-                            "content": "{{prompt.System.Replace("\n", "\\n")}}"
+                            "content": "{{systemContent}}"
                         },
                         {
                             "role": "user",
-                            "content": "{{prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"")}}"
+                            "content": "{{userContent}}"
                         }
                     ]
                 }

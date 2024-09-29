@@ -18,8 +18,7 @@ public static class JsonHelpers
 
 [JsonSerializable(typeof(Dictionary<string, object>))]
 [JsonSerializable(typeof(JsonElement))]
-[JsonSourceGenerationOptions(JsonSerializerDefaults.General,
+[JsonSourceGenerationOptions(JsonSerializerDefaults.Web,
     WriteIndented = true
-    )]
+)]
 internal partial class DictionaryContext : JsonSerializerContext;
-
