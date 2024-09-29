@@ -1,10 +1,4 @@
-﻿using System.Globalization;
-using System.Xml.Linq;
-using Project2015To2017.Definition;
-using Project2015To2017.Reading;
-using Slang.Gpt.Data;
-using Slang.Gpt.Models;
-using Slang.Gpt.Utils;
+﻿using Project2015To2017.Reading;
 
 namespace Slang.Gpt.Cli;
 
