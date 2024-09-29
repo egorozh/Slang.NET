@@ -77,8 +77,37 @@ Console.WriteLine(Strings.Translations.Screen.Locale1); // Locale 1
 - Typed Parameters
 - Comments
 
+## Tools
+
+### Translate with GPT
+
+Take advantage of GPT to internationalize your app with context-aware translations.
+
+Download slang-gpt.
+
+Then add the following configuration in your *.csproj:
+
+```xml
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+
+        <SlangBaseCulture>en</SlangBaseCulture>
+        <SlangModel>gpt-4o-mini</SlangModel>
+        <SlangDescription>Showcase for Slang.Net.Gpt</SlangDescription>
+    </PropertyGroup>
+```
+
+Then use slang-gpt:
+
+```bash
+<Dir with slang-gpt CLI>/slang-gpt <csproj Path> --target=ru --api-key=<open-ai-gpt-api-key>
+```
+
+See more: [Documentation](https://github.com/egorozh/Slang.NET/tree/develop/Slang.Gpt.Cli)
+
 ## Roadmap
 
-- Gpt translator CLI
 - String Formatting (double, dates and etc)
 - Performance improvements
