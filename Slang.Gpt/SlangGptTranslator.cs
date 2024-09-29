@@ -1,6 +1,4 @@
 using System.Globalization;
-using Slang.Generator.Data;
-using Slang.Generator.SourceGenerator;
 using Slang.Gpt.Data;
 using Slang.Gpt.Models;
 using Slang.Gpt.Utils;
@@ -52,7 +50,7 @@ internal static class SlangGptTranslator
 
                     try
                     {
-                        existingTranslations = TranslationsDecoder.DecodeWithFileType(raw);
+                        existingTranslations = JsonHelpers.JsonDecode(raw);
                         targetPath = destFile.FilePath!;
                         Console.WriteLine($" -> With partial translations from {destFile.FilePath!}");
                     }

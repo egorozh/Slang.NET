@@ -35,9 +35,4 @@
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
-
-    <ItemGroup>
-        <Folder Include="Domain\Translations\" />
-    </ItemGroup>
-
 </Project>

@@ -1,7 +1,7 @@
 using System.Globalization;
-using Slang.Generator.SourceGenerator;
+using Slang.Gpt.Utils;
 
-namespace Slang.Generator.Data;
+namespace Slang.Gpt.Data;
 
 /// <summary>
 /// A collection of translation files that can be read in a later step.
@@ -13,7 +13,10 @@ public record struct SlangFileCollection(List<TranslationFile> Files);
 /// <param name="Locale">The inferred locale of this file (by file name, directory name, or config)</param>
 public record struct TranslationFile(
     Func<Task<string>> Read,
-    CultureInfo Locale
+    string FileName,
+    string? FilePath,
+    CultureInfo Locale,
+    string Namespace
 );
 
 public static class FilesRepository
@@ -46,15 +49,16 @@ public static class FilesRepository
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, FileInfo f)
     {
-        return GetTranslationFile(baseCulture, f.Name, () => File.ReadAllTextAsync(f.FullName));
+        return GetTranslationFile(baseCulture, f.Name, f.FullName, () => File.ReadAllTextAsync(f.FullName));
     }
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName, string content)
     {
-        return GetTranslationFile(baseCulture, fileName, () => Task.FromResult(content));
+        return GetTranslationFile(baseCulture, fileName, null, () => Task.FromResult(content));
     }
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
+        string? filePath,
         Func<Task<string>> contentFactory)
     {
         string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
@@ -68,6 +72,9 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: baseCulture,
+                Namespace: fileName.Replace(Constants.AdditionalFilePattern, ""),
+                FileName: fileName,
+                FilePath: filePath,
                 Read: contentFactory);
         }
 
@@ -76,6 +83,8 @@ public static class FilesRepository
 
         if (match.Success)
         {
+            string @namespace = match.Groups[1].Value;
+
             string language = match.Groups[2].Value;
 
             //todo: scriptCode not supported
@@ -89,6 +98,9 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: locale,
+                Namespace: @namespace,
+                FileName: fileName,
+                FilePath: filePath,
                 Read: contentFactory);
         }
 

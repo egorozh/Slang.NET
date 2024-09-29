@@ -11,9 +11,4 @@
 
     </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Slang.Generator\Slang.Generator.csproj" />
-        <ProjectReference Include="..\Slang\Slang.csproj" />
-    </ItemGroup>
-
 </Project>

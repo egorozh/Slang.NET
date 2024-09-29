@@ -14,11 +14,6 @@ public record TranslationsParam(
     string? PluralParameter
 );
 
-public static class Constants
-{
-    public const string AdditionalFilePattern = ".i18n.json";
-}
-
 [Generator]
 public class TranslateGenerator : IIncrementalGenerator
 {

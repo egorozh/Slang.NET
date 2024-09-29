@@ -1,5 +1,4 @@
 using System.Collections;
-using Slang.Generator;
 
 namespace Slang.Gpt;
 

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Slang.Gpt;
 
@@ -6,11 +7,19 @@ public static class JsonHelpers
 {
     public static string JsonEncode(Dictionary<string, object> dictionary)
     {
-        return JsonSerializer.Serialize(dictionary);
+        return JsonSerializer.Serialize(dictionary, DictionaryContext.Default.DictionaryStringObject);
     }
 
     public static Dictionary<string, object> JsonDecode(string json)
     {
-        return JsonSerializer.Deserialize<Dictionary<string, object>>(json)!;
+        return JsonSerializer.Deserialize(json, DictionaryContext.Default.DictionaryStringObject)!;
     }
 }
+
+[JsonSerializable(typeof(Dictionary<string, object>))]
+[JsonSerializable(typeof(JsonElement))]
+[JsonSourceGenerationOptions(JsonSerializerDefaults.General,
+    WriteIndented = true
+    )]
+internal partial class DictionaryContext : JsonSerializerContext;
+

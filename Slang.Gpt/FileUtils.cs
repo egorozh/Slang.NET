@@ -1,20 +1,33 @@
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
+using System.Text.RegularExpressions;
 
 namespace Slang.Gpt;
 
-public static class FileUtils
+public static partial class FileUtils
 {
-    private static readonly JsonSerializerOptions Options = new(JsonSerializerDefaults.Web)
-    {
-        WriteIndented = true,
+    private static readonly Regex UnicodeRegex = MyUnicodeRegex();
 
-        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-    };
-
-    public static void WriteFileOfType(string path, Dictionary<string, object?> content)
+    public static void WriteFileOfType(string path, Dictionary<string, object> content)
     {
-        File.WriteAllText(path, JsonSerializer.Serialize(content, Options));
+        string jsonFromContext = JsonSerializer.Serialize(content, DictionaryContext.Default.DictionaryStringObject);
+
+        string EscapeNonAsciiCharacters(string json)
+        {
+            return UnicodeRegex.Replace(json, match =>
+            {
+                string hexValue = match.Groups["Value"].Value;
+                int unicode = Convert.ToInt32(hexValue, 16);
+                string symbol = ((char)unicode).ToString();
+
+                return symbol.Replace("\"", "\\\"");
+            });
+        }
+
+        string escapedJson = EscapeNonAsciiCharacters(jsonFromContext);
+
+        File.WriteAllText(path, escapedJson);
     }
+
+    [GeneratedRegex(@"\\u(?<Value>[a-fA-F0-9]{4})")]
+    private static partial Regex MyUnicodeRegex();
 }

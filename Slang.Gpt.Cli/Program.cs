@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Project2015To2017.Reading;
-using Slang.Generator.Data;
-using Slang.Generator.SourceGenerator;
+using Slang.Gpt.Data;
 using Slang.Gpt.Models;
 using Slang.Gpt.Utils;
 

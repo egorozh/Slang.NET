@@ -1,5 +1,5 @@
 using System.Globalization;
-using Slang.Generator.Data;
+using Slang.Gpt.Data;
 using Slang.Gpt.Models;
 
 namespace Slang.Gpt;
@@ -44,7 +44,7 @@ public static class SlangGpt
 
             try
             {
-                originalTranslations = TranslationsDecoder.DecodeWithFileType(raw);
+                originalTranslations = JsonHelpers.JsonDecode(raw);
             }
             catch (Exception e)
             {
