@@ -58,7 +58,7 @@ internal static class ChatGptRepository
 
         string responseBody = await response.Content.ReadAsStringAsync();
 
-        var rawMap = JsonSerializer.Deserialize<GptResponseDto>(responseBody);
+        var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
 
         if (rawMap?.choices == null || rawMap.choices.Count == 0)
             return null;
@@ -71,7 +71,7 @@ internal static class ChatGptRepository
         {
             jsonMessage = JsonSerializer.Deserialize<Dictionary<string, object?>>(rawMessage);
         }
-        catch (Exception _)
+        catch (Exception)
         {
             // ignored
         }

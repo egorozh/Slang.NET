@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Slang.Gpt.Data;
 
 internal record GptResponseDto(
@@ -14,3 +16,9 @@ internal record UsageDto(
     int completion_tokens,
     int total_tokens
 );
+
+[JsonSerializable(typeof(GptResponseDto))]
+[JsonSerializable(typeof(ChoiseDto))]
+[JsonSerializable(typeof(MessageDto))]
+[JsonSerializable(typeof(UsageDto))]
+internal partial class GptResponseDtoContext : JsonSerializerContext;

@@ -5,6 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
+        <PublishAot>true</PublishAot>
+        
+        <AssemblyName>slang-gpt</AssemblyName>
+
     </PropertyGroup>
 
     <ItemGroup>
