@@ -20,7 +20,12 @@ internal static class Program
         var reader = new ProjectReader();
         var project = reader.Read(csprojFileInfo.FullName);
 
-        var gptConfig = ConfigRepository.GetConfig(project);
+        var gptConfig = ConfigRepository.GetConfig(project, csprojFileInfo.Directory!.FullName);
+
+        if (gptConfig == null)
+        {
+            throw new Exception("Missing config");
+        }
 
         if (targetLocales != null)
         {

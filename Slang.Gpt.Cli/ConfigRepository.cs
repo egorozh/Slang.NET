@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Project2015To2017.Definition;
 using Slang.Gpt.Models;
 
@@ -6,62 +8,81 @@ namespace Slang.Gpt.Cli;
 
 internal static class ConfigRepository
 {
-    public static GptConfig GetConfig(Project project)
+    public static GptConfig? GetConfig(Project project, string csProjDirectory)
     {
-        string? baseCultureString = null;
-        string? modelString = null;
-        string? descriptionString = null;
-        string? maxInputLengthString = null;
-        string? temperatureString = null;
+        var additionalFiles = project.ItemGroups.SelectMany(g => g.Elements())
+            .Where(item => item.Name == "AdditionalFiles")
+            .ToList();
 
+        string? configJson = null;
 
-        if (project.PropertyGroups != null)
+        foreach (var additionalFile in additionalFiles)
         {
-            foreach (var propertyGroup in project.PropertyGroups)
+            if (additionalFile.HasAttributes)
             {
-                foreach (var element in propertyGroup.Elements())
+                var include = additionalFile.Attribute("Include");
+
+                if (include != null)
                 {
-                    switch (element.Name.LocalName)
+                    string jsonFileName = include.Value;
+
+                    string filePath = Path.Combine(csProjDirectory, jsonFileName);
+
+                    var fileInfo = new FileInfo(filePath);
+
+                    if (fileInfo is {Exists: true, Name: "slang.json"})
                     {
-                        case "SlangBaseCulture":
-                            baseCultureString = element.Value;
-                            break;
-                        case "SlangModel":
-                            modelString = element.Value;
-                            break;
-                        case "SlangDescription":
-                            descriptionString = element.Value;
-                            break;
-                        case "SlangMaxInputLength":
-                            maxInputLengthString = element.Value;
-                            break;
-                        case "SlangTemperature":
-                            temperatureString = element.Value;
-                            break;
+                        configJson = File.ReadAllText(fileInfo.FullName);
+                        break;
                     }
                 }
             }
         }
 
-        var model = GptModel.Values.FirstOrDefault(e => e.Id == modelString);
+        if (configJson == null)
+            return null;
+
+        var config = JsonSerializer.Deserialize(configJson, GlobalConfigContext.Default.GlobalConfigDto);
+
+        if (config == null)
+            return null;
+
+        var model = GptModel.Values.FirstOrDefault(e => e.Id == config.gpt.model);
 
         if (model == null)
             throw new Exception(
-                $"Unknown model: {modelString}\nAvailable models: ${string.Join(", ", GptModel.Values.Select(e => e.Id))}");
+                $"Unknown model: {config.gpt.model}\nAvailable models: ${string.Join(", ", GptModel.Values.Select(e => e.Id))}");
 
-        if (string.IsNullOrEmpty(descriptionString))
+        if (string.IsNullOrEmpty(config.gpt.description))
             throw new Exception("Missing description");
-        
+
         GptConfig gptConfig = new(
-            BaseCulture: new CultureInfo(string.IsNullOrEmpty(baseCultureString) ? "en" : baseCultureString),
+            BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.base_culture) ? "en" : config.base_culture),
             Model: model,
-            Description: descriptionString,
-            MaxInputLength: !int.TryParse(maxInputLengthString, out int maxInputLength)
+            Description: config.gpt.description,
+            MaxInputLength: !int.TryParse(config.gpt.maxInputLength, out int maxInputLength)
                 ? GptModel.DefaultInputLength
                 : maxInputLength,
-            Temperature: double.TryParse(temperatureString, out double temperature) ? temperature : null,
+            Temperature: double.TryParse(config.gpt.temperature, out double temperature) ? temperature : null,
             Excludes: []
         );
+
         return gptConfig;
     }
 }
+
+internal record GlobalConfigDto(
+    string? base_culture,
+    GptConfigDto gpt
+);
+
+internal record GptConfigDto(
+    string? model,
+    string? description,
+    string? maxInputLength,
+    string? temperature
+);
+
+[JsonSerializable(typeof(GlobalConfigDto))]
+[JsonSerializable(typeof(GptConfigDto))]
+internal partial class GlobalConfigContext : JsonSerializerContext;
