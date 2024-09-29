@@ -9,6 +9,13 @@
         <PublishAot>true</PublishAot>
 
         <AssemblyName>slang-gpt</AssemblyName>
+
+        <Authors>egorozh</Authors>
+        <Description>Type-safe i18n for .NET</Description>
+        <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
+        <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
+        <Version>1.0.0.0-preview4</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,5 +27,5 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Project2015To2017" Version="4.2.0" />
     </ItemGroup>
-
+    
 </Project>
