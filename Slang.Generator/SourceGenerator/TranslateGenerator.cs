@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Slang.Generator.Data;
 using Slang.Generator.SourceGenerator.CodeBuilder;
@@ -13,7 +15,7 @@ public record TranslationsParam(
     string? PluralParameter
 );
 
-public record ProjectParam(
+public record struct ProjectParam(
     string? BaseCulture
 );
 
@@ -59,25 +61,27 @@ public class TranslateGenerator : IIncrementalGenerator
                 Content = file.GetText(cancellationToken)?.ToString()
             });
 
-        var projectParams = context.AnalyzerConfigOptionsProvider.Select(
-            (options, _) =>
+        var configFile = context.AdditionalTextsProvider
+            .Where(file => file.Path.EndsWith("slang.json"))
+            .Select((file, ct) =>
             {
-                if (options.GlobalOptions.TryGetValue(
-                        "build_property.SlangBaseCulture",
-                        out string? baseCultureString))
+                string? jsonText = file.GetText(ct)?.ToString();
+
+                if (jsonText != null)
                 {
-                    return new ProjectParam(BaseCulture: baseCultureString);
+                    var config = JsonSerializer.Deserialize(jsonText, GlobalConfigContext.Default.GlobalConfigDto);
+
+                    return new ProjectParam(BaseCulture: config?.base_culture);
                 }
 
                 return new ProjectParam(BaseCulture: null);
-            }
-        );
+            });
 
+        var generalProvider = generationInfo
+            .Combine(jsonFiles.Collect())
+            .Combine(configFile.Collect());
 
-        var classWithJson =
-            generationInfo.Combine(jsonFiles.Collect()).Combine(projectParams);
-
-        context.RegisterSourceOutput(classWithJson, static (productionContext, data) =>
+        context.RegisterSourceOutput(generalProvider, static (productionContext, data) =>
         {
             var (((hierarchy, info), jsonFiles), projectParams) = data;
 
@@ -90,10 +94,12 @@ public class TranslateGenerator : IIncrementalGenerator
             string className = hierarchy.MetadataName;
             string namespaceName = hierarchy.Namespace;
 
+            var globalConfig = projectParams.FirstOrDefault();
+
             var config = ConfigRepository.Create(
                 className: className,
                 @namespace: namespaceName,
-                baseLocale: string.IsNullOrEmpty(projectParams.BaseCulture) ? "en" : projectParams.BaseCulture,
+                baseLocale: string.IsNullOrEmpty(globalConfig.BaseCulture) ? "en" : globalConfig.BaseCulture,
                 pluralParameter: string.IsNullOrEmpty(info.PluralParameter) ? "n" : info.PluralParameter,
                 inputFileName: info.InputFileName
             );
@@ -110,7 +116,6 @@ public class TranslateGenerator : IIncrementalGenerator
         });
     }
 
-
     private static TranslationsParam ValidateTargetTypeAndGetInfo(AttributeData attributeData)
     {
         string? inputFileName = attributeData.GetNamedArgument<string>("InputFileName");
@@ -124,3 +129,8 @@ public class TranslateGenerator : IIncrementalGenerator
         );
     }
 }
+
+internal record GlobalConfigDto(string? base_culture);
+
+[JsonSerializable(typeof(GlobalConfigDto))]
+internal partial class GlobalConfigContext : JsonSerializerContext;
