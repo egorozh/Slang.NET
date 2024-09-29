@@ -34,7 +34,7 @@ Let's run this:
 |-----------------------|----------|----------------------------------|----------|---------------------|
 | `SlangModel`          | `string` | Model name                       | YES      |                     |
 | `SlangMaxInputLength` | `int`    | Max input characters per request | NO       | (inferred by model) |
-| `Temperature`         | `double` | Temperature parameter for GPT    | NO       | (API default)       |
+| `SlangTemperature`    | `double` | Temperature parameter for GPT    | NO       | (API default)       |
 | `SlangDescription`    | `string` | App description                  | YES      |                     |
 | `SlangBaseCulture`    | `string` | Base culture                     | NO       | `en`                |
 

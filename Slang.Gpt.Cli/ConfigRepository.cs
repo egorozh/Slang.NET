@@ -35,7 +35,7 @@ internal static class ConfigRepository
                         case "SlangMaxInputLength":
                             maxInputLengthString = element.Value;
                             break;
-                        case "Temperature":
+                        case "SlangTemperature":
                             temperatureString = element.Value;
                             break;
                     }
@@ -51,8 +51,7 @@ internal static class ConfigRepository
 
         if (string.IsNullOrEmpty(descriptionString))
             throw new Exception("Missing description");
-
-
+        
         GptConfig gptConfig = new(
             BaseCulture: new CultureInfo(string.IsNullOrEmpty(baseCultureString) ? "en" : baseCultureString),
             Model: model,
