@@ -54,7 +54,7 @@ internal static class ChatGptRepository
                 """
             : $$"""
                 {
-                    "model": {{model.Id}},
+                    "model": "{{model.Id}}",
                     "messages":
                     [
                         {
