@@ -4,7 +4,7 @@
 
 Type-safe i18n for .NET
 
-Slang.NET is a .NET port of the [slang for dart](https://pub.dev/packages/slang) from the Dart/Flutter community.
+Slang.NET is a .NET port of the [slang](https://pub.dev/packages/slang) from the Dart/Flutter community.
 
 ## Getting Started:
 
