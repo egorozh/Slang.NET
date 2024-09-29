@@ -51,8 +51,8 @@ internal static class ChatGptRepository
                 """
             : $$"""
                 {
-                    "model: {{model.Id}},
-                    "messages:
+                    "model": {{model.Id}},
+                    "messages":
                     [
                         {
                             "role": "system",
