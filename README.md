@@ -41,7 +41,7 @@ slang.json
 
 ```json
 {
-  "base_culture": "ru" // default: en
+  "base_culture": "ru"
 }
 ```
 
