@@ -7,6 +7,7 @@ public static partial class Regexes
     public static readonly Regex FileWithLocaleRegex = MyFileWithLocaleRegex();
     public static readonly Regex BaseFileRegex = MyBaseFileRegex();
     public static readonly Regex ModifierRegex = MyModifierRegex();
+    public static readonly Regex UnicodeRegex = MyUnicodeRegex();
 
     [GeneratedRegex(FileWithLocaleRegular)]
     private static partial Regex MyFileWithLocaleRegex();
@@ -17,6 +18,9 @@ public static partial class Regexes
     [GeneratedRegex(ModifierRegular)]
     private static partial Regex MyModifierRegex();
 
+    [GeneratedRegex(@"\\u(?<Value>[a-fA-F0-9]{4})")]
+    private static partial Regex MyUnicodeRegex();
+    
     /// Finds the parts of the locale. It must start with an underscore.
     /// groups for strings-zh-Hant-TW:
     /// 1 = strings

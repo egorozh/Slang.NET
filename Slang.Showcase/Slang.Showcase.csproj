@@ -7,8 +7,6 @@
 
         <SlangBaseCulture>en</SlangBaseCulture>
         <SlangModel>gpt-4o-mini</SlangModel>
-        <SlangMaxInputLength>128k</SlangMaxInputLength>
-        <Temperature>1</Temperature>
         <SlangDescription>Showcase for Slang.Net.Gpt</SlangDescription>
     </PropertyGroup>
 

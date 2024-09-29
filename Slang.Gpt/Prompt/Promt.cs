@@ -93,7 +93,7 @@ internal static class Prompt
                  Linked translations are denoted with the \"@:path0.path1\" syntax.
 
                  Here is the app description. Respect this context when translating:
-                 {{config.Description}}
+                 {{config.Description.Replace("\"", "\\\"")}}
                  """;
     }
 }
