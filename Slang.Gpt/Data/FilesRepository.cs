@@ -21,7 +21,7 @@ public record struct TranslationFile(
 
 public static class FilesRepository
 {
-    public static SlangFileCollection GetFileCollection(CultureInfo baseCulture, IReadOnlyList<FileInfo> allFiles)
+    public static SlangFileCollection GetFileCollection(CultureInfo baseCulture, IEnumerable<FileInfo> allFiles)
     {
         var files = allFiles
             .Select(f => GetTranslationFile(baseCulture, f))
@@ -32,12 +32,12 @@ public static class FilesRepository
 
         return new SlangFileCollection(Files: files);
     }
-    
+
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, FileInfo f)
     {
         return GetTranslationFile(baseCulture, f.Name, f.FullName, () => File.ReadAllTextAsync(f.FullName));
     }
-    
+
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
         string? filePath,
         Func<Task<string>> contentFactory)
