@@ -9,9 +9,12 @@ namespace Slang.Generator.SourceGenerator;
 
 public record TranslationsParam(
     string? InputFileName,
-    string? BaseLocale,
     string? PluralAuto,
     string? PluralParameter
+);
+
+public record ProjectParam(
+    string? BaseCulture
 );
 
 [Generator]
@@ -56,12 +59,27 @@ public class TranslateGenerator : IIncrementalGenerator
                 Content = file.GetText(cancellationToken)?.ToString()
             });
 
-        var classWithJson = generationInfo.Combine(jsonFiles
-            .Collect());
+        var projectParams = context.AnalyzerConfigOptionsProvider.Select(
+            (options, _) =>
+            {
+                if (options.GlobalOptions.TryGetValue(
+                        "build_property.SlangBaseCulture",
+                        out string? baseCultureString))
+                {
+                    return new ProjectParam(BaseCulture: baseCultureString);
+                }
+
+                return new ProjectParam(BaseCulture: null);
+            }
+        );
+
+
+        var classWithJson =
+            generationInfo.Combine(jsonFiles.Collect()).Combine(projectParams);
 
         context.RegisterSourceOutput(classWithJson, static (productionContext, data) =>
         {
-            var ((hierarchy, info), jsonFiles) = data;
+            var (((hierarchy, info), jsonFiles), projectParams) = data;
 
             if (jsonFiles.Length < 1)
                 return;
@@ -75,7 +93,7 @@ public class TranslateGenerator : IIncrementalGenerator
             var config = ConfigRepository.Create(
                 className: className,
                 @namespace: namespaceName,
-                baseLocale: string.IsNullOrEmpty(info.BaseLocale) ? "en" : info.BaseLocale,
+                baseLocale: string.IsNullOrEmpty(projectParams.BaseCulture) ? "en" : projectParams.BaseCulture,
                 pluralParameter: string.IsNullOrEmpty(info.PluralParameter) ? "n" : info.PluralParameter,
                 inputFileName: info.InputFileName
             );
@@ -96,13 +114,11 @@ public class TranslateGenerator : IIncrementalGenerator
     private static TranslationsParam ValidateTargetTypeAndGetInfo(AttributeData attributeData)
     {
         string? inputFileName = attributeData.GetNamedArgument<string>("InputFileName");
-        string? baseLocale = attributeData.GetNamedArgument<string>("BaseLocale");
         string? pluralAuto = attributeData.GetNamedArgument<string>("PluralAuto");
         string? pluralParameter = attributeData.GetNamedArgument<string>("PluralParameter");
 
         return new TranslationsParam(
             InputFileName: inputFileName,
-            BaseLocale: baseLocale,
             PluralAuto: pluralAuto,
             PluralParameter: pluralParameter
         );
