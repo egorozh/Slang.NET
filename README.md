@@ -41,7 +41,7 @@ i18n/strings_ru.i18n.json
 
 ```xml
   <PropertyGroup>
-        <SlangBaseCulture>en</SlangBaseCulture>
+    <SlangBaseCulture>en</SlangBaseCulture>
   </PropertyGroup>
 
   <ItemGroup>
