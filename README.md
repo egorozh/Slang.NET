@@ -37,9 +37,13 @@ i18n/strings_ru.i18n.json
 }
 ```
 
-### Include JSON files as AdditionalFiles
+### Include JSON files as AdditionalFiles and set base culture:
 
 ```xml
+  <PropertyGroup>
+        <SlangBaseCulture>en</SlangBaseCulture>
+  </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="i18n\*.i18n.json" />
   </ItemGroup>
@@ -50,7 +54,6 @@ i18n/strings_ru.i18n.json
 
 ``` csharp
 [Translations(
-    BaseLocale = "en",
     InputFileName = "strings")]
 public partial class Strings;
 ```
