@@ -53,8 +53,7 @@ i18n/strings_ru.i18n.json
 ### Add a partial class:
 
 ``` csharp
-[Translations(
-    InputFileName = "strings")]
+[Translations(InputFileName = "strings")]
 public partial class Strings;
 ```
 
