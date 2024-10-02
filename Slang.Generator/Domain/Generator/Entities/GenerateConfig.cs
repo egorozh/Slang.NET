@@ -9,5 +9,6 @@ namespace Slang.Generator.Domain.Generator.Entities;
 internal record GenerateConfig(
     string Namespace,
     string ClassName,
-    CultureInfo BaseLocale
+    CultureInfo BaseLocale,
+    string RootPropertyName
 );

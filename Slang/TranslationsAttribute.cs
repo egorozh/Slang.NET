@@ -5,8 +5,10 @@ public class TranslationsAttribute
     : Attribute
 {
     public string InputFileName { get; init; }
-    
-    public PluralAuto PluralAuto { get; init; } = PluralAuto.Cardinal;
-    
-    public string PluralParameter { get; init; } = "n";
+
+    public string RootPropertyName { get; init; }
+
+    public PluralAuto PluralAuto { get; init; }
+
+    public string PluralParameter { get; init; }
 }

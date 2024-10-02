@@ -7,23 +7,13 @@ public static class Test
 {
     public static RawConfig GetConfig()
     {
-        var config = ConfigRepository.Create(
-            className: "Strings",
-            @namespace: "Slang.Showcase",
-            baseLocale: "en",
-            inputFileName: "strings"
-        );
+        var config = ConfigRepository.Create(inputFileName: "strings", @namespace: "Slang.Showcase", className: "Strings", baseLocale: "en");
 
         return config;
     }
 
     public static RawConfig GetConfig2()
     {
-        return ConfigRepository.Create(
-            className: "Feature1",
-            @namespace: "Slang.Showcase.MyNamespace",
-            baseLocale: "en",
-            inputFileName: "feature1"
-        );
+        return ConfigRepository.Create(inputFileName: "feature1", @namespace: "Slang.Showcase.MyNamespace", className: "Feature1", baseLocale: "en");
     }
 }

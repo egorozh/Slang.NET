@@ -5,12 +5,12 @@ namespace Slang.Generator.Data;
 
 public static class ConfigRepository
 {
-    public static RawConfig Create(
-        string inputFileName,
+    public static RawConfig Create(string inputFileName,
         string @namespace,
         string className,
         string baseLocale = "en",
         PluralAuto pluralAuto = PluralAuto.Cardinal,
+        string rootPropertyName = "Root",
         string pluralParameter = "n")
     {
         return new RawConfig(
@@ -19,7 +19,8 @@ public static class ConfigRepository
             BaseLocale: new CultureInfo(baseLocale),
             InputFileName: inputFileName,
             PluralAuto: pluralAuto,
-            PluralParameter: pluralParameter
+            PluralParameter: pluralParameter,
+            RootPropertyName: rootPropertyName
         );
     }
 }

@@ -24,6 +24,7 @@ internal static partial class Generator
               using {{config.Namespace}};
               using System;
               using System.Collections.Generic;
+              using System.ComponentModel;
               using System.Globalization;
               using System.Linq;
               using System.Threading;
@@ -34,27 +35,11 @@ internal static partial class Generator
               	{
               {{GenerateCultures(config, allLocales)}}
               
-                      private readonly static CultureInfo _baseCulture = _{{config.BaseLocale.TwoLetterISOLanguageName}};
+              		private readonly static CultureInfo _baseCulture = _{{config.BaseLocale.TwoLetterISOLanguageName}};
               
               		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
-              
-              		public static {{config.ClassName}} Translations
-              		{
-              			get
-              			{
-              				var culture = CultureInfo.CurrentUICulture;
-              
-              				if (_translations.TryGetValue(culture, out var translation))
-              					return translation;
-              					
-                            var sameCulture = SupportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
-              
-                            if (sameCulture != null)
-                                return _translations[sameCulture];
-                                
-              				return _translations[_baseCulture];
-              			}
-              		}
+              		
+              		public static TranslationsInstance Instance { get; } = new TranslationsInstance();
               
               		public static void SetCulture(CultureInfo culture, bool uiOnly = false)
               		{
@@ -62,7 +47,37 @@ internal static partial class Generator
               				Thread.CurrentThread.CurrentCulture = culture;
               
               			Thread.CurrentThread.CurrentUICulture = culture;
+              			
+              			Instance.OnCultureChanged();
               		}
+              		
+              		public class TranslationsInstance : INotifyPropertyChanged
+              		{
+              			public event PropertyChangedEventHandler? PropertyChanged;
+              	
+              			public {{config.ClassName}} {{config.RootPropertyName}}
+              			{
+              				get
+              				{
+              					var culture = CultureInfo.CurrentUICulture;
+              
+              					if (_translations.TryGetValue(culture, out var translation))
+              						return translation;
+              			
+              					var sameCulture = SupportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
+              
+              					if (sameCulture != null)
+              						return _translations[sameCulture];
+              
+              					return _translations[_baseCulture];
+              				}
+              			}
+              
+              			public void OnCultureChanged()
+              			{	
+              				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof({{config.RootPropertyName}})));
+              			}
+              		}	
               	}
               }
               """;
@@ -85,10 +100,10 @@ internal static partial class Generator
 
         buffer.AppendLine(
             $$"""
-                    private readonly static IReadOnlyDictionary<CultureInfo, {{config.ClassName}}> _translations =
-                        new Dictionary<CultureInfo, {{config.ClassName}}>()
-                        {
-            """);
+                      private readonly static Dictionary<CultureInfo, {{config.ClassName}}> _translations =
+                          new Dictionary<CultureInfo, {{config.ClassName}}>(capacity: {{allLocales.Count}})
+                          {
+              """);
 
         for (int i = 0; i < allLocales.Count; i++)
         {

@@ -17,20 +17,20 @@ ShowLocales();
 
 void ShowLocales()
 {
-    Console.WriteLine(Strings.Translations.SearchHandler.SearchDirectoryText("qwerty", "My computer"));
-    Console.WriteLine(Strings.Translations.SomeKey.Apple(6));
-    Console.WriteLine(Strings.Translations.SomeKey.Introduce("Egor", 29));
-    object a = Strings.Translations.SomeKey.NiceList[1]; // "nice"
-    object b = Strings.Translations.SomeKey.NiceList[2][0]; // "first item in nested list"
-    object c = Strings.Translations.SomeKey.NiceList[3].Ok; // "OK!"
-    object d = Strings.Translations.SomeKey.NiceList[4].AMapEntry;
+    Console.WriteLine(Strings.Instance.Root.SearchHandler.SearchDirectoryText("qwerty", "My computer"));
+    Console.WriteLine(Strings.Instance.Root.SomeKey.Apple(6));
+    Console.WriteLine(Strings.Instance.Root.SomeKey.Introduce("Egor", 29));
+    object a = Strings.Instance.Root.SomeKey.NiceList[1]; // "nice"
+    object b = Strings.Instance.Root.SomeKey.NiceList[2][0]; // "first item in nested list"
+    object c = Strings.Instance.Root.SomeKey.NiceList[3].Ok; // "OK!"
+    object d = Strings.Instance.Root.SomeKey.NiceList[4].AMapEntry;
     Console.WriteLine($"{a}, {b}, {c}, {d}");
     
-    string aMap = Strings.Translations.SomeKey.A["helloWorld"]; // "hello"
-    string bMap = Strings.Translations.SomeKey.B.B0; // "hey"
-    string cMap = Strings.Translations.SomeKey.B.B1["hiThere"];
+    string aMap = Strings.Instance.Root.SomeKey.A["helloWorld"]; // "hello"
+    string bMap = Strings.Instance.Root.SomeKey.B.B0; // "hey"
+    string cMap = Strings.Instance.Root.SomeKey.B.B1["hiThere"];
 
     Console.WriteLine($"{aMap}, {bMap}, {cMap}");
 
-    Console.WriteLine(Feature1.Translations.Screen.Locale1);
+    Console.WriteLine(Feature1.Instance.Root.Screen.Locale1);
 }

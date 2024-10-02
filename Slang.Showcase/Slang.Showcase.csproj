@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Slang.Net" Version="1.0.0-preview7" />
+        <AdditionalFiles Include="i18n\*.i18n.json" />
+        <AdditionalFiles Include="slang.json" />
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="i18n\*.i18n.json" />
-        <AdditionalFiles Include="slang.json" />
+      <PackageReference Include="Slang.Net" Version="1.0.0.1-prev3" />
     </ItemGroup>
 
 </Project>

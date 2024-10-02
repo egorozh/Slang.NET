@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Slang.Generator.Data;
+using Slang.Generator.Domain.Entities;
 using Slang.Generator.SourceGenerator.CodeBuilder;
 using Slang.Generator.SourceGenerator.Extensions;
 using Slang.Generator.SourceGenerator.Models;
@@ -11,8 +12,9 @@ namespace Slang.Generator.SourceGenerator;
 
 public record TranslationsParam(
     string? InputFileName,
-    string? PluralAuto,
-    string? PluralParameter
+    PluralAuto? PluralAuto,
+    string? PluralParameter,
+    string? RootPropertyName
 );
 
 public record struct ProjectParam(
@@ -100,7 +102,9 @@ public class TranslateGenerator : IIncrementalGenerator
                 className: className,
                 @namespace: namespaceName,
                 baseLocale: string.IsNullOrEmpty(globalConfig.BaseCulture) ? "en" : globalConfig.BaseCulture,
+                pluralAuto: info.PluralAuto ?? PluralAuto.Cardinal,
                 pluralParameter: string.IsNullOrEmpty(info.PluralParameter) ? "n" : info.PluralParameter,
+                rootPropertyName: string.IsNullOrEmpty(info.RootPropertyName) ? "Root" : info.RootPropertyName,
                 inputFileName: info.InputFileName
             );
 
@@ -112,6 +116,9 @@ public class TranslateGenerator : IIncrementalGenerator
                 allFiles: paths.Select(file => (file.FileName, file.Content))
             );
 
+            // debug source
+            //productionContext.AddSource($"{config.ClassName}.debug.g.cs", $"{info}");
+
             _ = TranslationsCodeBuilder.Generate(productionContext, config, fileCollection);
         });
     }
@@ -119,13 +126,15 @@ public class TranslateGenerator : IIncrementalGenerator
     private static TranslationsParam ValidateTargetTypeAndGetInfo(AttributeData attributeData)
     {
         string? inputFileName = attributeData.GetNamedArgument<string>("InputFileName");
-        string? pluralAuto = attributeData.GetNamedArgument<string>("PluralAuto");
+        PluralAuto? pluralAuto = attributeData.GetNamedArgument<PluralAuto>("PluralAuto");
         string? pluralParameter = attributeData.GetNamedArgument<string>("PluralParameter");
+        string? rootPropertyName = attributeData.GetNamedArgument<string>("RootPropertyName");
 
         return new TranslationsParam(
             InputFileName: inputFileName,
             PluralAuto: pluralAuto,
-            PluralParameter: pluralParameter
+            PluralParameter: pluralParameter,
+            RootPropertyName: rootPropertyName
         );
     }
 }

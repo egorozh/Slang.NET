@@ -11,5 +11,6 @@ public record RawConfig(
     string Namespace,
     string ClassName,
     PluralAuto PluralAuto,
-    string PluralParameter
+    string PluralParameter,
+    string RootPropertyName
 );

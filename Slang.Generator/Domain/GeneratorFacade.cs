@@ -56,7 +56,8 @@ public static class GeneratorFacade
         return new GenerateConfig(
             Namespace: config.Namespace,
             ClassName: config.ClassName,
-            BaseLocale: config.BaseLocale
+            BaseLocale: config.BaseLocale,
+            RootPropertyName: config.RootPropertyName
         );
     }
 
