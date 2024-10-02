@@ -4,7 +4,7 @@
 
 Type-safe i18n for .NET
 
-This is a port of the [slang for dart](https://pub.dev/packages/slang)
+Slang.NET is a .NET port of the [slang](https://pub.dev/packages/slang) from the Dart/Flutter community.
 
 ## Getting Started:
 
@@ -37,15 +37,20 @@ i18n/strings_ru.i18n.json
 }
 ```
 
-### Include JSON files as AdditionalFiles and set base culture:
+slang.json
+
+```json
+{
+  "base_culture": "ru"
+}
+```
+
+### Include JSON files as AdditionalFiles:
 
 ```xml
-  <PropertyGroup>
-    <SlangBaseCulture>en</SlangBaseCulture>
-  </PropertyGroup>
-
   <ItemGroup>
     <AdditionalFiles Include="i18n\*.i18n.json" />
+    <AdditionalFiles Include="slang.json" />
   </ItemGroup>
 ```
 
@@ -87,18 +92,16 @@ Take advantage of GPT to internationalize your app with context-aware translatio
 
 Download slang-gpt.
 
-Then add the following configuration in your *.csproj:
+Then add the following configuration in your slang.json:
 
-```xml
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-
-        <SlangBaseCulture>en</SlangBaseCulture>
-        <SlangModel>gpt-4o-mini</SlangModel>
-        <SlangDescription>Showcase for Slang.Net.Gpt</SlangDescription>
-    </PropertyGroup>
+```json
+{
+  "base_culture": "ru",
+  "gpt": {
+    "model": "gpt-4o-mini",
+    "description": "Showcase for Slang.Net.Gpt"
+  }
+}
 ```
 
 Then use slang-gpt:

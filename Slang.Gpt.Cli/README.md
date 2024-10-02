@@ -8,18 +8,16 @@ Currently, only the [OpenAI API](https://platform.openai.com/docs/) is supported
 
 Download slang-gpt CLI console application from [Releases](https://github.com/egorozh/Slang.NET/releases)
 
-Then add the following configuration in your *.csproj:
+Then add the following configuration in your slang.json:
 
-```xml
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-
-        <SlangBaseCulture>en</SlangBaseCulture>
-        <SlangModel>gpt-4o-mini</SlangModel>
-        <SlangDescription>Showcase for Slang.Net.Gpt</SlangDescription>
-    </PropertyGroup>
+```json
+{
+  "base_culture": "ru",
+  "gpt": {
+    "model": "gpt-4o-mini",
+    "description": "Showcase for Slang.Net.Gpt"
+  }
+}
 ```
 
 Let's run this:
@@ -30,13 +28,12 @@ Let's run this:
 
 ## Configuration
 
-| Key                   | Type     | Usage                            | Required | Default             |
-|-----------------------|----------|----------------------------------|----------|---------------------|
-| `SlangModel`          | `string` | Model name                       | YES      |                     |
-| `SlangMaxInputLength` | `int`    | Max input characters per request | NO       | (inferred by model) |
-| `SlangTemperature`    | `double` | Temperature parameter for GPT    | NO       | (API default)       |
-| `SlangDescription`    | `string` | App description                  | YES      |                     |
-| `SlangBaseCulture`    | `string` | Base culture                     | NO       | `en`                |
+| Key                | Type     | Usage                            | Required | Default             |
+|--------------------|----------|----------------------------------|----------|---------------------|
+| `model`            | `string` | Model name                       | YES      |                     |
+| `max_input_length` | `int`    | Max input characters per request | NO       | (inferred by model) |
+| `temperature`      | `double` | Temperature parameter for GPT    | NO       | (API default)       |
+| `description`      | `string` | App description                  | YES      |                     |
 
 ## Command line arguments
 
