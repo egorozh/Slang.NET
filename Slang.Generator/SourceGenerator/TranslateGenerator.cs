@@ -126,7 +126,7 @@ public class TranslateGenerator : IIncrementalGenerator
     private static TranslationsParam ValidateTargetTypeAndGetInfo(AttributeData attributeData)
     {
         string? inputFileName = attributeData.GetNamedArgument<string>("InputFileName");
-        PluralAuto? pluralAuto = attributeData.GetNamedArgument<PluralAuto>("PluralAuto");
+        var pluralAuto = attributeData.GetNamedArgument<PluralAuto?>("PluralAuto");
         string? pluralParameter = attributeData.GetNamedArgument<string>("PluralParameter");
         string? rootPropertyName = attributeData.GetNamedArgument<string>("RootPropertyName");
 
