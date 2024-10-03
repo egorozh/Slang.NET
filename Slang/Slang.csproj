@@ -24,7 +24,9 @@
 
     <ItemGroup Label="Package">
         <None Include="..\Slang.Generator\bin\$(Configuration)\net8.0\Slang.Generator.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
+        <None Include="..\Slang.Generator\bin\$(Configuration)\net8.0\Slang.Shared.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
         <None Include="..\Slang.Generator\bin\$(Configuration)\net6.0\Slang.Generator.dll" PackagePath="analyzers\dotnet\roslyn3.8\cs" Pack="true" Visible="false" />
+        <None Include="..\Slang.Generator\bin\$(Configuration)\net6.0\Slang.Shared.dll" PackagePath="analyzers\dotnet\roslyn3.8\cs" Pack="true" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>
