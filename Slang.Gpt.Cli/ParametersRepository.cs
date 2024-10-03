@@ -1,5 +1,5 @@
 using System.Globalization;
-using Slang.Gpt.Utils;
+using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt.Cli;
 

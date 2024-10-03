@@ -16,9 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Runner", "Slang.Runner\Slang.Runner.csproj", "{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3014112-BF27-449A-8356-2A5ED8980420}"
-    ProjectSection(SolutionItems) = preProject
+				ProjectSection(SolutionItems) = preProject
 		Benchmarks.md = Benchmarks.md
-	EndProjectSection
+				EndProjectSection
+				s
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Shared", "Slang.Shared\Slang.Shared.csproj", "{A54B2834-3345-404B-97CC-EF59F18CF043}"
 EndProject
 
 Global
@@ -55,5 +58,9 @@ Global
 		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C37C88B-21AB-4545-9D7E-EFBD1FA60A16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A54B2834-3345-404B-97CC-EF59F18CF043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A54B2834-3345-404B-97CC-EF59F18CF043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A54B2834-3345-404B-97CC-EF59F18CF043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A54B2834-3345-404B-97CC-EF59F18CF043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

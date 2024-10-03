@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Slang.Gpt;
+namespace Slang.Gpt.Domain.Utils;
 
 public static class JsonHelpers
 {
@@ -10,7 +10,7 @@ public static class JsonHelpers
         return JsonSerializer.Serialize(dictionary, DictionaryContext.Default.DictionaryStringObject);
     }
 
-    public static Dictionary<string, object> JsonDecode(string json)
+    public static Dictionary<string, object?> JsonDecode(string json)
     {
         return JsonSerializer.Deserialize(json, DictionaryContext.Default.DictionaryStringObject)!;
     }

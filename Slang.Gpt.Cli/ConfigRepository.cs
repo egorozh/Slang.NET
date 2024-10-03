@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Project2015To2017.Definition;
-using Slang.Gpt.Models;
+using Slang.Gpt.Domain.Models;
 
 namespace Slang.Gpt.Cli;
 

@@ -1,4 +1,4 @@
-namespace Slang.Gpt.Models;
+namespace Slang.Gpt.Domain.Models;
 
 /// <summary>
 /// A response from the GPT API.

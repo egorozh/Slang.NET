@@ -1,4 +1,4 @@
-namespace Slang.Generator.Domain.Nodes.Utils;
+namespace Slang.Shared;
 
 public record struct NodePathInfo(
     string Path,

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Slang.Gpt.Models;
+namespace Slang.Gpt.Domain.Models;
 
 /// <summary>
 /// Represents the gpt node in build.yaml

@@ -1,9 +1,10 @@
 using System.Globalization;
 using Slang.Gpt.Data;
-using Slang.Gpt.Models;
-using Slang.Gpt.Utils;
+using Slang.Gpt.Domain.Models;
+using Slang.Gpt.Domain.Utils;
+using Slang.Shared;
 
-namespace Slang.Gpt;
+namespace Slang.Gpt.Domain;
 
 internal record TranslateMetrics(
     int EndPromptCount,
@@ -135,7 +136,7 @@ internal static class SlangGptTranslator
 
             if (!hasError)
             {
-                result = Apply.ApplyMapRecursive(
+                result = MapUtils.ApplyMapRecursive(
                     baseMap: originalTranslations,
                     newMap: response!.JsonMessage,
                     oldMap: result,
@@ -148,7 +149,7 @@ internal static class SlangGptTranslator
         }
 
         // add existing translations
-        result = Apply.ApplyMapRecursive(
+        result = MapUtils.ApplyMapRecursive(
             baseMap: originalTranslations,
             newMap: existingTranslations,
             oldMap: result,
@@ -156,7 +157,7 @@ internal static class SlangGptTranslator
         );
 
         // add comments from base locale to target locale
-        result = Apply.ApplyMapRecursive(
+        result = MapUtils.ApplyMapRecursive(
             baseMap: originalTranslations,
             newMap: comments,
             oldMap: result,

@@ -7,6 +7,7 @@ using Slang.Generator.Domain.Entities;
 using Slang.Generator.SourceGenerator.CodeBuilder;
 using Slang.Generator.SourceGenerator.Extensions;
 using Slang.Generator.SourceGenerator.Models;
+using Slang.Shared;
 
 namespace Slang.Generator.SourceGenerator;
 

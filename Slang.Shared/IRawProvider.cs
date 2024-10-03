@@ -1,6 +1,6 @@
-namespace Slang.Generator.Domain.Nodes.Utils;
+namespace Slang.Shared;
 
-internal interface IRawProvider
+public interface IRawProvider
 {
     bool TryGetString(object? input, out string value);
 

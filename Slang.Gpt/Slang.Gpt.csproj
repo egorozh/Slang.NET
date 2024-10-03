@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />
+    </ItemGroup>
+    
 </Project>

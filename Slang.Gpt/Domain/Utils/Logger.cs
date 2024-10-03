@@ -1,8 +1,8 @@
 using System.Globalization;
-using Slang.Gpt.Models;
-using Slang.Gpt.Prompt;
+using Slang.Gpt.Domain.Models;
+using Slang.Gpt.Domain.Prompt;
 
-namespace Slang.Gpt.Utils;
+namespace Slang.Gpt.Domain.Utils;
 
 internal static class Logger
 {

@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Text.Json;
 
-namespace Slang.Generator.Domain.Nodes.Utils;
+namespace Slang.Shared;
 
-internal class SystemTextJsonRawProvider : IRawProvider
+public class SystemTextJsonRawProvider : IRawProvider
 {
     public bool TryGetString(object? input, out string value)
     {

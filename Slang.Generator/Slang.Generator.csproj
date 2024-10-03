@@ -35,4 +35,9 @@
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />
+    </ItemGroup>
+    
 </Project>

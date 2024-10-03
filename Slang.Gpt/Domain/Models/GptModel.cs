@@ -1,6 +1,6 @@
 using Slang.Gpt.Data;
 
-namespace Slang.Gpt.Models;
+namespace Slang.Gpt.Domain.Models;
 
 public static class GptModel
 {

@@ -1,9 +1,62 @@
-using System.Collections;
+using Slang.Shared;
 
-namespace Slang.Gpt;
+namespace Slang.Gpt.Domain.Utils;
 
-public static class Apply
+public static class MapUtils
 {
+    private static readonly IRawProvider RawProvider = new SystemTextJsonRawProvider();
+
+    /// <summary>
+    /// Removes all keys from [target] that also exist in [other].
+    /// </summary>
+    public static Dictionary<string, object?> Subtract(
+        Dictionary<string, object?> target,
+        Dictionary<string, object?> other
+    )
+    {
+        Dictionary<string, object> resultMap = [];
+
+        foreach (var entry in target)
+        {
+            string? keyWithoutModifier = entry.Key.WithoutModifiers();
+
+            var dictionary = RawProvider.GetDictionary(entry.Value);
+
+            if (dictionary is null)
+            {
+                // Add the entry if the key does not exist in the other map.
+                if (other.Keys.FirstOrDefault(k => k.WithoutModifiers() == keyWithoutModifier) == null)
+                {
+                    resultMap[entry.Key] = entry.Value;
+                }
+            }
+            else
+            {
+                // Recursively subtract the map.
+                string? otherKey = other.Keys.FirstOrDefault(k => k.WithoutModifiers() == keyWithoutModifier);
+
+                if (otherKey == null)
+                {
+                    resultMap[entry.Key] = entry.Value;
+                }
+                else
+                {
+                    var otherDictionary = RawProvider.GetDictionary(other[otherKey]);
+
+                    var subtracted = Subtract(
+                        target: dictionary,
+                        other: otherDictionary
+                    );
+
+                    if (subtracted.Count > 0)
+                        resultMap[entry.Key] = subtracted;
+                }
+            }
+        }
+
+        return resultMap;
+    }
+
     /// <summary>
     /// Adds entries from [newMap] to [oldMap] while respecting the order specified
     /// in [baseMap].
@@ -53,14 +106,20 @@ public static class Apply
 
             string currPath = path == null ? key : $"{path}.{key}";
 
-            if (actualValue is IDictionary)
+            var actualDictionary = RawProvider.GetDictionary(actualValue);
+
+            if (actualDictionary is not null)
             {
+                var baseMapDictionary = RawProvider.GetDictionary(baseMap[key]);
+                var newMapDictionary = RawProvider.GetDictionary(newEntry);
+                var oldMapDictionary = oldMap.ContainsKey(key) ? RawProvider.GetDictionary(oldMap[key]) : null;
+
                 actualValue = ApplyMapRecursive(
                     path: currPath,
-                    baseMap: baseMap[key] as Dictionary<string, object?> ??
+                    baseMap: baseMapDictionary ??
                              throw new Exception($"In the base translations, \"{key}\" is not a map."),
-                    newMap: newEntry as Dictionary<string, object?> ?? [],
-                    oldMap: oldMap[key] as Dictionary<string, object?> ?? [],
+                    newMap: newMapDictionary ?? [],
+                    oldMap: oldMapDictionary ?? [],
                     verbose: verbose
                 );
             }
@@ -89,15 +148,20 @@ public static class Apply
 
             string currPath = path == null ? key : $"{path}.{key}";
 
-            object? newEntry = newMap[key];
+            object? newEntry = newMap.ContainsKey(key) ? newMap[key] : null;
             object? actualValue = newEntry ?? oldMap[key];
 
-            if (actualValue is IDictionary)
+            var actualDictionary = RawProvider.GetDictionary(actualValue);
+
+            if (actualDictionary is not null)
             {
+                var newMapDictionary = RawProvider.GetDictionary(newEntry);
+                var oldMapDictionary = RawProvider.GetDictionary(oldMap[key]);
+
                 actualValue = ApplyMapRecursive(
                     baseMap: [],
-                    newMap: newEntry as Dictionary<string, object?> ?? [],
-                    oldMap: oldMap[key] as Dictionary<string, object?> ?? [],
+                    newMap: newMapDictionary ?? [],
+                    oldMap: oldMapDictionary ?? [],
                     verbose,
                     path: currPath);
             }
@@ -123,11 +187,15 @@ public static class Apply
 
             object? actualValue = entry.Value;
 
-            if (actualValue is IDictionary)
+            var actualDictionary = RawProvider.GetDictionary(actualValue);
+
+            if (actualDictionary is not null)
             {
+                var newMapDictionary = RawProvider.GetDictionary(entry.Value);
+
                 actualValue = ApplyMapRecursive(
                     baseMap: [],
-                    newMap: entry.Value as Dictionary<string, object?> ?? [],
+                    newMap: newMapDictionary ?? [],
                     oldMap: [],
                     verbose: verbose,
                     path: currPath
@@ -148,7 +216,9 @@ public static class Apply
 
     private static void PrintAdding(string path, object? value)
     {
-        if (value is IDictionary)
+        var dictionary = RawProvider.GetDictionary(value);
+
+        if (dictionary is not null)
             return;
 
         Console.WriteLine($"    -> Set [{path}]: \"{value}\"");

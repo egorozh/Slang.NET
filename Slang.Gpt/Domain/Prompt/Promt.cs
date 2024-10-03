@@ -1,9 +1,8 @@
 using System.Globalization;
-using Slang.Gpt.Models;
+using Slang.Gpt.Domain.Models;
+using static Slang.Gpt.Domain.Utils.JsonHelpers;
 
-using static Slang.Gpt.JsonHelpers;
-
-namespace Slang.Gpt.Prompt;
+namespace Slang.Gpt.Domain.Prompt;
 
 /// <summary>
 /// The prompt that will be sent to the GPT API.

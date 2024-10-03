@@ -1,7 +1,9 @@
 using System.Text;
 using System.Text.Json;
-using Slang.Gpt.Models;
-using Slang.Gpt.Prompt;
+using Slang.Gpt.Domain;
+using Slang.Gpt.Domain.Models;
+using Slang.Gpt.Domain.Prompt;
+using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt.Data;
 

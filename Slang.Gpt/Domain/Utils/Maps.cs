@@ -1,4 +1,6 @@
-namespace Slang.Gpt.Utils;
+using Slang.Shared;
+
+namespace Slang.Gpt.Domain.Utils;
 
 public static class Maps
 {

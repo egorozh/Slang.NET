@@ -1,4 +1,4 @@
-namespace Slang.Generator.SourceGenerator;
+namespace Slang.Shared;
 
 public static class Constants
 {

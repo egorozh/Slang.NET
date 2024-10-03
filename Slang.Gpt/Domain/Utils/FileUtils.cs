@@ -1,7 +1,7 @@
 using System.Text.Json;
-using Slang.Gpt.Utils;
+using Slang.Shared;
 
-namespace Slang.Gpt;
+namespace Slang.Gpt.Domain.Utils;
 
 public static class FileUtils
 {

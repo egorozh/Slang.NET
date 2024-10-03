@@ -1,5 +1,5 @@
 using System.Globalization;
-using Slang.Generator.SourceGenerator;
+using Slang.Shared;
 
 namespace Slang.Generator.Data;
 

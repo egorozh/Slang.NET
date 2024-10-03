@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Slang.Gpt.Utils;
+namespace Slang.Gpt.Domain.Utils;
 
 public static class Locales
 {

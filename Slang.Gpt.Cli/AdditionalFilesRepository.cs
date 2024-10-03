@@ -2,6 +2,9 @@ using System.Globalization;
 using System.Xml.Linq;
 using Project2015To2017.Definition;
 using Slang.Gpt.Data;
+using Slang.Gpt.Domain;
+using Slang.Gpt.Domain.Utils;
+using Slang.Shared;
 
 namespace Slang.Gpt.Cli;
 

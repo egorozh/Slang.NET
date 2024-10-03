@@ -1,4 +1,4 @@
-namespace Slang.Gpt;
+namespace Slang.Gpt.Domain.Utils;
 
 public static class StringModifierExt
 {

@@ -1,6 +1,7 @@
 using System.Text;
 using Slang.Generator.Domain.Entities;
 using Slang.Generator.Domain.Nodes.Nodes;
+using Slang.Shared;
 
 namespace Slang.Generator.Domain.Nodes.Utils;
 
