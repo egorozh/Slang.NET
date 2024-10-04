@@ -45,8 +45,10 @@ public static partial class Regexes
     /// matches any string without special characters
     private const string BaseFileRegular = "^([a-zA-Z0-9]+)?$";
 
-    /// matches @:translation.key
-    private const string LinkedRegular = @"@:(\w[\w|.]*\w|\w)";
+    /// matches @:translation.key or @:{translation.key}, but not \@:translation.key
+    /// 1 = argument of @:translation.key
+    /// 2 = argument of @:{translation.key}
+    private const string LinkedRegular = @"(?<!\\)@:(?:(\w[\w|.]*\w|\w)|\{(\w[\w|.]*\w|\w)\})";
 
     /// Matches the modifier part in a key if it exists
     /// greet(plural, param=gender)

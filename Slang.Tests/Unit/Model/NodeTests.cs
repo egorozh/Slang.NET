@@ -314,7 +314,7 @@ public class NodeTests
             Assert.Multiple(() =>
             {
                 Assert.That(node.Content, Is.EqualTo("Nice {coolHi} {wow} {yes}a {noYes}"));
-                Assert.That(new HashSet<string> { "coolHi", "wow", "yes", "noYes" }, Is.EqualTo(node.Params));
+                Assert.That(new HashSet<string> {"coolHi", "wow", "yes", "noYes"}, Is.EqualTo(node.Params));
             });
         }
 
@@ -326,7 +326,7 @@ public class NodeTests
             Assert.Multiple(() =>
             {
                 Assert.That(node.Content, Is.EqualTo("{myArg} {_root.MyLink}"));
-                Assert.That(new HashSet<string> { "myArg" }, Is.EqualTo(node.Params));
+                Assert.That(new HashSet<string> {"myArg"}, Is.EqualTo(node.Params));
             });
         }
 
@@ -337,8 +337,8 @@ public class NodeTests
             var node = TextNode(test);
             Assert.Multiple(() =>
             {
-                Assert.That(node.Content, Is.EqualTo("{myArg} {_root.LinkA} {_root.linkB}hello {_root.linkC}"));
-                Assert.That(new HashSet<string> { "myArg" }, Is.EqualTo(node.Params));
+                Assert.That(node.Content, Is.EqualTo("{myArg} {_root.LinkA} {_root.LinkB}hello {_root.LinkC}"));
+                Assert.That(new HashSet<string> {"myArg"}, Is.EqualTo(node.Params));
             });
         }
     }

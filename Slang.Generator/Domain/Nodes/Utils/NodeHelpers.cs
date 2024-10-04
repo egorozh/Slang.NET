@@ -56,7 +56,9 @@ internal static class NodeHelpers
         string parsedContent = Regexes.LinkedRegex.Replace(input,
             match =>
             {
-                string linkedPath = match.Groups[1].Value.ToCaseWithDots(CaseStyle.Pascal);
+                string linkedPath = (!string.IsNullOrEmpty(match.Groups[1].Value)
+                    ? match.Groups[1].Value
+                    : match.Groups[2].Value).ToCaseWithDots(CaseStyle.Pascal);
 
                 links.Add(linkedPath);
 
@@ -168,6 +170,22 @@ internal static class NodeHelpers
                 if (startIndex + 1 < curr.Length)
                 {
                     curr = curr[(startIndex + startCharacterLength)..];
+                    continue;
+                }
+
+                break;
+            }
+
+            if (startIndex >= 2 &&
+                curr[startIndex - 1] == ':' &&
+                curr[startIndex - 2] == '@')
+            {
+                // ignore because of preceding @: which indicates an escaped, linked translation
+                buffer.Append(curr.Substring(0, startIndex + 1));
+                
+                if (startIndex + 1 < curr.Length)
+                {
+                    curr = curr.Substring(startIndex + startCharacterLength);
                     continue;
                 }
 
