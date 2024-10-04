@@ -143,6 +143,33 @@ public partial class PluralResolvers
                 }
             )
         },
+        // Polish
+        {
+            "pl", new Resolvers(
+                Cardinal: (n, zero, one, _, few, many, other) =>
+                {
+                    switch (n)
+                    {
+                        case 0:
+                            return zero ?? other!;
+                        case 1:
+                            return one ?? other!;
+                    }
+
+                    int r10 = n % 10;
+                    int r100 = n % 100;
+
+                    if (r10 is > 1 and < 5 && r100 is < 12 or > 14)
+                        return few ?? other!;
+
+                    if (r10 < 2 || r10 is > 4 and < 10 || r100 is > 11 and < 15)
+                        return many ?? other!;
+                    
+                    return other!;
+                },
+                Ordinal: (_, _, _, _, _, _, other) => other!
+            )
+        },
         // Russian
         {
             "ru", new Resolvers(
