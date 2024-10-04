@@ -40,7 +40,7 @@ public static class StringExtensions
     /// 'hello' => 'Hello'
     /// 'Hello' => 'Hello'
     /// '' => ''
-    private static string Capitalize(this string s)
+    internal static string Capitalize(this string s)
     {
         if (string.IsNullOrEmpty(s))
             return string.Empty;

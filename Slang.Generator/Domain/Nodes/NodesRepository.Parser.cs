@@ -116,7 +116,7 @@ internal static partial class NodesRepository
             comment);
     }
 
-    private static StringTextNode CreateTextNode(
+    internal static StringTextNode CreateTextNode(
         string path,
         string? comment,
         BuildModelConfig config,
