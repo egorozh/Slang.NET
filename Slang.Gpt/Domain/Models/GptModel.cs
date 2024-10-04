@@ -32,7 +32,7 @@ public static class GptModel
         public double CostPerOutputToken => CostPer1KOutputToken / 1000;
     }
 
-    private static readonly GptModelInfo gpt3_5_4k = new("gpt-3.5-turbo", GptProvider.OpenAi,
+    internal static readonly GptModelInfo gpt3_5_4k = new("gpt-3.5-turbo", GptProvider.OpenAi,
         DefaultInputLength: 2000,
         CostPer1KInputToken: 0.0005,
         CostPer1KOutputToken: 0.0015);

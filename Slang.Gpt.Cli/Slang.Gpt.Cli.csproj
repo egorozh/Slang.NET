@@ -6,8 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <PublishAot>true</PublishAot>
-
         <AssemblyName>slang-gpt</AssemblyName>
 
         <Authors>egorozh</Authors>
@@ -15,7 +13,7 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.0.0.0-preview7</Version>
+        <Version>1.0.0.0-preview8</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,6 +27,8 @@
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <PublishAot>true</PublishAot>
+
         <SignIdentity>Developer ID Application: Egor Zheludkov (2V5GB47N8M)</SignIdentity> <!-- Укажите ваше имя и идентификатор команды -->
         <UseMacOSCodeSign>true</UseMacOSCodeSign>
     </PropertyGroup>
