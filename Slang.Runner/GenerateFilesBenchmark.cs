@@ -60,7 +60,8 @@ public class GenerateFilesBenchmark
     {
         var _ = GeneratorFacade.Generate(
             rawConfig: _config,
-            translationComposition: _translationMap
+            translationComposition: _translationMap,
+            DateTime.Now
         );
     }
 }

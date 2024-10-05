@@ -18,7 +18,8 @@ internal static class TranslationsCodeBuilder
         // STEP 3: generate .g.dart content
         var result = GeneratorFacade.Generate(
             rawConfig: config,
-            translationComposition: translationMap
+            translationComposition: translationMap,
+            DateTime.Now
         );
 
         context.AddSource($"{config.ClassName}.g.cs", result.Header);

@@ -1,2 +1,219 @@
-_expected_header.output{
+using Slang;
+using Slang.Tests;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+
+namespace Slang.Tests
+{
+	partial class TestLocalesDe : TestLocales
+	{
+		protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+		public TestLocalesDe()
+		{
+			_root = this;
+			Onboarding = new TestLocalesOnboardingDe(_root);
+			Group = new TestLocalesGroupDe(_root);
+			End = new TestLocalesEndDe(_root);
+		}
+
+		// Translations
+		public override TestLocalesOnboardingDe Onboarding { get; }
+		public override TestLocalesGroupDe Group { get; }
+		public override TestLocalesEndDe End { get; }
+
+		// Path: Onboarding
+		public class TestLocalesOnboardingDe : TestLocalesOnboardingEn
+		{
+			public TestLocalesOnboardingDe(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+				Greet = new TestLocalesOnboardingGreetDe(_root);
+				Greet2 = new TestLocalesOnboardingGreet2De(_root);
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Welcome(object fullName) => $"Willkommen {fullName}";
+			public override string WelcomeAlias(object fullName) => $"{_root.Onboarding.Welcome(fullName: fullName)}";
+			public override string WelcomeOnlyParam(object firstName) => $"{firstName}";
+
+			/// Bye text
+			public override string Bye(object firstName) => $"Tschüss {firstName}";
+
+			public override List<dynamic> Pages => [
+					new TestLocalesOnboardingPages0i0De(_root),
+					new TestLocalesOnboardingPages0i1De(_root),
+	];
+			public override List<dynamic> ModifierPages => [
+					new TestLocalesOnboardingModifierPages0i0De(_root),
+					new TestLocalesOnboardingModifierPages0i1De(_root),
+	];
+			public override TestLocalesOnboardingGreetDe Greet { get; }
+			public override TestLocalesOnboardingGreet2De Greet2 { get; }
+			public override string WelcomeLinkedPlural(int n, object fullName, object firstName) => $"Hallo {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}";
+			public override string WelcomeFullLink(int n, object fullName, object firstName) => $"Ultimative {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}";
+		}
+
+		// Path: Group
+		public class TestLocalesGroupDe : TestLocalesGroupEn
+		{
+			public TestLocalesGroupDe(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Users(int n, object fullName, object firstName) => PluralResolvers.Cardinal("de")(n,
+					zero: $"Keine Nutzer und {_root.Onboarding.Welcome(fullName: fullName)}",
+					one: $"Ein Nutzer",
+					other: $"{n} Nutzer und {_root.Onboarding.Bye(firstName: firstName)}"				);
+		}
+
+		// Path: End
+		public class TestLocalesEndDe : TestLocalesEndEn
+		{
+			public TestLocalesEndDe(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override List<string> StringPages => [
+					"1. Seite",
+					"2. Seite",
+	];
+			public override List<dynamic> Pages => [
+					new TestLocalesEndPages0i0De(_root),
+					new TestLocalesEndPages0i1De(_root),
+	];
+		}
+
+		// Path: Onboarding.Pages.0
+		public class TestLocalesOnboardingPages0i0De : TestLocalesOnboardingPages0i0En
+		{
+			public TestLocalesOnboardingPages0i0De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Title => "Erste Seite";
+			public override string Content => "Erster Seiteninhalt";
+		}
+
+		// Path: Onboarding.Pages.1
+		public class TestLocalesOnboardingPages0i1De : TestLocalesOnboardingPages0i1En
+		{
+			public TestLocalesOnboardingPages0i1De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Title => "Zweite Seite";
+		}
+
+		// Path: Onboarding.ModifierPages.0
+		public class TestLocalesOnboardingModifierPages0i0De : TestLocalesOnboardingModifierPages0i0En
+		{
+			public TestLocalesOnboardingModifierPages0i0De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Title => "Erste Modifier Seite";
+			public override string Content => "Erster Seiteninhalt";
+		}
+
+		// Path: Onboarding.ModifierPages.1
+		public class TestLocalesOnboardingModifierPages0i1De : TestLocalesOnboardingModifierPages0i1En
+		{
+			public TestLocalesOnboardingModifierPages0i1De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Title => "Zweite Modifier Seite";
+		}
+
+		// Path: Onboarding.Greet
+		public class TestLocalesOnboardingGreetDe : TestLocalesOnboardingGreetEn
+		{
+			public TestLocalesOnboardingGreetDe(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Male(object lastName, object fullName) => $"Hallo Herr {lastName} und {_root.Onboarding.Welcome(fullName: fullName)}";
+			public override string Female(object lastName, object firstName) => $"Hallo Frau {lastName} und {_root.Onboarding.Bye(firstName: firstName)}";
+		}
+
+		// Path: Onboarding.Greet2
+		public class TestLocalesOnboardingGreet2De : TestLocalesOnboardingGreet2En
+		{
+			public TestLocalesOnboardingGreet2De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Male => "Hallo Herr";
+			public override string Female => "Hallo Frau";
+		}
+
+		// Path: End.Pages.0
+		public class TestLocalesEndPages0i0De : TestLocalesEndPages0i0En
+		{
+			public TestLocalesEndPages0i0De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string Unknown => "Unbekannter
+Fehler";
+		}
+
+		// Path: End.Pages.1
+		public class TestLocalesEndPages0i1De : TestLocalesEndPages0i1En
+		{
+			public TestLocalesEndPages0i1De(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+			public override string WithSpace => "Ein Fehler";
+			public override string WithSecondSpace => "Ein 2. Fehler";
+		}
+
+   }
 }

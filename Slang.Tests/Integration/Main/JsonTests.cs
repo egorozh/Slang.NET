@@ -57,7 +57,8 @@ public class JsonTests
             {
                 {en, TranslationsDecoder.DecodeWithFileType(_enInput)},
                 {de, TranslationsDecoder.DecodeWithFileType(_deInput)},
-            }
+            },
+            new DateTime(2024, 1, 1, 12, 0, 0)
         );
         Assert.Multiple(() =>
         {
@@ -70,9 +71,9 @@ public class JsonTests
     private static string LoadResource(string path)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        
+
         using var stream = assembly.GetManifestResourceStream(path);
-        
+
         using var reader = new StreamReader(stream);
 
         return reader.ReadToEnd();

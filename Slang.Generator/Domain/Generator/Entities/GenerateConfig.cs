@@ -10,5 +10,6 @@ internal record GenerateConfig(
     string Namespace,
     string ClassName,
     CultureInfo BaseLocale,
-    string RootPropertyName
+    string RootPropertyName,
+    DateTime GeneratedDate
 );

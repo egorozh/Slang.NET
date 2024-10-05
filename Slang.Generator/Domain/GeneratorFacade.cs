@@ -10,7 +10,8 @@ public static class GeneratorFacade
     /// Common step used by custom runner and builder to get the .g.cs content
     public static BuildResult Generate(
         RawConfig rawConfig,
-        TranslationComposition translationComposition)
+        TranslationComposition translationComposition,
+        DateTime generateDate)
     {
         // build translation model
         var translationModelList = NodesDataRepository.GetNodesData(
@@ -20,11 +21,12 @@ public static class GeneratorFacade
 
         // generate config
         var config = GetConfig(
-            config: rawConfig
+            config: rawConfig,
+            generateDate
         );
 
         // generate .g.dart file
-        return Domain.Generator.Generator.Generate(
+        return Generator.Generator.Generate(
             config: config,
             translations: translationModelList
         );
@@ -50,14 +52,14 @@ public static class GeneratorFacade
         );
     }
 
-    private static GenerateConfig GetConfig(
-        RawConfig config)
+    private static GenerateConfig GetConfig(RawConfig config, DateTime generateDate)
     {
         return new GenerateConfig(
             Namespace: config.Namespace,
             ClassName: config.ClassName,
             BaseLocale: config.BaseLocale,
-            RootPropertyName: config.RootPropertyName
+            RootPropertyName: config.RootPropertyName,
+            GeneratedDate: generateDate
         );
     }
 
@@ -67,7 +69,8 @@ public static class GeneratorFacade
         TranslationComposition translationMap)
     {
         internal readonly GenerateConfig Config = GetConfig(
-            config: rawConfig
+            config: rawConfig,
+            DateTime.Now
         );
 
         internal readonly List<I18NData> TranslationModelList = NodesDataRepository.GetNodesData(

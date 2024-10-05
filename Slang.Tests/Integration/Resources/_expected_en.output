@@ -1,2 +1,216 @@
-_expected_header.output{
+using Slang;
+using Slang.Tests;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+
+namespace Slang.Tests
+{
+	partial class TestLocales
+	{
+		protected virtual TestLocales _root { get; } // ignore: unused_field
+
+		public TestLocales()
+		{
+			_root = this;
+			Onboarding = new TestLocalesOnboardingEn(_root);
+			Group = new TestLocalesGroupEn(_root);
+			End = new TestLocalesEndEn(_root);
+		}
+
+		// Translations
+		public virtual TestLocalesOnboardingEn Onboarding { get; }
+		public virtual TestLocalesGroupEn Group { get; }
+		public virtual TestLocalesEndEn End { get; }
+
+		// Path: Onboarding
+		public class TestLocalesOnboardingEn
+		{
+			public TestLocalesOnboardingEn(TestLocales root)
+			{
+				this._root = root;
+				Greet = new TestLocalesOnboardingGreetEn(_root);
+				Greet2 = new TestLocalesOnboardingGreet2En(_root);
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Welcome(object fullName) => $"Welcome {fullName}";
+			public virtual string WelcomeAlias(object fullName) => $"{_root.Onboarding.Welcome(fullName: fullName)}";
+			public virtual string WelcomeOnlyParam(object firstName) => $"{firstName}";
+			public virtual string Bye(object firstName) => $"Bye {firstName}";
+			public virtual List<dynamic> Pages => [
+					new TestLocalesOnboardingPages0i0En(_root),
+					new TestLocalesOnboardingPages0i1En(_root),
+	];
+			public virtual List<dynamic> ModifierPages => [
+					new TestLocalesOnboardingModifierPages0i0En(_root),
+					new TestLocalesOnboardingModifierPages0i1En(_root),
+	];
+			public virtual TestLocalesOnboardingGreetEn Greet { get; }
+			public virtual TestLocalesOnboardingGreet2En Greet2 { get; }
+			public virtual string WelcomeLinkedPlural(int n, object fullName, object firstName) => $"Hello {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}";
+			public virtual string WelcomeFullLink(int n, object fullName, object firstName) => $"Ultimate {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}";
+		}
+
+		// Path: Group
+		public class TestLocalesGroupEn
+		{
+			public TestLocalesGroupEn(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Users(int n, object fullName, object firstName) => PluralResolvers.Cardinal("en")(n,
+					zero: $"No Users and {_root.Onboarding.Welcome(fullName: fullName)}",
+					one: $"One User",
+					other: $"{n} Users and {_root.Onboarding.Bye(firstName: firstName)}"				);
+		}
+
+		// Path: End
+		public class TestLocalesEndEn
+		{
+			public TestLocalesEndEn(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual List<string> StringPages => [
+					"1st Page",
+					"2nd Page",
+	];
+			public virtual List<dynamic> Pages => [
+					new TestLocalesEndPages0i0En(_root),
+					new TestLocalesEndPages0i1En(_root),
+	];
+		}
+
+		// Path: Onboarding.Pages.0
+		public class TestLocalesOnboardingPages0i0En
+		{
+			public TestLocalesOnboardingPages0i0En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Title => "First Page";
+			public virtual string Content => "First Page Content";
+		}
+
+		// Path: Onboarding.Pages.1
+		public class TestLocalesOnboardingPages0i1En
+		{
+			public TestLocalesOnboardingPages0i1En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Title => "Second Page";
+		}
+
+		// Path: Onboarding.ModifierPages.0
+		public class TestLocalesOnboardingModifierPages0i0En
+		{
+			public TestLocalesOnboardingModifierPages0i0En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Title => "First Modifier Page";
+			public virtual string Content => "First Page Content";
+		}
+
+		// Path: Onboarding.ModifierPages.1
+		public class TestLocalesOnboardingModifierPages0i1En
+		{
+			public TestLocalesOnboardingModifierPages0i1En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Title => "Second Modifier Page";
+		}
+
+		// Path: Onboarding.Greet
+		public class TestLocalesOnboardingGreetEn
+		{
+			public TestLocalesOnboardingGreetEn(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Male(object lastName, object fullName) => $"Hello Mr {lastName} and {_root.Onboarding.Welcome(fullName: fullName)}";
+			public virtual string Female(object lastName, object firstName) => $"Hello Ms {lastName} and {_root.Onboarding.Bye(firstName: firstName)}";
+		}
+
+		// Path: Onboarding.Greet2
+		public class TestLocalesOnboardingGreet2En
+		{
+			public TestLocalesOnboardingGreet2En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Male => "Hello Mr";
+			public virtual string Female => "Hello Ms";
+		}
+
+		// Path: End.Pages.0
+		public class TestLocalesEndPages0i0En
+		{
+			public TestLocalesEndPages0i0En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string Unknown => "Unknown
+Error";
+		}
+
+		// Path: End.Pages.1
+		public class TestLocalesEndPages0i1En
+		{
+			public TestLocalesEndPages0i1En(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+			public virtual string WithSpace => "An Error";
+			public virtual string WithSecondSpace => "An 2nd Error";
+		}
+
+   }
 }

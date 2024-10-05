@@ -9,8 +9,6 @@ internal static partial class Generator
 {
     private static string GenerateHeader(GenerateConfig config, List<I18NData> allLocales)
     {
-        var now = DateTime.Now;
-
         return
             $$"""
               /// Generated file. Do not edit.
@@ -18,7 +16,7 @@ internal static partial class Generator
               ///
               /// Locales: {{allLocales.Count}}
               ///
-              /// Built on {{now.ToShortDateString()}} at {{now.ToShortTimeString()}} UTC
+              /// Built on {{config.GeneratedDate.ToShortDateString()}} at {{config.GeneratedDate.ToShortTimeString()}} UTC
 
               using Slang;
               using {{config.Namespace}};

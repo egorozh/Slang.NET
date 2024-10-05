@@ -11,7 +11,7 @@ internal class I18NBuilder(RawConfig config)
     {
         //todo: getting input info from NET SOURCE GENERATOR
         const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
-    
+
         string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
 
         var paths = Directory.GetFiles(sourceFilesDirectory, "*.i18n.json")
@@ -32,7 +32,8 @@ internal class I18NBuilder(RawConfig config)
         // STEP 3: generate .g.dart content
         var result = GeneratorFacade.Generate(
             rawConfig: config,
-            translationComposition: translationMap
+            translationComposition: translationMap,
+            DateTime.Now
         );
 
         await File.WriteAllTextAsync(

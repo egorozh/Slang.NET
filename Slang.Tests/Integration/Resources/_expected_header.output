@@ -1,1 +1,76 @@
-_expected_header.output
+/// Generated file. Do not edit.
+///
+///
+/// Locales: 2
+///
+/// Built on 01.01.2024 at 12:00 UTC
+
+using Slang;
+using Slang.Tests;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+
+namespace Slang.Tests
+{
+	partial class TestLocales
+	{
+		private readonly static CultureInfo _en = new CultureInfo("en");
+		private readonly static CultureInfo _de = new CultureInfo("de");
+
+        private readonly static Dictionary<CultureInfo, TestLocales> _translations =
+            new Dictionary<CultureInfo, TestLocales>(capacity: 2)
+            {
+				{_en, new TestLocales() },
+				{_de, new TestLocalesDe() }
+            };
+
+
+		private readonly static CultureInfo _baseCulture = _en;
+
+		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
+		
+		public static TranslationsInstance Instance { get; } = new TranslationsInstance();
+
+		public static void SetCulture(CultureInfo culture, bool uiOnly = false)
+		{
+			if (!uiOnly)
+				Thread.CurrentThread.CurrentCulture = culture;
+
+			Thread.CurrentThread.CurrentUICulture = culture;
+			
+			Instance.OnCultureChanged();
+		}
+		
+		public class TranslationsInstance : INotifyPropertyChanged
+		{
+			public event PropertyChangedEventHandler? PropertyChanged;
+	
+			public TestLocales Root
+			{
+				get
+				{
+					var culture = CultureInfo.CurrentUICulture;
+
+					if (_translations.TryGetValue(culture, out var translation))
+						return translation;
+			
+					var sameCulture = SupportedCultures.FirstOrDefault(c => c.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName);
+
+					if (sameCulture != null)
+						return _translations[sameCulture];
+
+					return _translations[_baseCulture];
+				}
+			}
+
+			public void OnCultureChanged()
+			{	
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Root)));
+			}
+		}	
+	}
+}

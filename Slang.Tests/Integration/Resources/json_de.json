@@ -55,9 +55,5 @@
         "with second space": "Ein 2. Fehler"
       }
     ]
-  },
-  "advancedPlural(param=count)": {
-    "one": "Eins",
-    "other": "Andere {count}, @:onboarding.group.users"
   }
 }
