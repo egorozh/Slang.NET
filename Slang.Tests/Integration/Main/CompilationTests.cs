@@ -1,6 +1,6 @@
-using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using static Slang.Tests.Integration.EmbeddedLoader;
 
 namespace Slang.Tests.Integration.Main;
 
@@ -53,16 +53,5 @@ public class CompilationTests
         }
 
         Assert.Pass("Compilation succeeded.");
-    }
-
-    private static string LoadResource(string path)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream(path);
-
-        using var reader = new StreamReader(stream!);
-
-        return reader.ReadToEnd();
     }
 }

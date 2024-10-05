@@ -1,7 +1,7 @@
 using System.Globalization;
-using System.Reflection;
 using Slang.Generator.Data;
 using Slang.Generator.Domain;
+using static Slang.Tests.Integration.EmbeddedLoader;
 
 namespace Slang.Tests.Integration.Main;
 
@@ -48,16 +48,5 @@ public class JsonTests
             Assert.That(result.Translations[en], Is.EqualTo(_expectedOutputEn));
             Assert.That(result.Translations[de], Is.EqualTo(_expectedOutputDe));
         });
-    }
-
-    private static string LoadResource(string path)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream(path);
-
-        using var reader = new StreamReader(stream!);
-
-        return reader.ReadToEnd();
     }
 }
