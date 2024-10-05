@@ -24,6 +24,9 @@ namespace Slang.Tests
 		public override TestLocalesOnboardingDe Onboarding { get; }
 		public override TestLocalesGroupDe Group { get; }
 		public override TestLocalesEndDe End { get; }
+		public override string AdvancedPlural(int count, object fullName, int n, object firstName) => PluralResolvers.Cardinal("de")(count,
+				one: $"Eins",
+				other: $"Andere {count}, {_root.Group.Users(fullName: fullName, n: n, firstName: firstName)}"			);
 
 		// Path: Onboarding
 		public class TestLocalesOnboardingDe : TestLocalesOnboardingEn

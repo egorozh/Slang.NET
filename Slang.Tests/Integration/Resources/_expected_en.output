@@ -24,6 +24,9 @@ namespace Slang.Tests
 		public virtual TestLocalesOnboardingEn Onboarding { get; }
 		public virtual TestLocalesGroupEn Group { get; }
 		public virtual TestLocalesEndEn End { get; }
+		public virtual string AdvancedPlural(int count, object fullName, int n, object firstName) => PluralResolvers.Cardinal("en")(count,
+				one: $"One",
+				other: $"Other {count}, {_root.Group.Users(fullName: fullName, n: n, firstName: firstName)}"			);
 
 		// Path: Onboarding
 		public class TestLocalesOnboardingEn

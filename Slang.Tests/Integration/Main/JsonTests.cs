@@ -30,24 +30,6 @@ public class JsonTests
         CultureInfo de = new("de");
 
         var result = GeneratorFacade.Generate(
-            // targets:
-            //     $default:
-            // builders:
-            // slang_build_runner:
-            // options:
-            // base_locale: en
-            // input_file_pattern: .i18n.json # will be ignored anyways because we put in manually
-            // output_file_name: translations.cgm.dart # currently set manually for each test
-            // output_format: single_file # may get changed programmatically
-            // locale_handling: true # may get changed programmatically
-            // string_interpolation: braces
-            // timestamp: false # make every test deterministic
-            // maps:
-            // - end.pages.0
-            //     - end.pages.1
-            // interfaces:
-            // PageData: onboarding.pages.*
-            //     EndData: end
             rawConfig: ConfigRepository.Create(
                 inputFileName: "json",
                 @namespace: "Slang.Tests",
@@ -56,7 +38,7 @@ public class JsonTests
             new TranslationComposition
             {
                 {en, TranslationsDecoder.DecodeWithFileType(_enInput)},
-                {de, TranslationsDecoder.DecodeWithFileType(_deInput)},
+                {de, TranslationsDecoder.DecodeWithFileType(_deInput)}
             },
             new DateTime(2024, 1, 1, 12, 0, 0)
         );
@@ -74,7 +56,7 @@ public class JsonTests
 
         using var stream = assembly.GetManifestResourceStream(path);
 
-        using var reader = new StreamReader(stream);
+        using var reader = new StreamReader(stream!);
 
         return reader.ReadToEnd();
     }
