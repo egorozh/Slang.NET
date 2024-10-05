@@ -121,10 +121,11 @@ internal static partial class NodesRepository
         string? comment,
         BuildModelConfig config,
         string value,
-        IReadOnlyDictionary<string, string> modifiers)
+        IReadOnlyDictionary<string, string> modifiers,
+        bool shouldEscape = true)
     {
         (string? parsedContent, var paramTypeMap) = NodeHelpers.ParseInterpolation(
-            raw: value,
+            raw: shouldEscape ? EscapeContent(value) : value,
             defaultType: "object",
             paramCase: config.ParamCase
         );
@@ -217,7 +218,7 @@ internal static partial class NodesRepository
                 string? tempType = textNode.ParamTypeMap.ContainsKey(paramName)
                     ? textNode.ParamTypeMap[paramName]
                     : null;
-                
+
                 if (tempType != null &&
                     textNode is StringTextNode && tempType != "object")
                 {
@@ -309,6 +310,14 @@ internal static partial class NodesRepository
 
         // fallback: every node is a class by default
         return new DetectionResult(DetectionType.ClassType);
+    }
+
+    private static string EscapeContent(string raw)
+    {
+        return raw
+            .Replace("\r\n", "\\n") // CRLF -> \n
+            .Replace("\n", "\\n") // LF -> \n
+            .Replace("\'", "\\\'"); // ' -> \'
     }
 
     private enum DetectionType
