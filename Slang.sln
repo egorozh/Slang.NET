@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Shared", "Slang.Share
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Gpt.Tests", "Slang.Gpt.Tests\Slang.Gpt.Tests.csproj", "{CF0C6207-A906-45A5-A884-622911CBD7E7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gpt", "Gpt", "{6B6EFA87-CEA0-48B0-BF48-CCD3CB418773}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,5 +70,10 @@ Global
 		{CF0C6207-A906-45A5-A884-622911CBD7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF0C6207-A906-45A5-A884-622911CBD7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF0C6207-A906-45A5-A884-622911CBD7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{67475DC2-7D75-4BFC-84B9-E7CF9469E214} = {6B6EFA87-CEA0-48B0-BF48-CCD3CB418773}
+		{4301487B-1F80-4284-80BA-0A9766AE8D89} = {6B6EFA87-CEA0-48B0-BF48-CCD3CB418773}
+		{CF0C6207-A906-45A5-A884-622911CBD7E7} = {6B6EFA87-CEA0-48B0-BF48-CCD3CB418773}
 	EndGlobalSection
 EndGlobal
