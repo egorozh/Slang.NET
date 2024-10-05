@@ -21,4 +21,8 @@
       <ProjectReference Include="..\Slang.Generator\Slang.Generator.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Include="Integration\Resources\**" />
+    </ItemGroup>
+
 </Project>

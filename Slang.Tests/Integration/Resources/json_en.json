@@ -1,0 +1,66 @@
+{
+  "onboarding": {
+    "welcome": "Welcome {fullName}",
+    "welcomeAlias": "@:onboarding.welcome",
+    "welcomeOnlyParam": "{firstName}",
+    "bye": "Bye {firstName}",
+    "@bye": {
+      "this should be ignored": "ignored",
+      "description": "Bye text"
+    },
+    "pages": [
+      {
+        "title": "First Page",
+        "content": "First Page Content"
+      },
+      {
+        "title": "Second Page"
+      }
+    ],
+    "modifierPages": [
+      {
+        "title": "First Modifier Page",
+        "content": "First Page Content"
+      },
+      {
+        "title": "Second Modifier Page"
+      }
+    ],
+    "greet": {
+      "male": "Hello Mr {lastName} and @:onboarding.welcome",
+      "female": "Hello Ms {lastName} and @:onboarding.bye"
+    },
+    "greet2": {
+      "male": "Hello Mr",
+      "female": "Hello Ms"
+    },
+    "welcomeLinkedPlural": "Hello @:group.users",
+    "welcomeFullLink": "Ultimate @:onboarding.welcomeLinkedPlural"
+  },
+  "group": {
+    "users": {
+      "zero": "No Users and @:onboarding.welcome",
+      "one": "One User",
+      "other": "{n} Users and @:onboarding.bye"
+    }
+  },
+  "end": {
+    "stringPages": [
+      "1st Page",
+      "2nd Page"
+    ],
+    "pages": [
+      {
+        "unknown": "Unknown\nError"
+      },
+      {
+        "with space": "An Error",
+        "with second space": "An 2nd Error"
+      }
+    ]
+  },
+  "advancedPlural(param=count)": {
+    "one": "One",
+    "other": "Other {count}, @:onboarding.group.users"
+  }
+}

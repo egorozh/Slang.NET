@@ -214,7 +214,10 @@ internal static partial class NodesRepository
 
             foreach (var textNode in digestedMap.Values)
             {
-                var tempType = textNode.ParamTypeMap[paramName];
+                string? tempType = textNode.ParamTypeMap.ContainsKey(paramName)
+                    ? textNode.ParamTypeMap[paramName]
+                    : null;
+                
                 if (tempType != null &&
                     textNode is StringTextNode && tempType != "object")
                 {

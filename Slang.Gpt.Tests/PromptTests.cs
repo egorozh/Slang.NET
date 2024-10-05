@@ -16,12 +16,7 @@ public class PromptTests
         Here is the app description. Respect this context when translating:
         A simple calculator
         """;
-
-    [SetUp]
-    public void Setup()
-    {
-    }
-
+    
     [Test]
     public void Should_return_a_prompt()
     {
