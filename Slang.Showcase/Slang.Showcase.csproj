@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Slang.Net" Version="1.0.0-preview8" />
+      <PackageReference Include="Slang.Net" Version="1.0.0-preview9" />
     </ItemGroup>
 
 </Project>
