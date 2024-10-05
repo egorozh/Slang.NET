@@ -199,8 +199,7 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
-			public override string Unknown => "Unbekannter
-Fehler";
+			public override string Unknown => "Unbekannter\nFehler";
 		}
 
 		// Path: End.Pages.1

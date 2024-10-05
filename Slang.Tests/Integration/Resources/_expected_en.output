@@ -196,8 +196,7 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
-			public virtual string Unknown => "Unknown
-Error";
+			public virtual string Unknown => "Unknown\nError";
 		}
 
 		// Path: End.Pages.1
