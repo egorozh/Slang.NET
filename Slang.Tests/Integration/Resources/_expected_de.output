@@ -42,6 +42,9 @@ namespace Slang.Tests
 
 			// Translations
 
+			/// Willkommen
+			/// qwerty
+			///
 			/// In de, this message translates to:
 			/// **"Willkommen {fullName}"**
 			public override string Welcome(object fullName) => $"Willkommen {fullName}";

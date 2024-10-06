@@ -42,6 +42,9 @@ namespace Slang.Tests
 
 			// Translations
 
+			/// Willkommen
+			/// qwerty
+			///
 			/// In en, this message translates to:
 			/// **"Welcome {fullName}"**
 			public virtual string Welcome(object fullName) => $"Welcome {fullName}";

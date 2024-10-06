@@ -1,6 +1,7 @@
 {
   "onboarding": {
     "welcome": "Welcome {fullName}",
+    "@welcome": "Willkommen\nqwerty",
     "welcomeAlias": "@:onboarding.welcome",
     "welcomeOnlyParam": "{firstName}",
     "bye": "Bye {firstName}",
