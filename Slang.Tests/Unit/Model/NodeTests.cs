@@ -13,7 +13,7 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
@@ -30,7 +30,7 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
@@ -47,13 +47,13 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
                     new ListNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries:
                         [
@@ -63,7 +63,7 @@ public class NodeTests
                     ),
                     new ListNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries:
                         [
@@ -82,19 +82,19 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
                     new ListNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries:
                         [
                             new ListNode(
                                 Path: "",
-                                Comment: null,
+                                ExtendData: null,
                                 Modifiers: new Dictionary<string, string>(),
                                 Entries:
                                 [
@@ -106,13 +106,13 @@ public class NodeTests
                     ),
                     new ListNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries:
                         [
                             new ListNode(
                                 Path: "",
-                                Comment: null,
+                                ExtendData: null,
                                 Modifiers: new Dictionary<string, string>(),
                                 Entries:
                                 [
@@ -123,7 +123,7 @@ public class NodeTests
 
                             new ListNode(
                                 Path: "",
-                                Comment: null,
+                                ExtendData: null,
                                 Modifiers: new Dictionary<string, string>(),
                                 Entries:
                                 [
@@ -143,13 +143,13 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
                     new ObjectNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries: new Dictionary<string, Node>
                         {
@@ -159,7 +159,7 @@ public class NodeTests
                     ),
                     new ObjectNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries: new Dictionary<string, Node>
                         {
@@ -177,13 +177,13 @@ public class NodeTests
         {
             var node = new ListNode(
                 Path: "",
-                Comment: null,
+                ExtendData: null,
                 Modifiers: new Dictionary<string, string>(),
                 Entries:
                 [
                     new ObjectNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries: new Dictionary<string, Node>
                         {
@@ -193,7 +193,7 @@ public class NodeTests
                     ),
                     new ObjectNode(
                         Path: "",
-                        Comment: null,
+                        ExtendData: null,
                         Modifiers: new Dictionary<string, string>(),
                         Entries: new Dictionary<string, Node>
                         {

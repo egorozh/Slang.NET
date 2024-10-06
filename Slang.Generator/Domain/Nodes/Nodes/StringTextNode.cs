@@ -4,12 +4,12 @@ internal record StringTextNode : Node, ILeafNode
 {
     public StringTextNode(string Path,
         IReadOnlyDictionary<string, string> Modifiers,
-        string? Comment,
+        ExtendData? ExtendData,
         HashSet<string> Params,
         Dictionary<string, string> ParamTypeMap,
         HashSet<string> Links,
         string Content,
-        string ParsedContent) : base(Path, Modifiers, Comment)
+        string ParsedContent) : base(Path, Modifiers, ExtendData)
     {
         this.Params = Params;
         this.ParamTypeMap = ParamTypeMap;

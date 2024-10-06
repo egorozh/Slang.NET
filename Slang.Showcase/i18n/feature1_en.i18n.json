@@ -1,5 +1,28 @@
 {
   "screen": {
-    "locale1": "Locale 1"
+    "locale1": "Date {date}",
+    "@locale1": {
+      "description": "Title of the day in the schedule of visits",
+      "placeholders": {
+        "date": {
+          "type": "DateTime",
+          "format": "dd MMMM",
+          "isCustomDateFormat": "true"
+        }
+      }
+    },
+    "test_param": "param: {param:double}"
+  },
+  "profile_rating": "My rating: {rating}",
+  "@profile_rating": {
+    "placeholders": {
+      "rating": {
+        "type": "double",
+        "format": "decimalPatternDigits",
+        "optionalParameters": {
+          "decimalDigits": 2
+        }
+      }
+    }
   }
 }

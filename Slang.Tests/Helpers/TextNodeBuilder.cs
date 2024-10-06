@@ -13,7 +13,7 @@ internal static class TextNodeBuilder
     {
         return NodesRepository.CreateTextNode(
             path: "",
-            comment: null,
+            extendData: null,
             new BuildModelConfig(
                 KeyCase: CaseStyle.Pascal,
                 KeyMapCase: CaseStyle.Camel,

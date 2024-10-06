@@ -77,7 +77,7 @@ internal static partial class NodesRepository
         // imaginary root node
         var root = new ObjectNode(
             Path: "",
-            Comment: null,
+            ExtendData: null,
             Modifiers: NodeUtils.Empty,
             Entries: resultNodeTree,
             IsMap: false);

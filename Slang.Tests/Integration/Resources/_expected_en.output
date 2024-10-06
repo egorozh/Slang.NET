@@ -44,7 +44,10 @@ namespace Slang.Tests
 			public virtual string Welcome(object fullName) => $"Welcome {fullName}";
 			public virtual string WelcomeAlias(object fullName) => $"{_root.Onboarding.Welcome(fullName: fullName)}";
 			public virtual string WelcomeOnlyParam(object firstName) => $"{firstName}";
+
+			/// Bye text
 			public virtual string Bye(object firstName) => $"Bye {firstName}";
+
 			public virtual List<dynamic> Pages => [
 					new TestLocalesOnboardingPages0i0En(_root),
 					new TestLocalesOnboardingPages0i1En(_root),

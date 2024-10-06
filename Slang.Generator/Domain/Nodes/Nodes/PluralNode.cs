@@ -16,21 +16,16 @@ internal enum Quantity
     other
 }
 
-/// <param name="Path"></param>
-/// <param name="Modifiers"></param>
-/// <param name="Comment"></param>
-/// <param name="PluralType"></param>
-/// <param name="Quantities"></param>
 /// <param name="ParamName">name of the plural parameter</param>
 /// <param name="ParamType">type of the plural parameter defaults to num</param>
 internal record PluralNode(
     string Path,
     IReadOnlyDictionary<string, string> Modifiers,
-    string? Comment,
+    ExtendData? ExtendData,
     PluralType PluralType,
     Dictionary<Quantity, StringTextNode> Quantities,
     string ParamName,
-    string ParamType) : Node(Path, Modifiers, Comment), ILeafNode;
+    string ParamType) : Node(Path, Modifiers, ExtendData), ILeafNode;
 
 internal static class Pluralization
 {

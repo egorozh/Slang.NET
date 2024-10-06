@@ -130,7 +130,7 @@ internal static partial class NodesRepository
         return new StringTextNode(
             Path: value.Path,
             Modifiers: value.Modifiers,
-            Comment: value.Comment,
+            ExtendData: value.ExtendData,
             Params: @params,
             ParamTypeMap: value.ParamTypeMap,
             Links: parsedLinksResult.Links,

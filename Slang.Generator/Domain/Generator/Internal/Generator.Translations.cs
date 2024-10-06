@@ -302,11 +302,11 @@ internal static partial class Generator
     private static bool HandleComment(StringBuilder buffer, Node value, bool prevHasComment, int tabAnchor)
     {
         // comment handling
-        if (value.Comment != null)
+        if (value.ExtendData?.Description != null)
         {
             // add comment add on the line above
             buffer.AppendLine();
-            buffer.AppendLineWithTab($"/// {value.Comment}", tabCount: tabAnchor);
+            buffer.AppendLineWithTab($"/// {value.ExtendData.Description}", tabCount: tabAnchor);
             prevHasComment = true;
         }
         else

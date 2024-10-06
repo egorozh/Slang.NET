@@ -37,13 +37,13 @@ internal static partial class NodesRepository
 
             string currPath = !string.IsNullOrEmpty(parentPath) ? $"{parentPath}.{newKey}" : newKey;
 
-            string? comment = !curr.ContainsKey($"@{key}")
+            var extendData = !curr.ContainsKey($"@{key}")
                 ? null
-                : ParseCommentNode(curr[$"@{key}"]);
+                : ParseExtendData(curr[$"@{key}"]);
 
             var node = GetNode(
                 currPath,
-                comment,
+                extendData,
                 config,
                 leavesMap,
                 baseData,
@@ -59,7 +59,7 @@ internal static partial class NodesRepository
 
     private static Node? GetNode(
         string currPath,
-        string? comment,
+        ExtendData? extendData,
         BuildModelConfig config,
         Dictionary<string, ILeafNode> leavesMap,
         BuildModelResult? baseData,
@@ -68,7 +68,7 @@ internal static partial class NodesRepository
     {
         if (RawProvider.TryGetString(value, out string raw))
         {
-            var textNode = CreateTextNode(currPath, comment, config, raw, modifiers);
+            var textNode = CreateTextNode(currPath, extendData, config, raw, modifiers);
 
             leavesMap[currPath] = textNode;
 
@@ -98,7 +98,7 @@ internal static partial class NodesRepository
             // varly only take their values, ignoring keys
             var node = new ListNode(
                 Path: currPath,
-                Comment: comment,
+                ExtendData: extendData,
                 Modifiers: modifiers,
                 Entries: children.Values.ToList()
             );
@@ -113,12 +113,12 @@ internal static partial class NodesRepository
             value,
             currPath,
             modifiers,
-            comment);
+            extendData);
     }
 
     internal static StringTextNode CreateTextNode(
         string path,
-        string? comment,
+        ExtendData? extendData,
         BuildModelConfig config,
         string value,
         IReadOnlyDictionary<string, string> modifiers,
@@ -140,7 +140,7 @@ internal static partial class NodesRepository
         return new StringTextNode(
             Path: path,
             Modifiers: modifiers,
-            Comment: comment,
+            ExtendData: extendData,
             Params: @params,
             ParamTypeMap: paramTypeMap,
             Links: parsedLinksResult.Links,
@@ -156,7 +156,7 @@ internal static partial class NodesRepository
         object? value,
         string currPath,
         IReadOnlyDictionary<string, string> modifiers,
-        string? comment)
+        ExtendData? extendData)
     {
         var dict = RawProvider.GetDictionary(value);
 
@@ -230,7 +230,7 @@ internal static partial class NodesRepository
             var pluralNode = new PluralNode(
                 Path: currPath,
                 Modifiers: modifiers,
-                Comment: comment,
+                ExtendData: extendData,
                 PluralType: detectedType.NodeType == DetectionType.PluralCardinal
                     ? PluralType.Cardinal
                     : PluralType.Ordinal,
@@ -246,7 +246,7 @@ internal static partial class NodesRepository
         {
             varNode = new ObjectNode(
                 Path: currPath,
-                Comment: comment,
+                ExtendData: extendData,
                 Modifiers: modifiers,
                 Entries: children,
                 IsMap: detectedType.NodeType == DetectionType.Map
@@ -256,12 +256,54 @@ internal static partial class NodesRepository
         return varNode;
     }
 
-    private static string? ParseCommentNode(object? node)
+    private static ExtendData ParseExtendData(object? node)
     {
         if (RawProvider.TryGetString(node, out string comment))
-            return comment;
+            return new ExtendData(Description: comment);
 
-        return null;
+        var dict = RawProvider.GetDictionary(node);
+
+        if (dict != null)
+            return ParseExtendData(dict);
+
+        return new ExtendData(null);
+    }
+
+    private static ExtendData ParseExtendData(Dictionary<string, object?> map)
+    {
+        string? comment = null;
+        Dictionary<string, Placeholder>? placeholders = null;
+
+        if (map.ContainsKey("description") && RawProvider.TryGetString(map["description"], out string description))
+        {
+            comment = description;
+        }
+
+        if (map.ContainsKey("placeholders"))
+        {
+            var placeholderDict = RawProvider.GetDictionary(map["placeholders"]);
+
+            if (placeholderDict?.Count > 0)
+            {
+                placeholders = new Dictionary<string, Placeholder>();
+
+                foreach (var entry in placeholderDict)
+                {
+                    var value = RawProvider.GetDictionary(entry.Value);
+
+                    if (value != null)
+                        placeholders[entry.Key] = ParsePlaceholder(value);
+                }
+            }
+        }
+
+        return new ExtendData(comment, placeholders);
+    }
+
+    private static Placeholder ParsePlaceholder(Dictionary<string, object?> value)
+    {
+        
+        return new Placeholder(null, null);
     }
 
     private static DetectionResult DetermineNodeType(
