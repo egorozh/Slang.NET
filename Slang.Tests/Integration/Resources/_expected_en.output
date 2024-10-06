@@ -41,11 +41,23 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Welcome {fullName}"**
 			public virtual string Welcome(object fullName) => $"Welcome {fullName}";
+
+			/// In en, this message translates to:
+			/// **"{_root.Onboarding.Welcome(fullName: fullName)}"**
 			public virtual string WelcomeAlias(object fullName) => $"{_root.Onboarding.Welcome(fullName: fullName)}";
+
+			/// In en, this message translates to:
+			/// **"{firstName}"**
 			public virtual string WelcomeOnlyParam(object firstName) => $"{firstName}";
 
 			/// Bye text
+			///
+			/// In en, this message translates to:
+			/// **"Bye {firstName}"**
 			public virtual string Bye(object firstName) => $"Bye {firstName}";
 
 			public virtual List<dynamic> Pages => [
@@ -58,7 +70,13 @@ namespace Slang.Tests
 	];
 			public virtual TestLocalesOnboardingGreetEn Greet { get; }
 			public virtual TestLocalesOnboardingGreet2En Greet2 { get; }
+
+			/// In en, this message translates to:
+			/// **"Hello {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}"**
 			public virtual string WelcomeLinkedPlural(int n, object fullName, object firstName) => $"Hello {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}";
+
+			/// In en, this message translates to:
+			/// **"Ultimate {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}"**
 			public virtual string WelcomeFullLink(int n, object fullName, object firstName) => $"Ultimate {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}";
 		}
 
@@ -111,7 +129,13 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"First Page"**
 			public virtual string Title => "First Page";
+
+			/// In en, this message translates to:
+			/// **"First Page Content"**
 			public virtual string Content => "First Page Content";
 		}
 
@@ -126,6 +150,9 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Second Page"**
 			public virtual string Title => "Second Page";
 		}
 
@@ -140,7 +167,13 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"First Modifier Page"**
 			public virtual string Title => "First Modifier Page";
+
+			/// In en, this message translates to:
+			/// **"First Page Content"**
 			public virtual string Content => "First Page Content";
 		}
 
@@ -155,6 +188,9 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Second Modifier Page"**
 			public virtual string Title => "Second Modifier Page";
 		}
 
@@ -169,7 +205,13 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Hello Mr {lastName} and {_root.Onboarding.Welcome(fullName: fullName)}"**
 			public virtual string Male(object lastName, object fullName) => $"Hello Mr {lastName} and {_root.Onboarding.Welcome(fullName: fullName)}";
+
+			/// In en, this message translates to:
+			/// **"Hello Ms {lastName} and {_root.Onboarding.Bye(firstName: firstName)}"**
 			public virtual string Female(object lastName, object firstName) => $"Hello Ms {lastName} and {_root.Onboarding.Bye(firstName: firstName)}";
 		}
 
@@ -184,7 +226,13 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Hello Mr"**
 			public virtual string Male => "Hello Mr";
+
+			/// In en, this message translates to:
+			/// **"Hello Ms"**
 			public virtual string Female => "Hello Ms";
 		}
 
@@ -199,6 +247,9 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"Unknown\nError"**
 			public virtual string Unknown => "Unknown\nError";
 		}
 
@@ -213,7 +264,13 @@ namespace Slang.Tests
 			protected virtual TestLocales _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In en, this message translates to:
+			/// **"An Error"**
 			public virtual string WithSpace => "An Error";
+
+			/// In en, this message translates to:
+			/// **"An 2nd Error"**
 			public virtual string WithSecondSpace => "An 2nd Error";
 		}
 

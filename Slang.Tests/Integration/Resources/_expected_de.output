@@ -41,11 +41,23 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Willkommen {fullName}"**
 			public override string Welcome(object fullName) => $"Willkommen {fullName}";
+
+			/// In de, this message translates to:
+			/// **"{_root.Onboarding.Welcome(fullName: fullName)}"**
 			public override string WelcomeAlias(object fullName) => $"{_root.Onboarding.Welcome(fullName: fullName)}";
+
+			/// In de, this message translates to:
+			/// **"{firstName}"**
 			public override string WelcomeOnlyParam(object firstName) => $"{firstName}";
 
 			/// Bye text
+			///
+			/// In de, this message translates to:
+			/// **"Tschüss {firstName}"**
 			public override string Bye(object firstName) => $"Tschüss {firstName}";
 
 			public override List<dynamic> Pages => [
@@ -58,7 +70,13 @@ namespace Slang.Tests
 	];
 			public override TestLocalesOnboardingGreetDe Greet { get; }
 			public override TestLocalesOnboardingGreet2De Greet2 { get; }
+
+			/// In de, this message translates to:
+			/// **"Hallo {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}"**
 			public override string WelcomeLinkedPlural(int n, object fullName, object firstName) => $"Hallo {_root.Group.Users(n: n, fullName: fullName, firstName: firstName)}";
+
+			/// In de, this message translates to:
+			/// **"Ultimative {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}"**
 			public override string WelcomeFullLink(int n, object fullName, object firstName) => $"Ultimative {_root.Onboarding.WelcomeLinkedPlural(n: n, fullName: fullName, firstName: firstName)}";
 		}
 
@@ -111,7 +129,13 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Erste Seite"**
 			public override string Title => "Erste Seite";
+
+			/// In de, this message translates to:
+			/// **"Erster Seiteninhalt"**
 			public override string Content => "Erster Seiteninhalt";
 		}
 
@@ -126,6 +150,9 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Zweite Seite"**
 			public override string Title => "Zweite Seite";
 		}
 
@@ -140,7 +167,13 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Erste Modifier Seite"**
 			public override string Title => "Erste Modifier Seite";
+
+			/// In de, this message translates to:
+			/// **"Erster Seiteninhalt"**
 			public override string Content => "Erster Seiteninhalt";
 		}
 
@@ -155,6 +188,9 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Zweite Modifier Seite"**
 			public override string Title => "Zweite Modifier Seite";
 		}
 
@@ -169,7 +205,13 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Hallo Herr {lastName} und {_root.Onboarding.Welcome(fullName: fullName)}"**
 			public override string Male(object lastName, object fullName) => $"Hallo Herr {lastName} und {_root.Onboarding.Welcome(fullName: fullName)}";
+
+			/// In de, this message translates to:
+			/// **"Hallo Frau {lastName} und {_root.Onboarding.Bye(firstName: firstName)}"**
 			public override string Female(object lastName, object firstName) => $"Hallo Frau {lastName} und {_root.Onboarding.Bye(firstName: firstName)}";
 		}
 
@@ -184,7 +226,13 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Hallo Herr"**
 			public override string Male => "Hallo Herr";
+
+			/// In de, this message translates to:
+			/// **"Hallo Frau"**
 			public override string Female => "Hallo Frau";
 		}
 
@@ -199,6 +247,9 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Unbekannter\nFehler"**
 			public override string Unknown => "Unbekannter\nFehler";
 		}
 
@@ -213,7 +264,13 @@ namespace Slang.Tests
 			protected override TestLocalesDe _root { get; } // ignore: unused_field
 
 			// Translations
+
+			/// In de, this message translates to:
+			/// **"Ein Fehler"**
 			public override string WithSpace => "Ein Fehler";
+
+			/// In de, this message translates to:
+			/// **"Ein 2. Fehler"**
 			public override string WithSecondSpace => "Ein 2. Fehler";
 		}
 

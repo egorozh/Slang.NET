@@ -77,7 +77,9 @@ internal static partial class Generator
 
         buffer.AppendLineWithTab(
             // The class name of the **base** locale (path-dependent).
-            localeData.BaseLocale ? $"partial class {varClassName}" : $"partial class {varClassName} : {config.ClassName}",
+            localeData.BaseLocale
+                ? $"partial class {varClassName}"
+                : $"partial class {varClassName} : {config.ClassName}",
             tabCount: 1);
 
         buffer.AppendWithTab('{', tabCount: 1);
@@ -183,7 +185,7 @@ internal static partial class Generator
 
         foreach ((string key, var value) in node.Entries)
         {
-            prevHasComment = HandleComment(buffer, value, prevHasComment, tabAnchor);
+            prevHasComment = HandleComment(buffer, value, prevHasComment, tabAnchor, localeData);
 
             bool isOverride = !localeData.BaseLocale;
 
@@ -299,15 +301,43 @@ internal static partial class Generator
         }
     }
 
-    private static bool HandleComment(StringBuilder buffer, Node value, bool prevHasComment, int tabAnchor)
+    private static bool HandleComment(
+        StringBuilder buffer,
+        Node value,
+        bool prevHasComment,
+        int tabAnchor,
+        I18NData localeData)
     {
+        string? comment = value.ExtendData?.Description;
+
         // comment handling
-        if (value.ExtendData?.Description != null)
+        if (comment != null)
         {
+            string[] commentStrings = comment.Split('\n');
+
             // add comment add on the line above
             buffer.AppendLine();
-            buffer.AppendLineWithTab($"/// {value.ExtendData.Description}", tabCount: tabAnchor);
+
+            foreach (string commentString in commentStrings)
+                buffer.AppendLineWithTab($"/// {commentString}", tabCount: tabAnchor);
+
+            if (value is StringTextNode)
+                buffer.AppendLineWithTab($"///", tabCount: tabAnchor);
+            else
+                buffer.AppendLine();
+
             prevHasComment = true;
+        }
+
+        if (value is StringTextNode stringTextNode)
+        {
+            if (comment == null)
+                buffer.AppendLine();
+
+            buffer.AppendLineWithTab(
+                $"/// In {localeData.Locale.TwoLetterISOLanguageName}, this message translates to:",
+                tabCount: tabAnchor);
+            buffer.AppendLineWithTab($"/// **\"{stringTextNode.Content}\"**", tabCount: tabAnchor);
         }
         else
         {
