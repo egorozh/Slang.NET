@@ -15,18 +15,125 @@ namespace Slang.Tests
 		public TestLocalesDe()
 		{
 			_root = this;
+			Formatting = new TestLocalesFormattingDe(_root);
 			Onboarding = new TestLocalesOnboardingDe(_root);
 			Group = new TestLocalesGroupDe(_root);
 			End = new TestLocalesEndDe(_root);
 		}
 
 		// Translations
+
+		/// Formatting bloc comment
+
+
+		public override TestLocalesFormattingDe Formatting { get; }
 		public override TestLocalesOnboardingDe Onboarding { get; }
 		public override TestLocalesGroupDe Group { get; }
 		public override TestLocalesEndDe End { get; }
 		public override string AdvancedPlural(int count, object fullName, int n, object firstName) => PluralResolvers.Cardinal("de")(count,
 				one: $"Eins",
 				other: $"Andere {count}, {_root.Group.Users(fullName: fullName, n: n, firstName: firstName)}"			);
+
+		// Path: Formatting
+		public class TestLocalesFormattingDe : TestLocalesFormattingEn
+		{
+			public TestLocalesFormattingDe(TestLocalesDe root) : base(root)
+			{
+				this._root = root;
+			}
+
+			protected override TestLocalesDe _root { get; } // ignore: unused_field
+
+			// Translations
+
+			/// In de, this message translates to:
+			/// **"Double formatting: {value}"**
+			public override string DoubleExample(double value)
+			{
+				string valueString = value.ToString("F2");
+				return $"Double formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Double formatting: {value}"**
+			public override string DoubleExample2(double value)
+			{
+				string valueString = value.ToString("F3");
+				return $"Double formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Object formatting: {value}"**
+			public override string ObjectExample2(object value)
+			{
+				string valueString = string.Format("Qwerty {0} qwerty", value);
+				return $"Object formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Int formatting: {value}"**
+			public override string IntExample(int value)
+			{
+				string valueString = value.ToString("X");
+				return $"Int formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Long formatting: {value}"**
+			public override string LongExample(long value)
+			{
+				string valueString = value.ToString("N");
+				return $"Long formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Decimal formatting: {value}"**
+			public override string DecimalExample(decimal value)
+			{
+				string valueString = value.ToString("C2");
+				return $"Decimal formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Float formatting: {value}"**
+			public override string FloatExample(float value)
+			{
+				string valueString = value.ToString("F2");
+				return $"Float formatting: {valueString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Date {date}"**
+			public override string DateExample(DateTime date)
+			{
+				string dateString = date.ToString("dd MMMM HH:mm");
+				return $"Date {dateString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Date only {date}"**
+			public override string DateOnlyExample(DateOnly date)
+			{
+				string dateString = date.ToString("dd MMMM");
+				return $"Date only {dateString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Time only {time}"**
+			public override string TimeOnlyExample(TimeOnly time)
+			{
+				string timeString = time.ToString("HH:mm");
+				return $"Time only {timeString}";
+			}
+
+			/// In de, this message translates to:
+			/// **"Timespan only {time}"**
+			public override string TimeSpanExample(TimeSpan time)
+			{
+				string timeString = time.ToString("t");
+				return $"Timespan only {timeString}";
+			}
+		}
 
 		// Path: Onboarding
 		public class TestLocalesOnboardingDe : TestLocalesOnboardingEn

@@ -394,6 +394,19 @@ internal static partial class Generator
             tabCount: tabAnchor);
     }
 
+    private static readonly HashSet<string> SupportedFormattingTypes =
+    [
+        "int",
+        "long",
+        "double",
+        "decimal",
+        "float",
+        "DateTime",
+        "DateOnly",
+        "TimeOnly",
+        "TimeSpan"
+    ];
+
     private static void GenerateFormatMethod(
         StringBuilder buffer,
         StringTextNode stringTextNode,
@@ -430,46 +443,11 @@ internal static partial class Generator
                 else
                     type = "object";
 
-                switch (type)
-                {
-                    case "double":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-                        break;
-
-                    case "decimal":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-
-                        break;
-
-                    case "float":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-
-                        break;
-
-                    case "DateTime":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-                        break;
-
-                    case "DateOnly":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-                        break;
-
-                    case "TimeOnly":
-                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
-                            tabCount: tabAnchor + 1);
-                        break;
-
-                    default:
-                        buffer.AppendLineWithTab(
-                            $"string {newParam} = string.Format(\"{placeholder.Format}\", {paramKey});",
-                            tabCount: tabAnchor + 1);
-                        break;
-                }
+                buffer.AppendLineWithTab(
+                    SupportedFormattingTypes.Contains(type)
+                        ? $"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");"
+                        : $"string {newParam} = string.Format(\"{placeholder.Format}\", {paramKey});",
+                    tabCount: tabAnchor + 1);
             }
         }
 

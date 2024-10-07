@@ -15,18 +15,125 @@ namespace Slang.Tests
 		public TestLocales()
 		{
 			_root = this;
+			Formatting = new TestLocalesFormattingEn(_root);
 			Onboarding = new TestLocalesOnboardingEn(_root);
 			Group = new TestLocalesGroupEn(_root);
 			End = new TestLocalesEndEn(_root);
 		}
 
 		// Translations
+
+		/// Formatting bloc comment
+
+
+		public virtual TestLocalesFormattingEn Formatting { get; }
 		public virtual TestLocalesOnboardingEn Onboarding { get; }
 		public virtual TestLocalesGroupEn Group { get; }
 		public virtual TestLocalesEndEn End { get; }
 		public virtual string AdvancedPlural(int count, object fullName, int n, object firstName) => PluralResolvers.Cardinal("en")(count,
 				one: $"One",
 				other: $"Other {count}, {_root.Group.Users(fullName: fullName, n: n, firstName: firstName)}"			);
+
+		// Path: Formatting
+		public class TestLocalesFormattingEn
+		{
+			public TestLocalesFormattingEn(TestLocales root)
+			{
+				this._root = root;
+			}
+
+			protected virtual TestLocales _root { get; } // ignore: unused_field
+
+			// Translations
+
+			/// In en, this message translates to:
+			/// **"Double formatting: {value}"**
+			public virtual string DoubleExample(double value)
+			{
+				string valueString = value.ToString("F2");
+				return $"Double formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Double formatting: {value}"**
+			public virtual string DoubleExample2(double value)
+			{
+				string valueString = value.ToString("F3");
+				return $"Double formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Object formatting: {value}"**
+			public virtual string ObjectExample2(object value)
+			{
+				string valueString = string.Format("Qwerty {0} qwerty", value);
+				return $"Object formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Int formatting: {value}"**
+			public virtual string IntExample(int value)
+			{
+				string valueString = value.ToString("X");
+				return $"Int formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Long formatting: {value}"**
+			public virtual string LongExample(long value)
+			{
+				string valueString = value.ToString("N");
+				return $"Long formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Decimal formatting: {value}"**
+			public virtual string DecimalExample(decimal value)
+			{
+				string valueString = value.ToString("C2");
+				return $"Decimal formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Float formatting: {value}"**
+			public virtual string FloatExample(float value)
+			{
+				string valueString = value.ToString("F2");
+				return $"Float formatting: {valueString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Date {date}"**
+			public virtual string DateExample(DateTime date)
+			{
+				string dateString = date.ToString("dd MMMM HH:mm");
+				return $"Date {dateString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Date only {date}"**
+			public virtual string DateOnlyExample(DateOnly date)
+			{
+				string dateString = date.ToString("dd MMMM");
+				return $"Date only {dateString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Time only {time}"**
+			public virtual string TimeOnlyExample(TimeOnly time)
+			{
+				string timeString = time.ToString("HH:mm");
+				return $"Time only {timeString}";
+			}
+
+			/// In en, this message translates to:
+			/// **"Timespan only {time}"**
+			public virtual string TimeSpanExample(TimeSpan time)
+			{
+				string timeString = time.ToString("t");
+				return $"Timespan only {timeString}";
+			}
+		}
 
 		// Path: Onboarding
 		public class TestLocalesOnboardingEn

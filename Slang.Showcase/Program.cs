@@ -35,4 +35,14 @@ void ShowLocales()
     Console.WriteLine(Feature1.Instance.Root.Screen.Data(DateOnly.FromDateTime(DateTime.Now)));
     Console.WriteLine(Feature1.Instance.Root.Screen.TestParam(232));
     Console.WriteLine(Feature1.Instance.Root.ProfileRating(4.763413));
+
+    var formattingBloc = Feature1.Instance.Root.Formatting;
+
+    Console.WriteLine(formattingBloc.DecimalExample(12.23123M));
+    Console.WriteLine(formattingBloc.LongExample(124214));
+    Console.WriteLine(formattingBloc.IntExample(123));
+    Console.WriteLine(formattingBloc.TimeSpanExample(TimeSpan.FromMinutes(13)));
+    Console.WriteLine(formattingBloc.ObjectExample2("Hello World!"));
+    Console.WriteLine(formattingBloc.FloatExample(123.31414f));
+
 }

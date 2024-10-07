@@ -1,4 +1,106 @@
 {
+  "formatting": {
+    "doubleExample": "Double formatting: {value}",
+    "@doubleExample": {
+      "placeholders": {
+        "value": {
+          "type": "double",
+          "format": "F2"
+        }
+      }
+    },
+    "doubleExample2": "Double formatting: {value:double}",
+    "@doubleExample2": {
+      "placeholders": {
+        "value": {
+          "format": "F3"
+        }
+      }
+    },
+    "objectExample2": "Object formatting: {value}",
+    "@objectExample2": {
+      "placeholders": {
+        "value": {
+          "format": "Qwerty {0} qwerty"
+        }
+      }
+    },
+    "intExample": "Int formatting: {value}",
+    "@intExample": {
+      "placeholders": {
+        "value": {
+          "type": "int",
+          "format": "X"
+        }
+      }
+    },
+    "longExample": "Long formatting: {value}",
+    "@longExample": {
+      "placeholders": {
+        "value": {
+          "type": "long",
+          "format": "N"
+        }
+      }
+    },
+    "decimalExample": "Decimal formatting: {value}",
+    "@decimalExample": {
+      "placeholders": {
+        "value": {
+          "type": "decimal",
+          "format": "C2"
+        }
+      }
+    },
+    "floatExample": "Float formatting: {value}",
+    "@floatExample": {
+      "placeholders": {
+        "value": {
+          "type": "float",
+          "format": "F2"
+        }
+      }
+    },
+    "dateExample": "Date {date}",
+    "@dateExample": {
+      "placeholders": {
+        "date": {
+          "type": "DateTime",
+          "format": "dd MMMM HH:mm"
+        }
+      }
+    },
+    "dateOnlyExample": "Date only {date}",
+    "@dateOnlyExample": {
+      "placeholders": {
+        "date": {
+          "type": "DateOnly",
+          "format": "dd MMMM"
+        }
+      }
+    },
+    "timeOnlyExample": "Time only {time}",
+    "@timeOnlyExample": {
+      "placeholders": {
+        "time": {
+          "type": "TimeOnly",
+          "format": "HH:mm"
+        }
+      }
+    },
+    "timeSpanExample": "Timespan only {time}",
+    "@timeSpanExample": {
+      "placeholders": {
+        "time": {
+          "type": "TimeSpan",
+          "format": "t"
+        }
+      }
+    }
+  },
+  "@formatting": {
+    "description": "Formatting bloc comment"
+  },
   "screen": {
     "data": "Date {date}",
     "@data": {
