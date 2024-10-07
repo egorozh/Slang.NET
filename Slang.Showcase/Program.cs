@@ -1,19 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System;
-using System.Globalization;
 using Slang.Showcase;
 using Slang.Showcase.MyNamespace;
 
-Console.WriteLine("Hello, World!");
+foreach (var culture in Feature1.SupportedCultures)
+{
+    Console.WriteLine($"{culture} translations:\n");
 
-Strings.SetCulture(new CultureInfo("ru-RU"));
+    Strings.SetCulture(culture);
 
-ShowLocales();
+    ShowLocales();
 
-Strings.SetCulture(new CultureInfo("en-US"));
+    Console.WriteLine();
+}
 
-ShowLocales();
+return;
 
 void ShowLocales()
 {
@@ -38,11 +40,12 @@ void ShowLocales()
 
     var formattingBloc = Feature1.Instance.Root.Formatting;
 
-    Console.WriteLine(formattingBloc.DecimalExample(12.23123M));
+    string? price = formattingBloc.DecimalExample(12.23123M);
+    
+    Console.WriteLine(price);
     Console.WriteLine(formattingBloc.LongExample(124214));
     Console.WriteLine(formattingBloc.IntExample(123));
     Console.WriteLine(formattingBloc.TimeSpanExample(TimeSpan.FromMinutes(13)));
     Console.WriteLine(formattingBloc.ObjectExample2("Hello World!"));
     Console.WriteLine(formattingBloc.FloatExample(123.31414f));
-
 }

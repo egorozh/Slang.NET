@@ -1,5 +1,5 @@
 {
-  "base_culture": "ru",
+  "base_culture": "ru-RU",
   "gpt": {
     "model": "gpt-4o-mini",
     "description": "Showcase for Slang.Net.Gpt"

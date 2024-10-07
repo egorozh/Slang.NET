@@ -54,7 +54,7 @@ public static class FilesRepository
         return GetTranslationFile(baseCulture, fileName, () => Task.FromResult(content));
     }
 
-    private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
+    internal static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
         Func<Task<string>> contentFactory)
     {
         string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
