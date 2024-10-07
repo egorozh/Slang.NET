@@ -356,13 +356,126 @@ internal static partial class Generator
     private static void GenerateProperty(StringBuilder buffer, StringTextNode stringTextNode, string overrideString,
         string key, int tabAnchor)
     {
-        string stringLiteral = GetStringLiteral(
-            stringTextNode.Content, stringTextNode.Links.Count);
+        if (stringTextNode is {ExtendData: { } extendData, Params.Count: > 0})
+        {
+            GeneratePropertyEx(buffer, stringTextNode, extendData, overrideString, key, tabAnchor);
+            return;
+        }
+
+        string stringLiteral = GetStringLiteral(stringTextNode.Content, stringTextNode.Links.Count);
 
         buffer.AppendLineWithTab(stringTextNode.Params.Count == 0
                 ? $"public {overrideString}string {key} => {stringLiteral};"
                 : $"public {overrideString}string {key}{ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap)} => ${stringLiteral};",
             tabCount: tabAnchor);
+    }
+
+    private static void GeneratePropertyEx(
+        StringBuilder buffer,
+        StringTextNode stringTextNode,
+        ExtendData extendData,
+        string overrideString,
+        string key,
+        int tabAnchor)
+    {
+        bool? isAnyFormat = extendData.Placeholders?.Values.Any(p => !string.IsNullOrEmpty(p.Format));
+
+        if (isAnyFormat == true)
+        {
+            GenerateFormatMethod(buffer, stringTextNode, extendData.Placeholders, overrideString, key, tabAnchor);
+            return;
+        }
+
+        string stringLiteral = GetStringLiteral(stringTextNode.Content, stringTextNode.Links.Count);
+
+        buffer.AppendLineWithTab(stringTextNode.Params.Count == 0
+                ? $"public {overrideString}string {key} => {stringLiteral};"
+                : $"public {overrideString}string {key}{ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap, extendData.Placeholders)} => ${stringLiteral};",
+            tabCount: tabAnchor);
+    }
+
+    private static void GenerateFormatMethod(
+        StringBuilder buffer,
+        StringTextNode stringTextNode,
+        IReadOnlyDictionary<string, Placeholder> placeholders,
+        string overrideString,
+        string key,
+        int tabAnchor)
+    {
+        string parameters =
+            ToParameterList(stringTextNode.Params, stringTextNode.ParamTypeMap, placeholders);
+
+        buffer.AppendLineWithTab(
+            $"public {overrideString}string {key}{parameters}",
+            tabCount: tabAnchor);
+
+        buffer.AppendLineWithTab("{", tabCount: tabAnchor);
+
+        string stringLiteral = GetStringLiteral(stringTextNode.Content, stringTextNode.Links.Count);
+
+        foreach ((string paramKey, var placeholder) in placeholders)
+        {
+            if (!string.IsNullOrEmpty(placeholder.Format))
+            {
+                string newParam = $"{paramKey}String";
+
+                stringLiteral = stringLiteral.Replace(paramKey, newParam);
+
+                string type;
+
+                if (placeholder.Type is { } s)
+                    type = s;
+                else if (stringTextNode.ParamTypeMap.ContainsKey(paramKey))
+                    type = stringTextNode.ParamTypeMap[paramKey];
+                else
+                    type = "object";
+
+                switch (type)
+                {
+                    case "double":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+                        break;
+
+                    case "decimal":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+
+                        break;
+
+                    case "float":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+
+                        break;
+
+                    case "DateTime":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+                        break;
+
+                    case "DateOnly":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+                        break;
+
+                    case "TimeOnly":
+                        buffer.AppendLineWithTab($"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");",
+                            tabCount: tabAnchor + 1);
+                        break;
+
+                    default:
+                        buffer.AppendLineWithTab(
+                            $"string {newParam} = string.Format(\"{placeholder.Format}\", {paramKey});",
+                            tabCount: tabAnchor + 1);
+                        break;
+                }
+            }
+        }
+
+        buffer.AppendLineWithTab($"return ${stringLiteral};", tabCount: tabAnchor + 1);
+
+        buffer.AppendLineWithTab("}", tabCount: tabAnchor);
     }
 
     /// generates a map of ONE locale
@@ -569,8 +682,11 @@ internal static partial class Generator
     }
 
     /// returns the parameter list
-    /// e.g. ({required Object name, required Object age})
-    private static string ToParameterList(HashSet<string> @params, Dictionary<string, string> paramTypeMap)
+    /// e.g. (object name, object age)
+    private static string ToParameterList(
+        HashSet<string> @params,
+        Dictionary<string, string> paramTypeMap,
+        IReadOnlyDictionary<string, Placeholder>? placeholders = null)
     {
         if (@params.Count == 0)
             return "()";
@@ -583,7 +699,9 @@ internal static partial class Generator
         {
             if (!first) buffer.Append(", ");
 
-            if (paramTypeMap.ContainsKey(param))
+            if ((placeholders?.ContainsKey(param) ?? false) && placeholders[param].Type is { } type)
+                buffer.Append($"{type} ");
+            else if (paramTypeMap.ContainsKey(param))
                 buffer.Append($"{paramTypeMap[param]} ");
             else
                 buffer.Append("object ");

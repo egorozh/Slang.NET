@@ -1,13 +1,12 @@
 {
   "screen": {
-    "locale1": "Date {date}",
-    "@locale1": {
+    "data": "Date {date}",
+    "@data": {
       "description": "Title of the day in the schedule of visits",
       "placeholders": {
         "date": {
-          "type": "DateTime",
-          "format": "dd MMMM",
-          "isCustomDateFormat": "true"
+          "type": "DateOnly",
+          "format": "dd MMMM"
         }
       }
     },
@@ -18,10 +17,7 @@
     "placeholders": {
       "rating": {
         "type": "double",
-        "format": "decimalPatternDigits",
-        "optionalParameters": {
-          "decimalDigits": 2
-        }
+        "format": "F2"
       }
     }
   }

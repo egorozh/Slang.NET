@@ -302,8 +302,20 @@ internal static partial class NodesRepository
 
     private static Placeholder ParsePlaceholder(Dictionary<string, object?> value)
     {
-        
-        return new Placeholder(null, null);
+        string? type = null;
+        string? format = null;
+
+        if (value.ContainsKey("type") && RawProvider.TryGetString(value["type"], out string typeStr))
+        {
+            type = typeStr;
+        }
+
+        if (value.ContainsKey("format") && RawProvider.TryGetString(value["format"], out string formatStr))
+        {
+            format = formatStr;
+        }
+
+        return new Placeholder(type, format);
     }
 
     private static DetectionResult DetermineNodeType(
