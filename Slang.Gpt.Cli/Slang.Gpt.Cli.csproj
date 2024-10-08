@@ -13,7 +13,7 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.0.0.0-preview8</Version>
+        <Version>1.1.0.0-preview1</Version>
     </PropertyGroup>
 
     <ItemGroup>
