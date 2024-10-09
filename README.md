@@ -88,13 +88,13 @@ or
 ## Features
 
 - [String Interpolation](#string-interpolation)
+- [Typed Parameters](#typed-parameters)
+- [Comments](#comments)
 - [String Format](#string-format)
-- [Pluralization](#main-features)
+- [Pluralization](#pluralization)
 - [Linked Translations](#main-features)
 - [Maps](#main-features)
 - [Lists](#main-features)
-- [Typed Parameters](#main-features)
-- [Comments](#main-features)
 
 ### String Interpolation
 
@@ -112,7 +112,13 @@ The generated code will look like this:
 public virtual string Hello(object name) => $"Hello {name}";
 ```
 
+### Typed Parameters
+
+### Comments
+
 ### String Format
+
+### Pluralization
 
 ## Tools
 
