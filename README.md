@@ -92,10 +92,10 @@ or
 - [Comments](#comments)
 - [String Format](#string-format)
 - [Pluralization](#pluralization)
-- [Linked Translations](#main-features)
-- [Maps](#main-features)
-- [Lists](#main-features)
-
+- [Linked Translations](#linked-translations)
+- [Maps](#maps)
+- [Lists](#lists)
+  
 ### String Interpolation
 
 You can specify parameters passed at runtime.. 
@@ -186,6 +186,12 @@ public virtual string Button => "Submit";
 ### String Format
 
 ### Pluralization
+
+### Linked Translations
+
+### Maps
+
+### Lists
 
 ## Tools
 
