@@ -114,6 +114,43 @@ public virtual string Hello(object name) => $"Hello {name}";
 
 ### Typed Parameters
 
+Parameters are typed as `object` by default. This is convenient because it offers maximum flexibility.
+
+You can specify the type using two syntax options:
+1 - Simple:
+
+```json
+{
+  "greet": "Hello {name: string}, you are {age: int} years old"
+}
+```
+
+2 - Using a placeholder, which allows you to specify a comment, type, or format string (see [Comments](#comments) and [String Format](#string-format)).
+
+```json
+{
+  "greet2": "Hello {name}, you are {age} years old",
+  "@greet2": {
+    "placeholders": {
+      "name": {
+        "type": "string"
+      },
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+}
+```
+
+The generated code will look like this:
+
+```csharp
+/// In ru, this message translates to:
+/// **"Hello {name}, you are {age} years old"**
+public virtual string Greet(string name, int age) => $"Hello {name}, you are {age} years old";
+```
+
 ### Comments
 
 ### String Format
