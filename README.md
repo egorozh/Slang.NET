@@ -101,15 +101,15 @@ or
 You can specify parameters passed at runtime.. 
 
 ```json
-"Hello": "Hello {name}",
+"Hello": "Hello {name}"
 ```
 
 The generated code will look like this:
 
 ```csharp
-		/// In en, this message translates to:
-		/// **"Hello {name}"**
-		public virtual string Hello(object name) => $"Hello {name}";
+/// In en, this message translates to:
+/// **"Hello {name}"**
+public virtual string Hello(object name) => $"Hello {name}";
 ```
 
 ### String Format
