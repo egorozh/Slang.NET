@@ -1,6 +1,7 @@
 # Slang.NET
 
 [![Nuget](https://img.shields.io/nuget/v/Slang.Net?label=Slang.Net)](https://www.nuget.org/packages/Slang.Net)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Type-safe i18n for .NET
 
@@ -86,14 +87,32 @@ or
 
 ## Features
 
-- String Interpolation
-- Pluralization
-- String Format
-- Linked Translations
-- Maps
-- Lists
-- Typed Parameters
-- Comments
+- [String Interpolation](#string-interpolation)
+- [String Format](#string-format)
+- [Pluralization](#main-features)
+- [Linked Translations](#main-features)
+- [Maps](#main-features)
+- [Lists](#main-features)
+- [Typed Parameters](#main-features)
+- [Comments](#main-features)
+
+### String Interpolation
+
+You can specify parameters passed at runtime.. 
+
+```json
+"Hello": "Hello {name}",
+```
+
+The generated code will look like this:
+
+```csharp
+		/// In en, this message translates to:
+		/// **"Hello {name}"**
+		public virtual string Hello(object name) => $"Hello {name}";
+```
+
+### String Format
 
 ## Tools
 
