@@ -125,7 +125,7 @@ You can specify the type using two syntax options:
 }
 ```
 
-2 - Using a placeholder, which allows you to specify a comment, type, or format string (see [Comments](#comments) and [String Format](#string-format)).
+2 - Using a placeholders, which allows you to specify a type or format string (see [String Format](#string-format)).
 
 ```json
 {
@@ -152,6 +152,36 @@ public virtual string Greet(string name, int age) => $"Hello {name}, you are {ag
 ```
 
 ### Comments
+
+You can add comments to your translation files.
+
+```json
+{
+  "@@locale": "en", // fully ignored
+  "mainScreen": {
+    "button": "Submit",
+
+    // ignored as translation but rendered as a comment
+    "@button": "The submit button shown at the bottom",
+
+    // or use 
+    "button2": "Submit",
+    "@button2": {
+      "description": "The submit button shown at the bottom"
+    }
+  }
+}
+```
+
+The generated code will look like this:
+
+```csharp
+/// The submit button shown at the bottom
+///
+/// In ru, this message translates to:
+/// **"Submit"**
+public virtual string Button => "Submit";
+```
 
 ### String Format
 
