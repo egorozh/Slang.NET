@@ -17,7 +17,7 @@ Install-Package dotnet add package Slang.Net
 ### Add JSON files:
 > **Important** file must end with ".i18n.json". This is necessary so that the SourceGenerator does not track changes to other AdditionalFiles.
 
-i18n/strings_en.i18n.json
+`i18n/strings_en.i18n.json` or `i18n/strings_en-US.i18n.json` or `i18n/strings.i18n.json` (for base culture)
 
 ```json
 {
@@ -27,7 +27,7 @@ i18n/strings_en.i18n.json
 }
 ```
 
-i18n/strings_ru.i18n.json
+`i18n/strings_ru.i18n.json` or `i18n/strings_ru-RU.i18n.json`
 
 ```json
 {
@@ -37,13 +37,15 @@ i18n/strings_ru.i18n.json
 }
 ```
 
-slang.json
+`slang.json`
 
 ```json
 {
-  "base_culture": "ru"
+  "base_culture": "en" // or "en-EN"
 }
 ```
+
+> **Recommendation** It is recommended to specify the country code, such as "en-US," for proper functionality when formatting strings, especially if you will be retrieving the list of cultures from SupportedCultures.
 
 ### Include JSON files as AdditionalFiles:
 
