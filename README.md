@@ -69,17 +69,22 @@ public partial class Strings;
 ```csharp
 Strings.SetCulture(new CultureInfo("ru-RU")); 
 
-Console.WriteLine(Strings.Translations.Screen.Locale1); // Локаль 1
+Console.WriteLine(Strings.Instance.Root.Screen.Locale1); // Локаль 1
 
 Strings.SetCulture(new CultureInfo("en-US"));
 
-Console.WriteLine(Strings.Translations.Screen.Locale1); // Locale 1
+Console.WriteLine(Strings.Instance.Root.Screen.Locale1); // Locale 1
+```
+or 
+```xaml
+  <MenuItem  Header="{Binding Root.Screen.Locale1, Source={x:Static localization:Strings.Instance}}" />
 ```
 
 ## Features
 
 - String Interpolation
 - Pluralization
+- String Format
 - Linked Translations
 - Maps
 - Lists
@@ -109,12 +114,7 @@ Then add the following configuration in your slang.json:
 Then use slang-gpt:
 
 ```bash
-<Dir with slang-gpt CLI>/slang-gpt <csproj Path> --target=ru --api-key=<open-ai-gpt-api-key>
+<cli-directory>/slang-gpt <csproj-path> --target=ru --api-key=<api-key>
 ```
 
 See more: [Documentation](https://github.com/egorozh/Slang.NET/tree/develop/Slang.Gpt.Cli)
-
-## Roadmap
-
-- String Formatting (double, dates and etc)
-- Performance improvements
