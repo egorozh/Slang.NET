@@ -93,8 +93,8 @@ or
 - [String Format](#string-format)
 - [Pluralization](#pluralization)
 - [Linked Translations](#linked-translations)
-- [Maps](#maps)
 - [Lists](#lists)
+- [Maps](#maps)
   
 ### String Interpolation
 
@@ -187,11 +187,205 @@ public virtual string Button => "Submit";
 
 ### Pluralization
 
+This library uses the concept defined [here](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
+
+Some languages have support out of the box. See [here](https://github.com/egorozh/Slang.NET/blob/develop/Slang/PluralResolverMap.cs).
+
+Plurals are detected by the following keywords: `zero`, `one`, `two`, `few`, `many`, `other`.
+
+```json
+{
+  "someKey": {
+    "apple": {
+      "one": "I have {n} apple.",
+      "other": "I have {n} apples."
+    }
+  }
+}
+```
+
+```csharp
+String a = Strings.Instance.Root.SomeKey.Apple(n: 1); // I have 1 apple.
+String b = Strings.Instance.Root.SomeKey.Apple(n: 2); // I have 2 apples.    
+```
+
+The generated code will look like this:
+
+```csharp
+public virtual string Apple(int n) => PluralResolvers.Cardinal("en")(n,
+					one: $"I have {n} apple.",
+					other: $"I have {n} apples.");
+```
+
+The detected plurals are **cardinals** by default.
+
+To specify ordinals, you need to add the `(ordinal)` modifier.
+
+```json
+{
+  "someKey": {
+    "apple(cardinal)": {
+      "one": "I have {n} apple.",
+      "other": "I have {n} apples."
+    },
+    "place(ordinal)": {
+      "one": "{n}st place.",
+      "two": "{n}nd place.",
+      "few": "{n}rd place.",
+      "other": "{n}th place."
+    }
+  }
+}
+```
+
+By default, the parameter name is `n`. You can change that by adding a modifier.
+
+```json
+{
+  "someKey": {
+    "apple(param=appleCount)": {
+      "one": "I have one apple.",
+      "other": "I have multiple apples."
+    }
+  }
+}
+```
+
+```csharp
+String a = Strings.Instance.Root.SomeKey.Apple(appleCount: 1); // notice 'appleCount' instead of 'n'
+```
+
+You can set the default parameter globally using `PluralParameter`.
+
+```cssharp
+[Translations(
+    InputFileName = "strings",
+    PluralParameter = "count")]
+internal partial class Strings;
+```
+
 ### Linked Translations
+
+You can link one translation to another. Add the prefix `@:` followed by the **absolute** path to the desired translation.
+
+```json
+{
+  "fields": {
+    "name": "my name is {firstName}",
+    "age": "I am {age} years old"
+  },
+  "introduce": "Hello, @:fields.name and @:fields.age"
+}
+```
+
+```dart
+String s = Strings.Instance.Root.Introduce(firstName: "Tom", age: 27); // Hello, my name is Tom and I am 27 years old.
+```
+
+The generated code will look like this:
+
+```csharp
+/// In ru, this message translates to:
+/// **"Hello, {_root.Fields.Name(firstName: firstName)} and {_root.Fields.Age(age: age)}"**
+public virtual string Introduce(object firstName, object age) => $"Hello, {_root.Fields.Name(firstName: firstName)} and {_root.Fields.Age(age: age)}";
+```
+
+Optionally, you can escape linked translations by surrounding the path with `{}`:
+
+```json
+{
+  "fields": {
+    "name": "my name is {firstName}"
+  },
+  "introduce": "Hello, @:{fields.name}inator"
+}
+```
+
+### Lists
+
+You can also place lists inside lists!
+
+```json
+{
+  "niceList": [
+    "hello",
+    "nice",
+    [
+      "first item in nested list",
+      "second item in nested list"
+    ],
+    {
+      "wow": "WOW!",
+      "ok": "OK!"
+    },
+    {
+      "aMapEntry": "access via key",
+      "anotherEntry": "access via second key"
+    }
+  ]
+}
+```
+
+```csharp
+String a = Strings.Instance.Root.NiceList[1]; // "nice"
+String b = Strings.Instance.Root.NiceList[2][0]; // "first item in nested list"
+String c = Strings.Instance.Root.NiceList[3].Ok; // "OK!"
+String d = Strings.Instance.Root.NiceList[4].AMapEntry; // "access via key"
+```
+
+The generated code will look like this:
+
+```csharp
+public virtual List<dynamic> NiceList => [
+				"hello",
+				"nice",
+				new[]{
+					"first item in nested list",
+					"second item in nested list",
+		    },
+				new Feature1NiceList0i3Ru(_root),
+				new Feature1NiceList0i4Ru(_root),
+	];
+```
 
 ### Maps
 
-### Lists
+You can access each translation using string keys.
+
+Add the `(map)` modifier.
+
+```json
+{
+  "a(map)": {
+    "helloWorld": "hello"
+  },
+  "b": {
+    "b0": "hey",
+    "b1(map)": {
+      "hiThere": "hi"
+    }
+  }
+}
+```
+
+Now you can access translations using keys:
+
+```csharp
+String a = Strings.Instance.Root.A["helloWorld"]; // "hello"
+String b = Strings.Instance.Root.B.B0; // "hey"
+String c = Strings.Instance.Root.B.B1["hiThere"]; // "hi"
+```
+
+The generated code will look like this:
+
+```csharp
+/// In ru, this message translates to:
+/// **"hey"**
+public virtual string B0 => "hey";
+public virtual IReadOnlyDictionary<string, string> B1 => new Dictionary<string, string> {
+					{"hiThere", "hi"},
+};
+```
 
 ## Tools
 
