@@ -185,6 +185,38 @@ public virtual string Button => "Submit";
 
 ### String Format
 
+This library supports embedding format via `ToString(format)` for the following types: `int`, `long`, `double`, `decimal`, `float`, `DateTime`, `DateOnly`, `TimeOnly`, `TimeSpan`. For other types, the format string is passed through `string.Format(format, locale)`.
+
+```json
+{
+ "dateExample": "Date {date}",
+    "@dateExample": {
+      "placeholders": {
+        "date": {
+          "type": "DateTime",
+          "format": "dd MMMM HH:mm"
+        }
+      }
+    },
+}
+```
+
+```csharp
+String s = Strings.Instance.Root.DateExample(DateTime.Now); // Date 17 October 22:25
+```
+
+The generated code will look like this:
+
+```csharp
+/// In ru, this message translates to:
+/// **"Date {date}"**
+public virtual string DateExample(DateTime date)
+{
+	string dateString = date.ToString("dd MMMM HH:mm");
+	return $"Date {dateString}";
+}
+```
+
 ### Pluralization
 
 This library uses the concept defined [here](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
@@ -257,7 +289,7 @@ String a = Strings.Instance.Root.SomeKey.Apple(appleCount: 1); // notice 'appleC
 
 You can set the default parameter globally using `PluralParameter`.
 
-```cssharp
+```csharp
 [Translations(
     InputFileName = "strings",
     PluralParameter = "count")]
