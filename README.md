@@ -190,14 +190,14 @@ This library supports embedding format via `ToString(format)` for the following 
 ```json
 {
  "dateExample": "Date {date}",
-    "@dateExample": {
-      "placeholders": {
+ "@dateExample": {
+	"placeholders": {
         "date": {
           "type": "DateTime",
           "format": "dd MMMM HH:mm"
         }
       }
-    },
+ },
 }
 ```
 
