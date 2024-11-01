@@ -191,12 +191,12 @@ This library supports embedding format via `ToString(format)` for the following 
 {
  "dateExample": "Date {date}",
  "@dateExample": {
-	"placeholders": {
-        "date": {
-          "type": "DateTime",
-          "format": "dd MMMM HH:mm"
-        }
-      }
+    "placeholders": {
+       "date": {
+           "type": "DateTime",
+           "format": "dd MMMM HH:mm"
+       }
+    }
  },
 }
 ```
