@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using Slang.Gpt.Domain;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Prompt;
 using Slang.Gpt.Domain.Utils;
@@ -33,8 +32,8 @@ internal static class ChatGptRepository
         double? temperature,
         GptPrompt prompt)
     {
-        string systemContent = prompt.System.Replace("\n", "\\n");
-        string userContent = prompt.User.Replace("\n", "\\n").Replace("\"", "\\\"");
+        string systemContent = prompt.System.Replace(Environment.NewLine, "\\n");
+        string userContent = prompt.User.Replace(Environment.NewLine, "\\n").Replace("\"", "\\\"");
         
         string jsonRequestBody = temperature != null
             ? $$"""
