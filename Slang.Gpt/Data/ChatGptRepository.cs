@@ -88,7 +88,10 @@ internal static class ChatGptRepository
 
         try
         {
-            jsonMessage = JsonHelpers.JsonDecode(rawMessage);
+            jsonMessage = JsonHelpers.JsonDecode(rawMessage.StartsWith('{')
+                ? rawMessage
+                // catching case: rawMessage starts with ```json
+                : string.Join(Environment.NewLine, rawMessage.Split('\n').Skip(1).SkipLast(1)));
         }
         catch (Exception)
         {

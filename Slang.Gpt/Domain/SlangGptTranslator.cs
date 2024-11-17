@@ -144,8 +144,8 @@ internal static class SlangGptTranslator
                 );
             }
 
-            inputTokens += response.PromptTokens;
-            outputTokens += response.CompletionTokens;
+            inputTokens += response?.PromptTokens ?? 0;
+            outputTokens += response?.CompletionTokens ?? 0;
         }
 
         // add existing translations
