@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Slang.Shared;
 
 namespace Slang.Gpt.Domain.Utils;
@@ -7,7 +6,7 @@ public static class FileUtils
 {
     public static void WriteFileOfType(string path, Dictionary<string, object> content)
     {
-        string jsonFromContext = JsonSerializer.Serialize(content, DictionaryContext.Default.DictionaryStringObject);
+        string jsonFromContext = JsonHelpers.JsonEncode(content);
 
         string EscapeNonAsciiCharacters(string json)
         {
@@ -15,7 +14,7 @@ public static class FileUtils
             {
                 string hexValue = match.Groups["Value"].Value;
                 int unicode = Convert.ToInt32(hexValue, 16);
-                string symbol = ((char) unicode).ToString();
+                string symbol = ((char)unicode).ToString();
 
                 return symbol.Replace("\"", "\\\"");
             });

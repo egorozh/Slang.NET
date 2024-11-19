@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Text.Json;
+#if(NET7_0_OR_GREATER)
 using System.Text.Json.Serialization;
+#endif
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
@@ -30,7 +32,7 @@ internal static class ConfigRepository
 
                     var fileInfo = new FileInfo(filePath);
 
-                    if (fileInfo is {Exists: true, Name: "slang.json"})
+                    if (fileInfo is { Exists: true, Name: "slang.json" })
                     {
                         configJson = File.ReadAllText(fileInfo.FullName);
                         break;
@@ -42,8 +44,12 @@ internal static class ConfigRepository
         if (configJson == null)
             return null;
 
+#if NET6_0
+        var config = JsonSerializer.Deserialize<GlobalConfigDto>(configJson);
+#else
         var config = JsonSerializer.Deserialize(configJson, GlobalConfigContext.Default.GlobalConfigDto);
-
+#endif
+        
         if (config == null)
             return null;
 
@@ -83,6 +89,8 @@ internal record GptConfigDto(
     string? temperature
 );
 
+#if(NET7_0_OR_GREATER)
 [JsonSerializable(typeof(GlobalConfigDto))]
 [JsonSerializable(typeof(GptConfigDto))]
 internal partial class GlobalConfigContext : JsonSerializerContext;
+#endif

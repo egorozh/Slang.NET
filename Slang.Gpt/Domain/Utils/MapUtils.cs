@@ -85,8 +85,7 @@ public static class MapUtils
 
         // [newMap] but without modifiers
         newMap = newMap
-            .Select(kv => new KeyValuePair<string, object?>(kv.Key.WithoutModifiers(), kv.Value))
-            .ToDictionary();
+            .ToDictionary(kvp => kvp.Key.WithoutModifiers(), kvp => kvp.Value);
 
         // Add keys according to the order in base map.
         // Prefer new map over old map.

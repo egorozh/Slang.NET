@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />
+        <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

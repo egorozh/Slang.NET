@@ -1,34 +1,90 @@
-﻿using Project2015To2017.Reading;
+﻿using System.CommandLine;
+using System.Globalization;
+using Project2015To2017.Reading;
+using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt.Cli;
 
 internal static class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task<int> Main(string[] args)
+    {
+        var fileArgument = new Argument<FileInfo?>(
+            name: "csproj",
+            description: "csproj filepath");
+
+        var apiOption = new Option<string?>(
+            name: "--api-key",
+            description: "API key");
+
+        var targetOption = new Option<string?>(
+            aliases: ["-t", "--target"],
+            description: "Target language");
+
+        var fullOption = new Option<bool>(
+            aliases: ["-f", "--full"],
+            getDefaultValue: () => false,
+            description: "Skip partial translation");
+
+        var debugOption = new Option<bool>(
+            aliases: ["-d", "--debug"],
+            getDefaultValue: () => false,
+            description: "Write chat to file");
+
+        var rootCommand = new RootCommand("Running GPT for slang...")
+        {
+            fileArgument,
+            apiOption,
+            targetOption,
+            fullOption,
+            debugOption
+        };
+
+        rootCommand.SetHandler(HandleRootCommand,
+            fileArgument,
+            apiOption,
+            targetOption,
+            fullOption,
+            debugOption);
+
+        return await rootCommand.InvokeAsync(args);
+    }
+
+    private static async Task HandleRootCommand(
+        FileInfo? csproj,
+        string? apiKey,
+        string? targetId,
+        bool full,
+        bool debug)
     {
         Console.WriteLine("Running GPT for slang...");
-
-        ParametersRepository.ParseArgs(args, out string? apiKey, out var targetLocales, out bool debug, out bool full,
-            out var csprojFileInfo);
 
         if (apiKey == null)
             throw new Exception("Missing API key. Specify it with --api-key=...");
 
-        if (csprojFileInfo == null)
+        if (csproj == null)
             throw new Exception("Missing csproj filepath");
 
-        var reader = new ProjectReader();
-        var project = reader.Read(csprojFileInfo.FullName);
+        if (!csproj.Exists)
+            throw new Exception($"csproj file {csproj} does not exist");
 
-        var gptConfig = ConfigRepository.GetConfig(project, csprojFileInfo.Directory!.FullName);
+        var reader = new ProjectReader();
+        var project = reader.Read(csproj.FullName);
+
+        var gptConfig = ConfigRepository.GetConfig(project, csproj.Directory!.FullName);
 
         if (gptConfig == null)
         {
             throw new Exception("Missing config");
         }
 
-        if (targetLocales != null)
+        List<CultureInfo>? targetLocales = null;
+
+        if (!string.IsNullOrEmpty(targetId))
         {
+            var preset = Locales.GetPreset(targetId);
+            targetLocales = preset ?? [new CultureInfo(targetId)];
+
             Console.WriteLine("");
             Console.WriteLine($"Target: {string.Join(", ", targetLocales.Select(e => e.EnglishName))}\n");
         }
@@ -39,7 +95,7 @@ internal static class Program
 
         var fileCollection = AdditionalFilesRepository.GetFileCollection(
             project,
-            csprojFileInfo.Directory!.FullName,
+            csproj.Directory!.FullName,
             gptConfig.BaseCulture
         );
 

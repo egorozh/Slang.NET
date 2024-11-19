@@ -2,18 +2,20 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
-        <AssemblyName>slang-gpt</AssemblyName>
-
+        <LangVersion>latest</LangVersion>
+        
         <Authors>egorozh</Authors>
         <Description>Type-safe i18n for .NET</Description>
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
         <Version>1.1.0.0-RC1</Version>
+
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>slang-gpt</ToolCommandName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,19 +26,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Project2015To2017" Version="4.2.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
-
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <PublishAot>true</PublishAot>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(OS)' == 'OSX'">
-        <SignIdentity>Developer ID Application: Egor Zheludkov (2V5GB47N8M)</SignIdentity>
-        <UseMacOSCodeSign>true</UseMacOSCodeSign>
-    </PropertyGroup>
-
-    <Target Condition="'$(OS)' == 'OSX'" Name="SignApp" AfterTargets="Publish">
-        <Exec Command="codesign --force --deep --sign '$(SignIdentity)' '$(PublishDir)$(AssemblyName)' --timestamp" Condition="'$(UseMacOSCodeSign)' == 'true'" />
-    </Target>
 
 </Project>
