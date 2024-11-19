@@ -6,7 +6,11 @@ Currently, only the [OpenAI API](https://platform.openai.com/docs/) is supported
 
 ## Getting Started
 
-Download slang-gpt CLI console application from [Releases](https://github.com/egorozh/Slang.NET/releases)
+### Install slang-gpt-cli:
+
+```bash
+dotnet tool install -g slang.gpt.cli --prerelease
+```
 
 Then add the following configuration in your slang.json:
 
@@ -23,7 +27,7 @@ Then add the following configuration in your slang.json:
 Let's run this:
 
 ```bash
-<directory with slang-gpt>/slang-gpt <csproj filepath> --target=ru --api-key=<open-ai-gpt-api-key>
+slang-gpt <csproj> --target=ru --api-key=<api-key>
 ```
 
 ## Configuration
