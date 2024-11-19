@@ -1,15 +1,19 @@
 # Slang.NET
 
 [![Nuget](https://img.shields.io/nuget/v/Slang.Net?label=Slang.Net)](https://www.nuget.org/packages/Slang.Net)
+[![Nuget](https://img.shields.io/nuget/v/Slang.Gpt.Cli?label=Slang.Gpt.Cli)](https://www.nuget.org/packages/Slang.Gpt.Cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Type-safe i18n for .NET
 
 ## About this library
 
-Slang.NET is a .NET port of the [slang](https://pub.dev/packages/slang) from the Dart/Flutter community with new features (like string format).
+Slang.NET is a .NET port of the [slang](https://pub.dev/packages/slang) from the Dart/Flutter community with new
+features (like string format).
 
-You can view how the generated files [general](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_header.output), [en](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_en.output), and [de](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_de.output) look
+You can view how the generated
+files [general](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_header.output), [en](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_en.output),
+and [de](https://github.com/egorozh/Slang.NET/blob/develop/Slang.Tests/Integration/Resources/_expected_de.output) look
 
 ## Getting Started:
 
@@ -20,7 +24,9 @@ Install-Package dotnet add package Slang.Net
 ```
 
 ### Add JSON files:
-> **Important** file must end with ".i18n.json". This is necessary so that the SourceGenerator does not track changes to other AdditionalFiles.
+
+> **Important** file must end with ".i18n.json". This is necessary so that the SourceGenerator does not track changes to
+> other AdditionalFiles.
 
 `i18n/strings_en.i18n.json` or `i18n/strings_en-US.i18n.json` or `i18n/strings.i18n.json` (for base culture)
 
@@ -50,17 +56,18 @@ Install-Package dotnet add package Slang.Net
 }
 ```
 
-> **Recommendation** It is recommended to specify the country code, such as "en-US," for proper functionality when formatting strings, especially if you will be retrieving the list of cultures from SupportedCultures.
+> **Recommendation** It is recommended to specify the country code, such as "en-US," for proper functionality when
+> formatting strings, especially if you will be retrieving the list of cultures from SupportedCultures.
 
 ### Include JSON files as AdditionalFiles:
 
 ```xml
-  <ItemGroup>
+
+<ItemGroup>
     <AdditionalFiles Include="i18n\*.i18n.json" />
     <AdditionalFiles Include="slang.json" />
-  </ItemGroup>
+</ItemGroup>
 ```
-
 
 ### Add a partial class:
 
@@ -69,7 +76,7 @@ Install-Package dotnet add package Slang.Net
 public partial class Strings;
 ```
 
-### Done! 
+### Done!
 
 ```csharp
 Strings.SetCulture(new CultureInfo("ru-RU")); 
@@ -80,7 +87,9 @@ Strings.SetCulture(new CultureInfo("en-US"));
 
 Console.WriteLine(Strings.Instance.Root.Screen.Locale1); // Locale 1
 ```
-or 
+
+or
+
 ```xaml
   <MenuItem  Header="{Binding Root.Screen.Locale1, Source={x:Static localization:Strings.Instance}}" />
 ```
@@ -95,13 +104,15 @@ or
 - [Linked Translations](#linked-translations)
 - [Lists](#lists)
 - [Maps](#maps)
-  
+
 ### String Interpolation
 
-You can specify parameters passed at runtime.. 
+You can specify parameters passed at runtime..
 
 ```json
-"Hello": "Hello {name}"
+{
+  "Hello": "Hello {name}"
+}
 ```
 
 The generated code will look like this:
@@ -139,7 +150,7 @@ You can specify the type using two syntax options:
         "type": "int"
       }
     }
-  },
+  }
 }
 ```
 
@@ -160,10 +171,8 @@ You can add comments to your translation files.
   "@@locale": "en", // fully ignored
   "mainScreen": {
     "button": "Submit",
-
     // ignored as translation but rendered as a comment
     "@button": "The submit button shown at the bottom",
-
     // or use 
     "button2": "Submit",
     "@button2": {
@@ -185,19 +194,21 @@ public virtual string Button => "Submit";
 
 ### String Format
 
-This library supports embedding format via `ToString(format)` for the following types: `int`, `long`, `double`, `decimal`, `float`, `DateTime`, `DateOnly`, `TimeOnly`, `TimeSpan`. For other types, the format string is passed through `string.Format(format, locale)`.
+This library supports embedding format via `ToString(format)` for the following types: `int`, `long`, `double`,
+`decimal`, `float`, `DateTime`, `DateOnly`, `TimeOnly`, `TimeSpan`. For other types, the format string is passed through
+`string.Format(format, locale)`.
 
 ```json
 {
- "dateExample": "Date {date}",
- "@dateExample": {
+  "dateExample": "Date {date}",
+  "@dateExample": {
     "placeholders": {
-       "date": {
-           "type": "DateTime",
-           "format": "dd MMMM HH:mm"
-       }
+      "date": {
+        "type": "DateTime",
+        "format": "dd MMMM HH:mm"
+      }
     }
- },
+  }
 }
 ```
 
@@ -219,9 +230,11 @@ public virtual string DateExample(DateTime date)
 
 ### Pluralization
 
-This library uses the concept defined [here](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
+This library uses the concept
+defined [here](https://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
 
-Some languages have support out of the box. See [here](https://github.com/egorozh/Slang.NET/blob/develop/Slang/PluralResolverMap.cs).
+Some languages have support out of the box.
+See [here](https://github.com/egorozh/Slang.NET/blob/develop/Slang/PluralResolverMap.cs).
 
 Plurals are detected by the following keywords: `zero`, `one`, `two`, `few`, `many`, `other`.
 
@@ -298,7 +311,8 @@ internal partial class Strings;
 
 ### Linked Translations
 
-You can link one translation to another. Add the prefix `@:` followed by the **absolute** path to the desired translation.
+You can link one translation to another. Add the prefix `@:` followed by the **absolute** path to the desired
+translation.
 
 ```json
 {

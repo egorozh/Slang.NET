@@ -1,4 +1,6 @@
+#if(NET7_0_OR_GREATER)
 using System.Text.Json.Serialization;
+#endif
 
 namespace Slang.Gpt.Data;
 
@@ -17,8 +19,10 @@ internal record UsageDto(
     int total_tokens
 );
 
+#if(NET7_0_OR_GREATER)
 [JsonSerializable(typeof(GptResponseDto))]
 [JsonSerializable(typeof(ChoiseDto))]
 [JsonSerializable(typeof(MessageDto))]
 [JsonSerializable(typeof(UsageDto))]
 internal partial class GptResponseDtoContext : JsonSerializerContext;
+#endif

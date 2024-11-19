@@ -1,6 +1,4 @@
 using System.Globalization;
-using Slang.Gpt.Domain;
-using Slang.Gpt.Domain.Utils;
 using Slang.Shared;
 
 namespace Slang.Gpt.Data;

@@ -74,9 +74,7 @@ internal static class Program
         var gptConfig = ConfigRepository.GetConfig(project, csproj.Directory!.FullName);
 
         if (gptConfig == null)
-        {
             throw new Exception("Missing config");
-        }
 
         List<CultureInfo>? targetLocales = null;
 

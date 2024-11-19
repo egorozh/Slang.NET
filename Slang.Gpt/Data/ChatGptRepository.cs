@@ -34,7 +34,7 @@ internal static class ChatGptRepository
     {
         string systemContent = prompt.System.Replace(Environment.NewLine, "\\n");
         string userContent = prompt.User.Replace(Environment.NewLine, "\\n").Replace("\"", "\\\"");
-        
+
         string jsonRequestBody = temperature != null
             ? $$"""
                 {
@@ -76,9 +76,13 @@ internal static class ChatGptRepository
         response.EnsureSuccessStatusCode();
 
         string responseBody = await response.Content.ReadAsStringAsync();
-
+        
+#if(NET7_0_OR_GREATER)
         var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
-
+#else
+        var rawMap = JsonSerializer.Deserialize<GptResponseDto>(responseBody);
+#endif
+        
         if (rawMap?.choices == null || rawMap.choices.Count == 0)
             return null;
 

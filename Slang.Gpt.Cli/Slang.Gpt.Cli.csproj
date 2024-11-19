@@ -12,10 +12,13 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.1.0.0-RC1</Version>
+        <Version>1.1.0.0-RC2</Version>
 
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>slang-gpt</ToolCommandName>
+
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,6 +30,11 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Project2015To2017" Version="4.2.0" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" Visible="false" PackagePath="\" />
+        <None Include="..\LICENSE" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
 
 </Project>
