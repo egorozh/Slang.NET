@@ -80,7 +80,7 @@ By default, slang_gpt will only translate missing keys to reduce costs.
 You may add the `--full` flag to translate all keys.
 
 ```bash
-<directory with slang-gpt>/slang-gpt <csproj filepath> --target=ru --api-key=<open-ai-gpt-api-key> --full
+slang-gpt <csproj> --target=ru --api-key=<api-key> --full
 ```
 
 To avoid a specific subset of keys from being translated, you may add the `ignoreGpt` modifier to the key:
