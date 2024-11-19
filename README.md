@@ -425,7 +425,11 @@ public virtual IReadOnlyDictionary<string, string> B1 => new Dictionary<string, 
 
 Take advantage of GPT to internationalize your app with context-aware translations.
 
-Download slang-gpt.
+Install slang-gpt-cli:
+
+```bash
+dotnet tool install -g slang.gpt.cli --prerelease
+```
 
 Then add the following configuration in your slang.json:
 
@@ -442,7 +446,7 @@ Then add the following configuration in your slang.json:
 Then use slang-gpt:
 
 ```bash
-<cli-directory>/slang-gpt <csproj-path> --target=ru --api-key=<api-key>
+slang-gpt <csproj> --target=ru --api-key=<api-key>
 ```
 
 See more: [Documentation](https://github.com/egorozh/Slang.NET/tree/develop/Slang.Gpt.Cli)
