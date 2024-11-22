@@ -71,7 +71,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
 
         var response = await httpClient.PostAsync(apiUrl, content);
 
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
             logger.LogInformation(
                 message:
