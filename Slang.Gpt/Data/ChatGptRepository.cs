@@ -1,6 +1,6 @@
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Prompt;
 using Slang.Gpt.Domain.Utils;
@@ -73,8 +73,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
 
         if (!response.IsSuccessStatusCode)
         {
-            logger.LogInformation(
-                message:
+            logger.Information(
                 $"{nameof(ChatGptRepository)}.{nameof(DoRequestForOpenAi)} - {nameof(jsonRequestBody)}:{jsonRequestBody}");
         }
 

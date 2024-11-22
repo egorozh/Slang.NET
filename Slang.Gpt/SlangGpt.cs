@@ -1,5 +1,5 @@
 using System.Globalization;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using Slang.Gpt.Data;
 using Slang.Gpt.Domain;
 using Slang.Gpt.Domain.Models;

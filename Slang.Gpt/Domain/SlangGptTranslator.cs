@@ -1,5 +1,5 @@
 using System.Globalization;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using Slang.Gpt.Data;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Prompt;
@@ -130,7 +130,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
                     response: response
                 );
 
-                logger.LogError(message: log);
+                logger.Error(log);
             }
 
             if (!hasError)

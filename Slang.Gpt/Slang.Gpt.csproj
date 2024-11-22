@@ -16,9 +16,9 @@
             <_Parameter1>Slang.Gpt.Tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
-    
-    <ItemGroup Condition="">
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="4.0.0" />
     </ItemGroup>
     
 </Project>

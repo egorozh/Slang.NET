@@ -1,7 +1,7 @@
 using System.Globalization;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Project2015To2017.Reading;
+using Serilog;
+using Serilog.Core;
 using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt.Cli.Commands.Translate;
@@ -59,12 +59,14 @@ internal static class TranslateCommandHandler
 
         string logFilePath = Path.Combine(
             csProjDirectoryPath,
-            $"slang_gpt_{DateTime.Now}.log"
+            "slang_gpt_.log"
         );
 
-        ILogger logger = debug
-            ? new FileLogger(logFilePath)
-            : NullLogger.Instance;
+        var logger = debug
+            ? new LoggerConfiguration()
+                .WriteTo.File(logFilePath)
+                .CreateLogger()
+            : Logger.None;
 
         if (debug)
         {
