@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
-namespace Slang.Gpt.Cli;
+namespace Slang.Gpt.Cli.Commands.Translate;
 
 internal static class ConfigRepository
 {
@@ -32,7 +32,7 @@ internal static class ConfigRepository
 
                     var fileInfo = new FileInfo(filePath);
 
-                    if (fileInfo is { Exists: true, Name: "slang.json" })
+                    if (fileInfo is {Exists: true, Name: "slang.json"})
                     {
                         configJson = File.ReadAllText(fileInfo.FullName);
                         break;
@@ -49,7 +49,7 @@ internal static class ConfigRepository
 #else
         var config = JsonSerializer.Deserialize(configJson, GlobalConfigContext.Default.GlobalConfigDto);
 #endif
-        
+
         if (config == null)
             return null;
 

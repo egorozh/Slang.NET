@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.Extensions.Logging;
 using Slang.Gpt.Data;
 using Slang.Gpt.Domain;
 using Slang.Gpt.Domain.Models;
@@ -8,12 +9,14 @@ namespace Slang.Gpt;
 
 public static class SlangGpt
 {
+    private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
+
     public static async Task Execute(
+        ILogger logger,
         HttpClient httpClient,
         SlangFileCollection fileCollection,
         GptConfig gptConfig,
         List<CultureInfo>? targetLocales = null,
-        bool debug = false,
         bool full = false)
     {
         Console.WriteLine(
@@ -30,6 +33,9 @@ public static class SlangGpt
         int inputTokens = 0;
         int outputTokens = 0;
 
+        ChatGptRepository chatGptRepository = new(logger, httpClient, ApiUrl);
+        SlangGptTranslator slangGptTranslator = new(logger, chatGptRepository);
+
         foreach (var file in fileCollection.Files)
         {
             string outDir = new FileInfo(file.FilePath!).Directory!.FullName;
@@ -44,16 +50,15 @@ public static class SlangGpt
 
             var targetLocalesEnumerable = targetLocales ?? GetExistingLocales(fileCollection, gptConfig, file);
 
+
             foreach (var targetLocale in targetLocalesEnumerable)
             {
-                var metrics = await SlangGptTranslator.Translate(
-                    httpClient: httpClient,
+                var metrics = await slangGptTranslator.Translate(
                     fileCollection: fileCollection,
                     gptConfig: gptConfig,
                     targetLocale: targetLocale,
                     outDir: outDir,
                     full: full,
-                    debug: debug,
                     file: file,
                     originalTranslations: GetOriginalTranslations(raw, file),
                     promptCount: promptCount

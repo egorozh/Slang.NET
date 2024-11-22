@@ -20,11 +20,13 @@
       "date": "My birthday date: {date: DateOnly}"
     },
     "a(map)": {
+      "helloWorld": "hello",
       "hello world": "hello"
     },
     "b": {
       "b0": "hey",
       "b1(map)": {
+        "hiThere": "hi",
         "hi there": "hi"
       }
     },

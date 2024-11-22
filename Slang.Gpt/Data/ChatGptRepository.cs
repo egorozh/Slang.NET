@@ -1,34 +1,31 @@
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Prompt;
 using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt.Data;
 
-internal static class ChatGptRepository
+internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string apiUrl)
 {
-    private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
-
     /// <summary>
     /// Sends a prompt to a GPT provider and returns the response.
     /// </summary>
-    public static Task<GptResponse?> DoRequest(
+    public Task<GptResponse?> DoRequest(
         GptModel.GptModelInfo model,
-        HttpClient httpClient,
         double? temperature,
         GptPrompt prompt)
     {
         return model.Provider switch
         {
-            GptProvider.OpenAi => DoRequestForOpenAi(model, httpClient, temperature, prompt),
+            GptProvider.OpenAi => DoRequestForOpenAi(model, temperature, prompt),
             _ => throw new ArgumentOutOfRangeException()
         };
     }
 
-    private static async Task<GptResponse?> DoRequestForOpenAi(
+    private async Task<GptResponse?> DoRequestForOpenAi(
         GptModel.GptModelInfo model,
-        HttpClient httpClient,
         double? temperature,
         GptPrompt prompt)
     {
@@ -72,17 +69,25 @@ internal static class ChatGptRepository
 
         var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync(ApiUrl, content);
+        var response = await httpClient.PostAsync(apiUrl, content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            logger.LogInformation(
+                message:
+                $"{nameof(ChatGptRepository)}.{nameof(DoRequestForOpenAi)} - {nameof(jsonRequestBody)}:{jsonRequestBody}");
+        }
+
         response.EnsureSuccessStatusCode();
 
         string responseBody = await response.Content.ReadAsStringAsync();
-        
+
 #if(NET7_0_OR_GREATER)
         var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
 #else
         var rawMap = JsonSerializer.Deserialize<GptResponseDto>(responseBody);
 #endif
-        
+
         if (rawMap?.choices == null || rawMap.choices.Count == 0)
             return null;
 

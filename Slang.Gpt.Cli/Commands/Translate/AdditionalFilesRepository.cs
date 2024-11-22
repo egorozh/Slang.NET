@@ -4,7 +4,7 @@ using Project2015To2017.Definition;
 using Slang.Gpt.Data;
 using Slang.Shared;
 
-namespace Slang.Gpt.Cli;
+namespace Slang.Gpt.Cli.Commands.Translate;
 
 internal static class AdditionalFilesRepository
 {

@@ -6,13 +6,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        
+
         <Authors>egorozh</Authors>
         <Description>Type-safe i18n for .NET</Description>
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.1.0.0-RC2</Version>
+        <Version>1.1.0.0-RC3</Version>
 
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>slang-gpt</ToolCommandName>
@@ -27,7 +27,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Project2015To2017" Version="4.2.0" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>

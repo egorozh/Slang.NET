@@ -16,4 +16,9 @@
             <_Parameter1>Slang.Gpt.Tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+    
+    <ItemGroup Condition="">
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+    </ItemGroup>
+    
 </Project>

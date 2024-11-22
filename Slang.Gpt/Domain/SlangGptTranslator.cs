@@ -1,6 +1,8 @@
 using System.Globalization;
+using Microsoft.Extensions.Logging;
 using Slang.Gpt.Data;
 using Slang.Gpt.Domain.Models;
+using Slang.Gpt.Domain.Prompt;
 using Slang.Gpt.Domain.Utils;
 using Slang.Shared;
 
@@ -11,19 +13,17 @@ internal record TranslateMetrics(
     int InputTokens,
     int OutputTokens);
 
-internal static class SlangGptTranslator
+internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatGptRepository)
 {
     /// <summary>
     /// Translates a file to a target locale.
     /// </summary>
-    public static async Task<TranslateMetrics> Translate(
-        HttpClient httpClient,
+    public async Task<TranslateMetrics> Translate(
         SlangFileCollection fileCollection,
         GptConfig gptConfig,
         CultureInfo targetLocale,
         string outDir,
         bool full,
-        bool debug,
         TranslationFile file,
         Dictionary<string, object?> originalTranslations,
         int promptCount
@@ -108,30 +108,29 @@ internal static class SlangGptTranslator
 
             Console.WriteLine($" -> Request #{promptCount}");
 
-            var response = await ChatGptRepository.DoRequest(
+            var response = await chatGptRepository.DoRequest(
                 model: gptConfig.Model,
-                httpClient: httpClient,
                 temperature: gptConfig.Temperature,
                 prompt: prompt
             );
 
             bool hasError = response == null;
 
-            if (debug || hasError)
+            if (hasError)
             {
                 if (hasError)
                     Console.WriteLine(" -> Error while parsing JSON. Writing to log file.");
 
-                Logger.LogGptRequest(
+                string log = GetGptRequestLogMessage(
                     fromLocale: gptConfig.BaseCulture,
                     toLocale: targetLocale,
                     fromFile: file.Locale.Name,
                     toFile: targetPath,
-                    outDir: outDir,
-                    promptCount: promptCount,
                     prompt: prompt,
                     response: response
                 );
+
+                logger.LogError(message: log);
             }
 
             if (!hasError)
@@ -176,5 +175,45 @@ internal static class SlangGptTranslator
             InputTokens: inputTokens,
             OutputTokens: outputTokens
         );
+    }
+
+    /// Logs the GPT request and response to a file.
+    private static string GetGptRequestLogMessage(
+        CultureInfo fromLocale,
+        CultureInfo toLocale,
+        string fromFile,
+        string toFile,
+        GptPrompt prompt,
+        GptResponse? response
+    )
+    {
+        return $"""
+                ### Meta ###
+                From: <{fromLocale.TwoLetterISOLanguageName}> {fromFile}
+                To: <{toLocale.TwoLetterISOLanguageName}> {toFile}
+
+                ### Tokens ###
+                Input: {response?.PromptTokens}
+                Output: {response?.CompletionTokens}
+                Total: {response?.TotalTokens}
+
+                ### Conversation ###
+
+                >> System:
+                {prompt.System}
+
+                >> User:
+                {prompt.User}
+
+                >> Assistant:
+                {response?.RawMessage}
+
+                ### JSON ###
+                Input:
+                {JsonHelpers.JsonEncode(prompt.UserJson)}
+
+                Output:
+                {JsonHelpers.JsonEncode(response?.JsonMessage)}
+                """;
     }
 }
