@@ -29,8 +29,13 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         double? temperature,
         GptPrompt prompt)
     {
-        string systemContent = prompt.System.Replace(Environment.NewLine, "\\n");
-        string userContent = prompt.User.Replace(Environment.NewLine, "\\n").Replace("\"", "\\\"");
+        string systemContent = prompt.System
+            .Replace(Environment.NewLine, "\n")
+            .Replace("\n", "\\n");
+        string userContent = prompt.User
+            .Replace(Environment.NewLine, "\n")
+            .Replace("\n", "\\n")
+            .Replace("\"", "\\\"");
 
         string jsonRequestBody = temperature != null
             ? $$"""
