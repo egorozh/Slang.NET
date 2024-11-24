@@ -1,8 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System;
+﻿using System;
 using Slang.Showcase;
-using Slang.Showcase.MyNamespace;
+using Slang.Showcase.Features.Feature1;
 
 foreach (var culture in Feature1.SupportedCultures)
 {
@@ -20,17 +18,20 @@ return;
 void ShowLocales()
 {
     Console.WriteLine(Strings.Loc.SearchHandler.SearchDirectoryText("qwerty", "My computer"));
-    Console.WriteLine(Strings.Loc.SomeKey.Apple(6));
-    Console.WriteLine(Strings.Loc.SomeKey.Introduce("Egor", 29));
-    object a = Strings.Loc.SomeKey.NiceList[1]; // "nice"
-    object b = Strings.Loc.SomeKey.NiceList[2][0]; // "first item in nested list"
-    object c = Strings.Loc.SomeKey.NiceList[3].Ok; // "OK!"
-    object d = Strings.Loc.SomeKey.NiceList[4].AMapEntry;
+
+    var texts = Strings.Loc.SomeKey;
+    
+    Console.WriteLine(texts.Apple(6));
+    Console.WriteLine(texts.Introduce("Egor", 29));
+    object a = texts.NiceList[1]; // "nice"
+    object b = texts.NiceList[2][0]; // "first item in nested list"
+    object c = texts.NiceList[3].Ok; // "OK!"
+    object d = texts.NiceList[4].AMapEntry;
     Console.WriteLine($"{a}, {b}, {c}, {d}");
 
-    string aMap = Strings.Loc.SomeKey.A["helloWorld"]; // "hello"
-    string bMap = Strings.Loc.SomeKey.B.B0; // "hey"
-    string cMap = Strings.Loc.SomeKey.B.B1["hiThere"];
+    string aMap = texts.A["helloWorld"]; // "hello"
+    string bMap = texts.B.B0; // "hey"
+    string cMap = texts.B.B1["hiThere"];
 
     Console.WriteLine($"{aMap}, {bMap}, {cMap}");
 
