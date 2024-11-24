@@ -213,7 +213,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
                 {JsonHelpers.JsonEncode(prompt.UserJson)}
 
                 Output:
-                {JsonHelpers.JsonEncode(response?.JsonMessage)}
+                {JsonHelpers.JsonEncode(response?.JsonMessage ?? [])}
                 """;
     }
 }

@@ -1,22 +1,28 @@
-#if(NET7_0_OR_GREATER)
 using System.Text.Json.Serialization;
-#endif
 
 namespace Slang.Gpt.Data;
 
 internal record GptResponseDto(
-    List<ChoiseDto>? choices,
-    UsageDto usage
+    [property: JsonPropertyName("choices")]
+    List<ChoiseDto>? Choices,
+    [property: JsonPropertyName("usage")] UsageDto Usage
 );
 
-internal record ChoiseDto(MessageDto message);
+internal record ChoiseDto(
+    [property: JsonPropertyName("message")]
+    MessageDto Message);
 
-internal record MessageDto(string content);
+internal record MessageDto(
+    [property: JsonPropertyName("content")]
+    string Content);
 
 internal record UsageDto(
-    int prompt_tokens,
-    int completion_tokens,
-    int total_tokens
+    [property: JsonPropertyName("prompt_tokens")]
+    int PromptTokens,
+    [property: JsonPropertyName("completion_tokens")]
+    int CompletionTokens,
+    [property: JsonPropertyName("total_tokens")]
+    int TotalTokens
 );
 
 #if(NET7_0_OR_GREATER)

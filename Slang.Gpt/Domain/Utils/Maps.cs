@@ -38,7 +38,7 @@ public static class Maps
         bool remove
     )
     {
-        Dictionary<string, object> comments = [];
+        Dictionary<string, object?> comments = [];
 
         List<string> keysToRemove = [];
 
@@ -51,7 +51,7 @@ public static class Maps
                 if (remove)
                     keysToRemove.Add(entry.Key);
             }
-            else if (entry.Value is Dictionary<string, object> dictionary)
+            else if (entry.Value is Dictionary<string, object?> dictionary)
             {
                 var childComments = ExtractComments(map: dictionary, remove: remove);
 

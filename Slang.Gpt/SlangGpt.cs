@@ -49,8 +49,7 @@ public static class SlangGpt
             string raw = await file.Read();
 
             var targetLocalesEnumerable = targetLocales ?? GetExistingLocales(fileCollection, gptConfig, file);
-
-
+            
             foreach (var targetLocale in targetLocalesEnumerable)
             {
                 var metrics = await slangGptTranslator.Translate(
@@ -70,7 +69,7 @@ public static class SlangGpt
             }
         }
 
-        Console.WriteLine("");
+        Console.WriteLine();
         Console.WriteLine("Summary:");
         Console.WriteLine($" -> Total requests: {promptCount}");
         Console.WriteLine($" -> Total input tokens: {inputTokens}");

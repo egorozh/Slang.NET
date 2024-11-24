@@ -42,9 +42,9 @@ internal static class TranslateCommandHandler
             var preset = Locales.GetPreset(targetId);
             targetLocales = preset ?? [new CultureInfo(targetId)];
 
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine($"Target: {string.Join(", ", targetLocales.Select(e => e.EnglishName))}");
-            Console.WriteLine("");
+            Console.WriteLine();
         }
 
         using var httpClient = new HttpClient();
@@ -56,10 +56,16 @@ internal static class TranslateCommandHandler
             csProjDirectoryPath,
             gptConfig.BaseCulture
         );
+        
+        await SlangGpt.Execute(CreateLogger(csProjDirectoryPath, debug), httpClient, fileCollection, gptConfig,
+            targetLocales, full);
+    }
 
+    private static ILogger CreateLogger(string logDirectory, bool debug)
+    {
         string logFilePath = Path.Combine(
-            csProjDirectoryPath,
-            "slang_gpt_.log"
+            logDirectory,
+            "slang_gpt.log"
         );
 
         var logger = debug
@@ -74,6 +80,6 @@ internal static class TranslateCommandHandler
             Console.WriteLine();
         }
 
-        await SlangGpt.Execute(logger, httpClient, fileCollection, gptConfig, targetLocales, full);
+        return logger;
     }
 }

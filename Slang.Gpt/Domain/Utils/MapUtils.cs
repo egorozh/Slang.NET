@@ -14,11 +14,11 @@ public static class MapUtils
         Dictionary<string, object?> other
     )
     {
-        Dictionary<string, object> resultMap = [];
+        Dictionary<string, object?> resultMap = [];
 
         foreach (var entry in target)
         {
-            string? keyWithoutModifier = entry.Key.WithoutModifiers();
+            string keyWithoutModifier = entry.Key.WithoutModifiers();
 
             var dictionary = RawProvider.GetDictionary(entry.Value);
 
@@ -43,13 +43,16 @@ public static class MapUtils
                 {
                     var otherDictionary = RawProvider.GetDictionary(other[otherKey]);
 
-                    var subtracted = Subtract(
-                        target: dictionary,
-                        other: otherDictionary
-                    );
+                    if (otherDictionary is not null)
+                    {
+                        var subtracted = Subtract(
+                            target: dictionary,
+                            other: otherDictionary
+                        );
 
-                    if (subtracted.Count > 0)
-                        resultMap[entry.Key] = subtracted;
+                        if (subtracted.Count > 0)
+                            resultMap[entry.Key] = subtracted;
+                    }
                 }
             }
         }
@@ -78,11 +81,7 @@ public static class MapUtils
         Dictionary<string, object?> resultMap = [];
 
         List<string> resultKeys = []; // keys without modifiers
-
-        // Keys that have been applied.
-        // They do not have modifiers in their path.
-        HashSet<string> appliedKeys = [];
-
+        
         // [newMap] but without modifiers
         newMap = newMap
             .ToDictionary(kvp => kvp.Key.WithoutModifiers(), kvp => kvp.Value);
@@ -125,9 +124,6 @@ public static class MapUtils
 
             if (newEntry != null)
             {
-                string[] split = key.Split("(");
-                appliedKeys.Add(split.First());
-
                 if (verbose)
                     PrintAdding(currPath, actualValue);
             }
@@ -182,7 +178,7 @@ public static class MapUtils
             if (resultKeys.Contains(keyWithoutModifiers))
                 continue;
 
-            string? currPath = path == null ? entry.Key : $"{path}.{entry.Key}";
+            string currPath = path == null ? entry.Key : $"{path}.{entry.Key}";
 
             object? actualValue = entry.Value;
 

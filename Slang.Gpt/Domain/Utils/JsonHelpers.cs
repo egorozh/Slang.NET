@@ -15,12 +15,12 @@ public static class JsonHelpers
     };
 #endif
 
-    public static string JsonEncode(Dictionary<string, object> dictionary)
+    public static string JsonEncode(Dictionary<string, object?> dictionary)
     {
 #if(NET7_0_OR_GREATER)
-        return JsonSerializer.Serialize(dictionary, DictionaryContext.Default.DictionaryStringObject);
+        return JsonSerializer.Serialize(dictionary!, DictionaryContext.Default.DictionaryStringObject);
 #else
-return JsonSerializer.Serialize(dictionary, options: Options);
+        return JsonSerializer.Serialize(dictionary, options: Options);
 #endif
     }
 
@@ -29,13 +29,13 @@ return JsonSerializer.Serialize(dictionary, options: Options);
 #if(NET7_0_OR_GREATER)
         return JsonSerializer.Deserialize(json, DictionaryContext.Default.DictionaryStringObject)!;
 #else
-  return JsonSerializer.Deserialize<Dictionary<string, object?>>(json)!;
+        return JsonSerializer.Deserialize<Dictionary<string, object?>>(json)!;
 #endif
     }
 }
 
 #if(NET7_0_OR_GREATER)
-[JsonSerializable(typeof(Dictionary<string, object>))]
+[JsonSerializable(typeof(Dictionary<string, object?>))]
 [JsonSerializable(typeof(JsonElement))]
 [JsonSourceGenerationOptions(JsonSerializerDefaults.Web,
     WriteIndented = true

@@ -9,7 +9,7 @@ public class LocalesTests
     {
         var locale = new CultureInfo("zh-CN");
 
-        Assert.That(locale.EnglishName, Is.EqualTo("Chinese (China mainland)"));
+        Assert.That(locale.EnglishName, Is.EqualTo("Chinese (China)"));
     }
     
     [Test]
@@ -17,6 +17,6 @@ public class LocalesTests
     {
         var locale = new CultureInfo("de-CN");
         
-        Assert.That(locale.EnglishName, Is.EqualTo("German (China mainland)"));
+        Assert.That(locale.EnglishName, Is.EqualTo("German (China)"));
     }
 }

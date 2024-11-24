@@ -13,7 +13,7 @@ namespace Slang.Gpt.Domain.Prompt;
 internal record GptPrompt(
     string System,
     string User,
-    Dictionary<string, object> UserJson);
+    Dictionary<string, object?> UserJson);
 
 internal static class Prompt
 {
@@ -36,7 +36,7 @@ internal static class Prompt
         int systemPromptLength = systemPrompt.Length;
 
         List<GptPrompt> prompts = [];
-        Dictionary<string, object> currentTranslationWindow = [];
+        Dictionary<string, object?> currentTranslationWindow = [];
 
         foreach (var entry in translations)
         {
@@ -59,7 +59,7 @@ internal static class Prompt
                     UserJson: JsonDecode(currentTranslation)
                 ));
 
-                currentTranslationWindow = new Dictionary<string, object>
+                currentTranslationWindow = new Dictionary<string, object?>
                 {
                     {entry.Key, entry.Value}
                 };

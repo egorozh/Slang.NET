@@ -24,7 +24,7 @@ public class PromptTests
             targetCulture: new CultureInfo("de"),
             config: new GptConfig(
                 BaseCulture: new CultureInfo("en"),
-                Model: GptModel.gpt3_5_4k,
+                Model: GptModel.Gpt35Turbo,
                 Description: "A simple calculator",
                 MaxInputLength: 1000,
                 Temperature: null,
@@ -67,7 +67,7 @@ public class PromptTests
             targetCulture: new CultureInfo("de"),
             config: new GptConfig(
                 BaseCulture: new CultureInfo("en"),
-                Model: GptModel.gpt3_5_4k,
+                Model: GptModel.Gpt35Turbo,
                 Description: "A simple calculator",
                 MaxInputLength: 1,
                 Temperature: null,

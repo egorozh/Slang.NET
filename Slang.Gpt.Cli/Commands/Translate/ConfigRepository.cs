@@ -1,8 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
-#if(NET7_0_OR_GREATER)
 using System.Text.Json.Serialization;
-#endif
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
@@ -32,7 +30,7 @@ internal static class ConfigRepository
 
                     var fileInfo = new FileInfo(filePath);
 
-                    if (fileInfo is {Exists: true, Name: "slang.json"})
+                    if (fileInfo is { Exists: true, Name: "slang.json" })
                     {
                         configJson = File.ReadAllText(fileInfo.FullName);
                         break;
@@ -53,23 +51,23 @@ internal static class ConfigRepository
         if (config == null)
             return null;
 
-        var model = GptModel.Values.FirstOrDefault(e => e.Id == config.gpt.model);
+        var model = GptModel.Values.FirstOrDefault(e => e.Id == config.GptConfig.Model);
 
         if (model == null)
             throw new Exception(
-                $"Unknown model: {config.gpt.model}\nAvailable models: ${string.Join(", ", GptModel.Values.Select(e => e.Id))}");
+                $"Unknown model: {config.GptConfig.Model}\nAvailable models: ${string.Join(", ", GptModel.Values.Select(e => e.Id))}");
 
-        if (string.IsNullOrEmpty(config.gpt.description))
+        if (string.IsNullOrEmpty(config.GptConfig.Description))
             throw new Exception("Missing description");
 
         GptConfig gptConfig = new(
-            BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.base_culture) ? "en" : config.base_culture),
+            BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.BaseCulture) ? "en" : config.BaseCulture),
             Model: model,
-            Description: config.gpt.description,
-            MaxInputLength: !int.TryParse(config.gpt.maxInputLength, out int maxInputLength)
+            Description: config.GptConfig.Description,
+            MaxInputLength: !int.TryParse(config.GptConfig.MaxInputLength, out int maxInputLength)
                 ? GptModel.DefaultInputLength
                 : maxInputLength,
-            Temperature: double.TryParse(config.gpt.temperature, out double temperature) ? temperature : null,
+            Temperature: double.TryParse(config.GptConfig.Temperature, out double temperature) ? temperature : null,
             Excludes: []
         );
 
@@ -78,15 +76,19 @@ internal static class ConfigRepository
 }
 
 internal record GlobalConfigDto(
-    string? base_culture,
-    GptConfigDto gpt
+    [property: JsonPropertyName("base_culture")]
+    string? BaseCulture,
+    [property: JsonPropertyName("gpt")] GptConfigDto GptConfig
 );
 
 internal record GptConfigDto(
-    string? model,
-    string? description,
-    string? maxInputLength,
-    string? temperature
+    [property: JsonPropertyName("model")] string? Model,
+    [property: JsonPropertyName("description")]
+    string? Description,
+    [property: JsonPropertyName("maxInputLength")]
+    string? MaxInputLength,
+    [property: JsonPropertyName("temperature")]
+    string? Temperature
 );
 
 #if(NET7_0_OR_GREATER)

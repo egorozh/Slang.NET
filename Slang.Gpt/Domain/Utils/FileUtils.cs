@@ -4,7 +4,7 @@ namespace Slang.Gpt.Domain.Utils;
 
 public static class FileUtils
 {
-    public static void WriteFileOfType(string path, Dictionary<string, object> content)
+    public static void WriteFileOfType(string path, Dictionary<string, object?> content)
     {
         string jsonFromContext = JsonHelpers.JsonEncode(content);
 
