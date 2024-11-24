@@ -26,7 +26,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         return model.Provider switch
         {
             GptProvider.OpenAi => DoRequestForOpenAi(model, temperature, prompt),
-            _ => throw new ArgumentOutOfRangeException()
+            _ => throw new NotImplementedException(),
         };
     }
 
@@ -37,9 +37,8 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
     {
         string jsonRequestBody = CreateRequestBody(model, prompt, temperature);
 
-        var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
-
-        var response = await httpClient.PostAsync(apiUrl, content);
+        var response = await httpClient.PostAsync(apiUrl,
+            new StringContent(jsonRequestBody, Encoding.UTF8, "application/json"));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -53,7 +52,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
 
         var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
 
-        if (rawMap?.Choices == null || rawMap.Choices.Count == 0)
+        if (rawMap?.Choices == null || rawMap.Choices.Count < 1)
             return null;
 
         string? rawMessage = rawMap.Choices[0].Message?.Content;

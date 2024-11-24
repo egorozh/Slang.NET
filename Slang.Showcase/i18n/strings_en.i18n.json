@@ -15,19 +15,17 @@
       "other": "I have {n} apples."
     },
     "fields": {
-      "name": "my name is {firstName: string}",
+      "name": "My name is {firstName: string}",
       "age": "I am {age: int} years old",
-      "date": "My birthday date: {date: DateOnly}"
+      "date": "My birthday date is: {date: DateOnly}"
     },
     "a(map)": {
-      "helloWorld": "hello",
-      "hello world": "hello"
+      "helloWorld": "hello"
     },
     "b": {
-      "b0": "hey",
+      "b0": "Hi",
       "b1(map)": {
-        "hiThere": "hi",
-        "hi there": "hi"
+        "hiThere": "hi"
       }
     },
     "niceList": [

@@ -14,7 +14,7 @@ public record struct SlangFileCollection(List<TranslationFile> Files);
 public record struct TranslationFile(
     Func<Task<string>> Read,
     string FileName,
-    string? FilePath,
+    string FilePath,
     CultureInfo Locale,
     string Namespace
 );
@@ -39,7 +39,7 @@ public static class FilesRepository
     }
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
-        string? filePath,
+        string filePath,
         Func<Task<string>> contentFactory)
     {
         string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
@@ -50,7 +50,6 @@ public static class FilesRepository
         {
             // base file (file without locale, may be multiples due to namespaces!)
             // could also be a non-base locale when directory name is a locale
-
             return new TranslationFile(
                 Locale: baseCulture,
                 Namespace: fileName.Replace(Constants.AdditionalFilePattern, ""),

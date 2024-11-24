@@ -1,6 +1,9 @@
-using Slang.Gpt.Data;
-
 namespace Slang.Gpt.Domain.Models;
+
+public enum GptProvider
+{
+    OpenAi
+}
 
 public static class GptModel
 {

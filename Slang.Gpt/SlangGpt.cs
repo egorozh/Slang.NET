@@ -38,7 +38,7 @@ public static class SlangGpt
 
         foreach (var file in fileCollection.Files)
         {
-            string outDir = new FileInfo(file.FilePath!).Directory!.FullName;
+            string outDir = new FileInfo(file.FilePath).Directory!.FullName;
 
             if (!Equals(file.Locale, gptConfig.BaseCulture))
             {
@@ -46,20 +46,21 @@ public static class SlangGpt
                 continue;
             }
 
-            string raw = await file.Read();
+            string fileContent = await file.Read();
+            var fileLocales = GetLocales(fileContent, file.FileName);
 
             var targetLocalesEnumerable = targetLocales ?? GetExistingLocales(fileCollection, gptConfig, file);
 
             foreach (var targetLocale in targetLocalesEnumerable)
             {
                 var metrics = await slangGptTranslator.Translate(
-                    fileCollection: fileCollection,
+                    files: fileCollection.Files,
                     gptConfig: gptConfig,
                     targetLocale: targetLocale,
                     outDir: outDir,
                     full: full,
                     file: file,
-                    originalTranslations: GetOriginalTranslations(raw, file),
+                    originalTranslations: fileLocales,
                     promptCount: promptCount
                 );
 
@@ -78,10 +79,14 @@ public static class SlangGpt
         double totalCost = inputTokens * gptConfig.Model.CostPerInputToken +
                            outputTokens * gptConfig.Model.CostPerOutputToken;
 
-        string totalCostString = totalCost.ToString("C", new CultureInfo("en-US"));
+        CultureInfo dollarCulture = new("en-US");
+
+        string totalCostString = totalCost.ToString("C6", dollarCulture);
+        string perInputTokenCostString = gptConfig.Model.CostPerInputToken.ToString("C8", dollarCulture);
+        string perOutputTokenCostString = gptConfig.Model.CostPerOutputToken.ToString("C8", dollarCulture);
 
         Console.WriteLine(
-            $" -> Total cost: {totalCostString} ({inputTokens} x ${gptConfig.Model.CostPerInputToken} + {outputTokens} x {gptConfig.Model.CostPerOutputToken})");
+            $" -> Total cost: {totalCostString} ({inputTokens} x {perInputTokenCostString} + {outputTokens} x {perOutputTokenCostString})");
     }
 
     private static IEnumerable<CultureInfo> GetExistingLocales(
@@ -108,17 +113,17 @@ public static class SlangGpt
     }
 
 
-    private static Dictionary<string, object?> GetOriginalTranslations(string raw, TranslationFile file)
+    private static Dictionary<string, object?> GetLocales(string fileContent, string fileName)
     {
         Dictionary<string, object?> originalTranslations;
 
         try
         {
-            originalTranslations = JsonHelpers.JsonDecode(raw);
+            originalTranslations = JsonHelpers.JsonDecode(fileContent);
         }
         catch (Exception e)
         {
-            throw new Exception($"File: ${file.FileName}\n{e}");
+            throw new Exception($"File: {fileName}{Environment.NewLine}{e}");
         }
 
         return originalTranslations;

@@ -19,7 +19,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
     /// Translates a file to a target locale.
     /// </summary>
     public async Task<TranslateMetrics> Translate(
-        SlangFileCollection fileCollection,
+        List<TranslationFile> files,
         GptConfig gptConfig,
         CultureInfo targetLocale,
         string outDir,
@@ -29,39 +29,41 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
         int promptCount
     )
     {
-        Console.WriteLine("");
-        Console.WriteLine(
-            $"Translating <{file.Locale.TwoLetterISOLanguageName}> to <{targetLocale.TwoLetterISOLanguageName}> for {file.FileName} ...");
+        Console.WriteLine();
+        Console.WriteLine($"Translating <{file.Locale}> to <{targetLocale}> for {file.FileName} ...");
 
         // existing translations of target locale
         Dictionary<string, object?> existingTranslations = [];
 
         string targetPath = Path.Combine(
             outDir,
-            $"{file.Namespace}_{targetLocale.TwoLetterISOLanguageName}{Constants.AdditionalFilePattern}"
+            $"{file.Namespace}_{targetLocale}{Constants.AdditionalFilePattern}"
         );
-
-        if (!full)
+        
+        foreach (var destFile in files)
         {
-            foreach (var destFile in fileCollection.Files)
+            if (destFile.Namespace == file.Namespace
+                && Equals(destFile.Locale.TwoLetterISOLanguageName, targetLocale.TwoLetterISOLanguageName))
             {
-                if (destFile.Namespace == file.Namespace && Equals(destFile.Locale, targetLocale))
-                {
-                    string raw = await destFile.Read();
+                targetPath = destFile.FilePath;
 
-                    try
-                    {
-                        existingTranslations = JsonHelpers.JsonDecode(raw);
-                        targetPath = destFile.FilePath!;
-                        Console.WriteLine($" -> With partial translations from {destFile.FilePath!}");
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception($"File: {destFile.FilePath!}\n{e}");
-                    }
-
+                if (full)
                     break;
+
+                string raw = await destFile.Read();
+
+                try
+                {
+                    existingTranslations = JsonHelpers.JsonDecode(raw);
+
+                    Console.WriteLine($" -> With partial translations from {destFile.FilePath}");
                 }
+                catch (Exception e)
+                {
+                    throw new Exception($"File: {destFile.FilePath}{Environment.NewLine}{e}");
+                }
+
+                break;
             }
         }
 
