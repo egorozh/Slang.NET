@@ -78,8 +78,10 @@ public static class SlangGpt
         double totalCost = inputTokens * gptConfig.Model.CostPerInputToken +
                            outputTokens * gptConfig.Model.CostPerOutputToken;
 
+        string totalCostString = totalCost.ToString(new CultureInfo("en-US"));
+        
         Console.WriteLine(
-            $" -> Total cost: {totalCost:C} ({inputTokens} x ${gptConfig.Model.CostPerInputToken} + {outputTokens} x {gptConfig.Model.CostPerOutputToken})");
+            $" -> Total cost: {totalCostString} ({inputTokens} x ${gptConfig.Model.CostPerInputToken} + {outputTokens} x {gptConfig.Model.CostPerOutputToken})");
     }
 
     private static IEnumerable<CultureInfo> GetExistingLocales(

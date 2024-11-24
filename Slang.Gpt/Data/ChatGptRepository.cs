@@ -85,13 +85,16 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         response.EnsureSuccessStatusCode();
 
         string responseBody = await response.Content.ReadAsStringAsync();
-        
+
         var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
-        
+
         if (rawMap?.Choices == null || rawMap.Choices.Count == 0)
             return null;
 
-        string rawMessage = rawMap.Choices[0].Message.Content;
+        string? rawMessage = rawMap.Choices[0].Message?.Content;
+
+        if (rawMessage == null)
+            return null;
 
         Dictionary<string, object?>? jsonMessage = null;
 
@@ -113,9 +116,9 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         return new GptResponse(
             RawMessage: rawMessage,
             JsonMessage: jsonMessage,
-            PromptTokens: rawMap.Usage.PromptTokens,
-            CompletionTokens: rawMap.Usage.CompletionTokens,
-            TotalTokens: rawMap.Usage.TotalTokens
+            PromptTokens: rawMap.Usage?.PromptTokens ?? 0,
+            CompletionTokens: rawMap.Usage?.CompletionTokens ?? 0,
+            TotalTokens: rawMap.Usage?.TotalTokens ?? 0
         );
     }
 }
