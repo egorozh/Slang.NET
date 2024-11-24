@@ -46,7 +46,7 @@ public static class FilesRepository
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, FileInfo f)
     {
-        return GetTranslationFile(baseCulture, f.Name, () => File.ReadAllTextAsync(f.FullName));
+        return GetTranslationFile(baseCulture, f.Name, () => ReadFileContentAsync(f.FullName));
     }
 
     private static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName, string content)
@@ -93,5 +93,17 @@ public static class FilesRepository
         }
 
         return null;
+    }
+
+    private static async Task<string> ReadFileContentAsync(string fileName)
+    {
+        await using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, 4096,
+            FileOptions.Asynchronous);
+        
+        using var reader = new StreamReader(stream);
+        
+        string content = await reader.ReadToEndAsync();
+
+        return content;
     }
 }

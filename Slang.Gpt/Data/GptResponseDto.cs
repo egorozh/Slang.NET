@@ -2,33 +2,35 @@ using System.Text.Json.Serialization;
 
 namespace Slang.Gpt.Data;
 
-internal record GptResponseDto(
-    [property: JsonPropertyName("choices")]
-    List<ChoiseDto>? Choices,
-    [property: JsonPropertyName("usage")] UsageDto Usage
-);
+internal record GptResponseDto
+{
+    [JsonPropertyName("choices")] public List<ChoiceDto>? Choices { get; set; }
 
-internal record ChoiseDto(
-    [property: JsonPropertyName("message")]
-    MessageDto Message);
+    [JsonPropertyName("usage")] public UsageDto? Usage { get; set; }
+}
 
-internal record MessageDto(
-    [property: JsonPropertyName("content")]
-    string Content);
+internal record ChoiceDto
+{
+    [JsonPropertyName("message")] public MessageDto? Message { get; set; }
+}
 
-internal record UsageDto(
-    [property: JsonPropertyName("prompt_tokens")]
-    int PromptTokens,
-    [property: JsonPropertyName("completion_tokens")]
-    int CompletionTokens,
-    [property: JsonPropertyName("total_tokens")]
-    int TotalTokens
-);
+internal record MessageDto
+{
+    [JsonPropertyName("content")] public string? Content { get; set; }
+}
 
-#if(NET7_0_OR_GREATER)
+internal record UsageDto
+{
+    [JsonPropertyName("prompt_tokens")] public int PromptTokens { get; set; }
+
+    [JsonPropertyName("completion_tokens")]
+    public int CompletionTokens { get; set; }
+
+    [JsonPropertyName("total_tokens")] public int TotalTokens { get; set; }
+}
+
 [JsonSerializable(typeof(GptResponseDto))]
-[JsonSerializable(typeof(ChoiseDto))]
+[JsonSerializable(typeof(ChoiceDto))]
 [JsonSerializable(typeof(MessageDto))]
 [JsonSerializable(typeof(UsageDto))]
 internal partial class GptResponseDtoContext : JsonSerializerContext;
-#endif

@@ -33,12 +33,12 @@ public class TranslateGenerator : IIncrementalGenerator
                     "Slang.TranslationsAttribute",
                     static (node, _) => node is ClassDeclarationSyntax classDeclaration &&
                                         classDeclaration.HasOrPotentiallyHasAttributes(),
-                    (context, token) =>
+                    (ctx, token) =>
                     {
-                        INamedTypeSymbol typeSymbol = (INamedTypeSymbol) context.TargetSymbol;
+                        INamedTypeSymbol typeSymbol = (INamedTypeSymbol)ctx.TargetSymbol;
 
                         // Gather all generation info, and any diagnostics
-                        TranslationsParam info = ValidateTargetTypeAndGetInfo(context.Attributes[0]);
+                        TranslationsParam info = ValidateTargetTypeAndGetInfo(ctx.Attributes[0]);
 
                         token.ThrowIfCancellationRequested();
 
@@ -49,8 +49,7 @@ public class TranslateGenerator : IIncrementalGenerator
                         token.ThrowIfCancellationRequested();
 
                         return new Result<(HierarchyInfo, TranslationsParam?)>((hierarchy, info));
-                    })
-                .Where(static item => item is not null);
+                    });
 
         // Get the filtered sequence to enable caching
         IncrementalValuesProvider<(HierarchyInfo Hierarchy, TranslationsParam Info)> generationInfo =
@@ -74,7 +73,7 @@ public class TranslateGenerator : IIncrementalGenerator
                 {
                     var config = JsonSerializer.Deserialize(jsonText, GlobalConfigContext.Default.GlobalConfigDto);
 
-                    return new ProjectParam(BaseCulture: config?.base_culture);
+                    return new ProjectParam(BaseCulture: config?.BaseCulture);
                 }
 
                 return new ProjectParam(BaseCulture: null);
@@ -114,7 +113,7 @@ public class TranslateGenerator : IIncrementalGenerator
 
             var fileCollection = FilesRepository.GetFileCollection(
                 config.BaseLocale,
-                allFiles: paths.Select(file => (file.FileName, file.Content))
+                allFiles: paths.Select(file => (file.FileName, file.Content!))
             );
 
             // debug source
@@ -140,7 +139,10 @@ public class TranslateGenerator : IIncrementalGenerator
     }
 }
 
-internal record GlobalConfigDto(string? base_culture);
+internal record GlobalConfigDto
+{
+    [JsonPropertyName("base_culture")] public string? BaseCulture { get; set; }
+}
 
 [JsonSerializable(typeof(GlobalConfigDto))]
 internal partial class GlobalConfigContext : JsonSerializerContext;

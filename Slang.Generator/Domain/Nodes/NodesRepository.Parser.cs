@@ -88,7 +88,7 @@ internal static partial class NodesRepository
 
             var children = ParseMapNode(
                 parentPath: currPath,
-                curr: listAsMap,
+                curr: listAsMap!,
                 config: config,
                 keyCase: config.KeyCase,
                 leavesMap: leavesMap,
@@ -191,10 +191,12 @@ internal static partial class NodesRepository
             {
                 string[] split = entry.Key.Split(KeyDelimiter);
 
+                var textNode = (StringTextNode)entry.Value;
+
                 if (split.Length == 1)
                 {
                     // keep as is
-                    digestedMap[entry.Key] = entry.Value as StringTextNode;
+                    digestedMap[entry.Key] = textNode;
                 }
                 else
                 {
@@ -202,7 +204,7 @@ internal static partial class NodesRepository
                     // {one,two: hi} -> {one: hi, two: hi}
                     foreach (string newChild in split)
                     {
-                        digestedMap[newChild] = entry.Value as StringTextNode;
+                        digestedMap[newChild] = textNode;
                     }
                 }
             }
@@ -219,8 +221,7 @@ internal static partial class NodesRepository
                     ? textNode.ParamTypeMap[paramName]
                     : null;
 
-                if (tempType != null &&
-                    textNode is StringTextNode && tempType != "object")
+                if (tempType != null && tempType != "object")
                 {
                     paramType = tempType;
                     break;

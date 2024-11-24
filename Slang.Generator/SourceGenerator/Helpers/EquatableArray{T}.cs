@@ -28,15 +28,15 @@ internal readonly struct EquatableArray<T> : IEquatable<EquatableArray<T>>, IEnu
 
 
     /// <sinheritdoc/>
-    public bool Equals(EquatableArray<T> array)
+    public bool Equals(EquatableArray<T> inputArray)
     {
-        return AsSpan().SequenceEqual(array.AsSpan());
+        return AsSpan().SequenceEqual(inputArray.AsSpan());
     }
 
     /// <sinheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is EquatableArray<T> array && Equals(this, array);
+        return obj is EquatableArray<T> inputArray && Equals(this, inputArray);
     }
 
     /// <sinheritdoc/>

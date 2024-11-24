@@ -85,13 +85,9 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         response.EnsureSuccessStatusCode();
 
         string responseBody = await response.Content.ReadAsStringAsync();
-
-#if(NET7_0_OR_GREATER)
+        
         var rawMap = JsonSerializer.Deserialize(responseBody, GptResponseDtoContext.Default.GptResponseDto);
-#else
-        var rawMap = JsonSerializer.Deserialize<GptResponseDto>(responseBody);
-#endif
-
+        
         if (rawMap?.Choices == null || rawMap.Choices.Count == 0)
             return null;
 

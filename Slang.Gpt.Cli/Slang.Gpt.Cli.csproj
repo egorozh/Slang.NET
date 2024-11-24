@@ -12,7 +12,7 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-        <Version>1.1.0.0-RC6</Version>
+        <Version>1.1.0.0-RC7</Version>
 
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>slang-gpt</ToolCommandName>

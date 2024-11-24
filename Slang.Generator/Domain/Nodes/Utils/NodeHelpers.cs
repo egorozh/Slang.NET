@@ -33,7 +33,7 @@ internal static class NodeHelpers
 
         if (entries.All(child => child is ObjectNode {IsMap: true}))
         {
-            string? childGenericType = ((ObjectNode) entries.First()).GenericType;
+            string childGenericType = ((ObjectNode) entries.First()).GenericType;
 
             foreach (var node in entries)
             {
