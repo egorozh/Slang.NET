@@ -2,7 +2,7 @@ namespace Slang.Generator.Domain;
 
 public static class DictionaryExtensions
 {
-    public static void AddAll<T, TKey>(this Dictionary<T, TKey> dictionary, Dictionary<T, TKey> addedDictionary)
+    public static void AddAll<T, TKey>(this Dictionary<T, TKey> dictionary, Dictionary<T, TKey> addedDictionary) where T : notnull
     {
         foreach (var addedKeyValue in addedDictionary)
         {

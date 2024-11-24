@@ -22,7 +22,7 @@ internal abstract record Node(
 /// <summary>
 /// The super class for list and object nodes
 /// </summary>
-/// <param name="GenericType">The generic type of the container, i.e. Map<String, T> or List<T></param>
+/// <param name="GenericType">The generic type of the container, i.e. <see cref="Dictionary{String, T}"/> or <see cref="List{T}"/></param>
 internal abstract record IterableNode(
     string Path,
     IReadOnlyDictionary<string, string> Modifiers,

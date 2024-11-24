@@ -1,6 +1,5 @@
 using Slang.Generator.Domain.Entities;
 using Slang.Generator.Domain.Nodes.Nodes;
-using Slang.Generator.Domain.Nodes.Utils;
 using Slang.Shared;
 
 namespace Slang.Generator.Domain.Nodes;
@@ -31,8 +30,8 @@ internal static partial class NodesRepository
 
     /// Builds the i18n model for ONE locale
     ///
-    /// The [map] must be of type Map<String, dynamic> and all children may of type
-    /// String, num, List<dynamic> or Map<String, dynamic>.
+    /// The [map] must be of type <see cref="Dictionary{String, Object}"/> and all children may of type
+    /// String, num, <see cref="List{Object}"/> or <see cref="Dictionary{String, Object}"/>.
     ///
     /// If [baseData] is set and [BuildModelConfig.fallbackStrategy] is [FallbackStrategy.baseLocale],
     /// then the base translations will be added to contexts where the translation is missing.

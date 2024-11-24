@@ -38,7 +38,7 @@ public class TranslateGenerator : IIncrementalGenerator
                         INamedTypeSymbol typeSymbol = (INamedTypeSymbol) context.TargetSymbol;
 
                         // Gather all generation info, and any diagnostics
-                        TranslationsParam? info = ValidateTargetTypeAndGetInfo(context.Attributes[0]);
+                        TranslationsParam info = ValidateTargetTypeAndGetInfo(context.Attributes[0]);
 
                         token.ThrowIfCancellationRequested();
 

@@ -410,7 +410,7 @@ internal static partial class Generator
     private static void GenerateFormatMethod(
         StringBuilder buffer,
         StringTextNode stringTextNode,
-        IReadOnlyDictionary<string, Placeholder> placeholders,
+        IReadOnlyDictionary<string, Placeholder>? placeholders,
         string overrideString,
         string key,
         int tabAnchor)
@@ -426,30 +426,31 @@ internal static partial class Generator
 
         string stringLiteral = GetStringLiteral(stringTextNode.Content, stringTextNode.Links.Count);
 
-        foreach ((string paramKey, var placeholder) in placeholders)
-        {
-            if (!string.IsNullOrEmpty(placeholder.Format))
+        if (placeholders != null)
+            foreach ((string paramKey, var placeholder) in placeholders)
             {
-                string newParam = $"{paramKey}String";
+                if (!string.IsNullOrEmpty(placeholder.Format))
+                {
+                    string newParam = $"{paramKey}String";
 
-                stringLiteral = stringLiteral.Replace(paramKey, newParam);
+                    stringLiteral = stringLiteral.Replace(paramKey, newParam);
 
-                string type;
+                    string type;
 
-                if (placeholder.Type is { } s)
-                    type = s;
-                else if (stringTextNode.ParamTypeMap.ContainsKey(paramKey))
-                    type = stringTextNode.ParamTypeMap[paramKey];
-                else
-                    type = "object";
+                    if (placeholder.Type is { } s)
+                        type = s;
+                    else if (stringTextNode.ParamTypeMap.ContainsKey(paramKey))
+                        type = stringTextNode.ParamTypeMap[paramKey];
+                    else
+                        type = "object";
 
-                buffer.AppendLineWithTab(
-                    SupportedFormattingTypes.Contains(type)
-                        ? $"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");"
-                        : $"string {newParam} = string.Format(\"{placeholder.Format}\", {paramKey});",
-                    tabCount: tabAnchor + 1);
+                    buffer.AppendLineWithTab(
+                        SupportedFormattingTypes.Contains(type)
+                            ? $"string {newParam} = {paramKey}.ToString(\"{placeholder.Format}\");"
+                            : $"string {newParam} = string.Format(\"{placeholder.Format}\", {paramKey});",
+                        tabCount: tabAnchor + 1);
+                }
             }
-        }
 
         buffer.AppendLineWithTab($"return ${stringLiteral};", tabCount: tabAnchor + 1);
 
@@ -709,12 +710,12 @@ internal static partial class Generator
 
         // parameters are union sets over all plural forms
         List<string> paramSet = [];
-        Dictionary<string, string> paramTypeMap = [];
+        Dictionary<string, string?> paramTypeMap = [];
 
         foreach (var textNode in textNodeList)
         {
             paramSet.AddRange(textNode.Params);
-            paramTypeMap.AddAll(textNode.ParamTypeMap);
+            paramTypeMap!.AddAll(textNode.ParamTypeMap);
         }
 
         string builderParam = $"{node.ParamName}Builder";

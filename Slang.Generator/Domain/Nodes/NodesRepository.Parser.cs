@@ -79,7 +79,7 @@ internal static partial class NodesRepository
         {
             // key: [ ...value ]
             // interpret the list as map
-            Dictionary<string, object> listAsMap = array
+            var listAsMap = array
                 .Select((v, i) => (v, i))
                 .ToDictionary(
                     v => v.i.ToString(),
@@ -200,7 +200,7 @@ internal static partial class NodesRepository
                 {
                     // split!
                     // {one,two: hi} -> {one: hi, two: hi}
-                    foreach (var newChild in split)
+                    foreach (string newChild in split)
                     {
                         digestedMap[newChild] = entry.Value as StringTextNode;
                     }

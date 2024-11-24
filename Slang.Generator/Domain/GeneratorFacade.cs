@@ -46,7 +46,7 @@ public static class GeneratorFacade
     // test method for benchmark
     public static BuildResult GenerateOnly(BenchmarkGeneratorData input)
     {
-        return Domain.Generator.Generator.Generate(
+        return Generator.Generator.Generate(
             config: input.Config,
             translations: input.TranslationModelList
         );

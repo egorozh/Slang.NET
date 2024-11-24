@@ -79,7 +79,7 @@ public static class FilesRepository
             string language = match.Groups[2].Value;
 
             //todo: scriptCode not supported
-            string script = match.Groups[3].Value;
+            string _ = match.Groups[3].Value;
 
             string country = match.Groups[4].Value;
 

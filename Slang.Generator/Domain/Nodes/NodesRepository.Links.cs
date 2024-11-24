@@ -53,7 +53,6 @@ internal static partial class NodesRepository
                     else if (linkedNode is PluralNode pluralNode)
                     {
                         IEnumerable<StringTextNode> textNodes = pluralNode.Quantities.Values;
-                        ;
 
                         foreach (var textNode2 in textNodes)
                         {

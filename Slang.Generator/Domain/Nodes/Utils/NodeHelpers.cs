@@ -16,10 +16,12 @@ internal static class NodeHelpers
 
         if (entries.All(child => child is ListNode))
         {
-            string? childGenericType = ((ListNode) entries.First()).GenericType;
+            string childGenericType = ((ListNode) entries.First()).GenericType;
 
-            foreach (ListNode child in entries)
+            foreach (var node in entries)
             {
+                var child = (ListNode)node;
+                
                 if (childGenericType != child.GenericType)
                 {
                     childGenericType = dynamicType; // default
@@ -33,8 +35,10 @@ internal static class NodeHelpers
         {
             string? childGenericType = ((ObjectNode) entries.First()).GenericType;
 
-            foreach (ObjectNode child in entries)
+            foreach (var node in entries)
             {
+                var child = (ObjectNode)node;
+                
                 if (childGenericType != child.GenericType)
                 {
                     childGenericType = dynamicType; // default

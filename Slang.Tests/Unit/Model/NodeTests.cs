@@ -216,7 +216,7 @@ public class NodeTests
             var node = TextNode(test);
             Assert.Multiple(() =>
             {
-                Assert.That(test, Is.EqualTo(node.Content));
+                Assert.That(node.Content, Is.EqualTo(test));
                 Assert.That(new HashSet<string>(), Is.EqualTo(node.Params));
             });
         }

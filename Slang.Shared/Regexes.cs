@@ -2,7 +2,11 @@ using System.Text.RegularExpressions;
 
 namespace Slang.Shared;
 
-public static partial class Regexes
+public static
+#if NET8_0
+    partial
+#endif
+    class Regexes
 {
 #if NET8_0
     public static readonly Regex FileWithLocaleRegex = MyFileWithLocaleRegex();
