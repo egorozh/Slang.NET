@@ -49,7 +49,7 @@ public static class SlangGpt
             string raw = await file.Read();
 
             var targetLocalesEnumerable = targetLocales ?? GetExistingLocales(fileCollection, gptConfig, file);
-            
+
             foreach (var targetLocale in targetLocalesEnumerable)
             {
                 var metrics = await slangGptTranslator.Translate(
@@ -78,8 +78,8 @@ public static class SlangGpt
         double totalCost = inputTokens * gptConfig.Model.CostPerInputToken +
                            outputTokens * gptConfig.Model.CostPerOutputToken;
 
-        string totalCostString = totalCost.ToString(new CultureInfo("en-US"));
-        
+        string totalCostString = totalCost.ToString("C", new CultureInfo("en-US"));
+
         Console.WriteLine(
             $" -> Total cost: {totalCostString} ({inputTokens} x ${gptConfig.Model.CostPerInputToken} + {outputTokens} x {gptConfig.Model.CostPerOutputToken})");
     }

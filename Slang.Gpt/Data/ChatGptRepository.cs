@@ -9,6 +9,12 @@ namespace Slang.Gpt.Data;
 
 internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string apiUrl)
 {
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        WriteIndented = false,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
     /// <summary>
     /// Sends a prompt to a GPT provider and returns the response.
     /// </summary>
@@ -29,48 +35,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         double? temperature,
         GptPrompt prompt)
     {
-        string systemContent = prompt.System
-            .Replace(Environment.NewLine, "\n")
-            .Replace("\n", "\\n");
-        string userContent = prompt.User
-            .Replace(Environment.NewLine, "\n")
-            .Replace("\n", "\\n")
-            .Replace("\"", "\\\"");
-
-        string jsonRequestBody = temperature != null
-            ? $$"""
-                {
-                    "model": "{{model.Id}}",
-                    "temperature": {{temperature}},
-                    "messages":
-                    [
-                        {
-                            "role": "system",
-                            "content": "{{systemContent}}"
-                        },
-                        {
-                            "role": "user",
-                            "content": "{{userContent}}"
-                        }
-                    ]
-                }
-                """
-            : $$"""
-                {
-                    "model": "{{model.Id}}",
-                    "messages":
-                    [
-                        {
-                            "role": "system",
-                            "content": "{{systemContent}}"
-                        },
-                        {
-                            "role": "user",
-                            "content": "{{userContent}}"
-                        }
-                    ]
-                }
-                """;
+        string jsonRequestBody = CreateRequestBody(model, prompt, temperature);
 
         var content = new StringContent(jsonRequestBody, Encoding.UTF8, "application/json");
 
@@ -96,19 +61,7 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
         if (rawMessage == null)
             return null;
 
-        Dictionary<string, object?>? jsonMessage = null;
-
-        try
-        {
-            jsonMessage = JsonHelpers.JsonDecode(rawMessage.StartsWith('{')
-                ? rawMessage
-                // catching case: rawMessage starts with ```json
-                : string.Join(Environment.NewLine, rawMessage.Split('\n').Skip(1).SkipLast(1)));
-        }
-        catch (Exception)
-        {
-            // ignored
-        }
+        var jsonMessage = GetLocales(rawMessage);
 
         if (jsonMessage == null)
             return null;
@@ -120,5 +73,43 @@ internal class ChatGptRepository(ILogger logger, HttpClient httpClient, string a
             CompletionTokens: rawMap.Usage?.CompletionTokens ?? 0,
             TotalTokens: rawMap.Usage?.TotalTokens ?? 0
         );
+    }
+
+    private static string CreateRequestBody(GptModel.GptModelInfo model, GptPrompt prompt, double? temperature)
+    {
+        string systemContent = prompt.System.Replace(Environment.NewLine, "\n");
+        string userContent = prompt.User.Replace(Environment.NewLine, "\n");
+
+        var messages = new[]
+        {
+            new { role = "system", content = systemContent },
+            new { role = "user", content = userContent }
+        };
+
+        var requestBody = new
+        {
+            model = model.Id,
+            temperature,
+            messages
+        };
+
+        return JsonSerializer.Serialize(requestBody, JsonOptions);
+    }
+
+    private static Dictionary<string, object?>? GetLocales(string rawMessage)
+    {
+        try
+        {
+            return JsonHelpers.JsonDecode(rawMessage.StartsWith('{')
+                ? rawMessage
+                // catching case: rawMessage starts with ```json
+                : string.Join(Environment.NewLine, rawMessage.Split('\n').Skip(1).SkipLast(1)));
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
+
+        return null;
     }
 }
