@@ -1,18 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
         <OutputType>Library</OutputType>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-
-        <Authors>egorozh</Authors>
-        <Description>Type-safe i18n for .NET</Description>
-        <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
-        <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
-
+        
         <Version>1.1.1.0-preview1</Version>
         <PackageId>Slang.Net</PackageId>
 
