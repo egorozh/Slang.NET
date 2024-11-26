@@ -10,7 +10,7 @@ internal class I18NBuilder(RawConfig config)
     public async Task Build()
     {
         //todo: getting input info from NET SOURCE GENERATOR
-        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Console";
+        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Examples/Slang.Console";
 
         string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
 

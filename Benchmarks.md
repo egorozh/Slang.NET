@@ -37,6 +37,12 @@
 | OnlyGeneration | 178.4 us | 0.32 us | 0.30 us |  78.6133 | 18.5547 |  483.06 KB |
 | FullGeneration | 535.3 us | 1.80 us | 1.51 us | 177.7344 | 52.7344 | 1100.91 KB |
 
+### Release 1.1.0
+| Method         | Mean     | Error   | StdDev  | Gen0    | Gen1    | Gen2   | Allocated |
+|--------------- |---------:|--------:|--------:|--------:|--------:|-------:|----------:|
+| GetNodes       | 158.1 us | 0.19 us | 0.17 us | 50.5371 | 10.9863 |      - |  309.7 KB |
+| OnlyGeneration | 107.6 us | 0.37 us | 0.32 us | 49.6826 |  9.7656 | 1.2207 | 305.24 KB |
+| FullGeneration | 276.0 us | 0.60 us | 0.53 us | 99.6094 |  0.9766 |      - | 615.02 KB |
 
 
 
