@@ -1,6 +1,6 @@
 using System.Globalization;
-using Slang.Generator.Data;
-using Slang.Generator.Domain;
+using Slang.Generator.Core;
+using Slang.Generator.Core.Data;
 using static Slang.Tests.Integration.EmbeddedLoader;
 
 namespace Slang.Tests.Integration.Main;

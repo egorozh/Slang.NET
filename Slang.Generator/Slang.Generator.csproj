@@ -20,25 +20,19 @@
             <DependentUpon>Generator.cs</DependentUpon>
         </Compile>
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <!-- Package the generator in the analyzer directory of the nuget package -->
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
-    
-    <ItemGroup>
-      <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />
-    </ItemGroup>
 
     <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-            <_Parameter1>Slang.Tests</_Parameter1>
-        </AssemblyAttribute>
+        <ProjectReference Include="..\Slang.Generator.Core\Slang.Generator.Core.csproj" />
     </ItemGroup>
-    
+
 </Project>

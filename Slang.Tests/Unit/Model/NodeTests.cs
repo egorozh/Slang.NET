@@ -1,5 +1,5 @@
-using Slang.Generator.Domain.Entities;
-using Slang.Generator.Domain.Nodes.Nodes;
+using Slang.Generator.Core.Entities;
+using Slang.Generator.Core.Nodes.Nodes;
 using static Slang.Tests.Helpers.TextNodeBuilder;
 
 namespace Slang.Tests.Unit.Model;

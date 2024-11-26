@@ -1,5 +1,5 @@
-using Slang.Generator.Domain.Entities;
-using Slang.Generator.Domain.Nodes.Utils;
+using Slang.Generator.Core.Entities;
+using Slang.Generator.Core.Nodes.Utils;
 
 namespace Slang.Tests.Unit.Utils;
 

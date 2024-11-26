@@ -9,14 +9,20 @@ public class LocalesTests
     {
         var locale = new CultureInfo("zh-CN");
 
-        Assert.That(locale.EnglishName, Is.EqualTo("Chinese (China)"));
+        Assert.That(locale.EnglishName,
+            Environment.OSVersion.Platform == PlatformID.Unix
+                ? Is.EqualTo("Chinese (China mainland)")
+                : Is.EqualTo("Chinese (China)"));
     }
-    
+
     [Test]
     public void Should_fallback_to_language()
     {
         var locale = new CultureInfo("de-CN");
-        
-        Assert.That(locale.EnglishName, Is.EqualTo("German (China)"));
+
+        Assert.That(locale.EnglishName,
+            Environment.OSVersion.Platform == PlatformID.Unix
+                ? Is.EqualTo("German (China mainland)")
+                : Is.EqualTo("German (China)"));
     }
 }

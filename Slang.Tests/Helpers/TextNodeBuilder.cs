@@ -1,6 +1,6 @@
-using Slang.Generator.Domain.Entities;
-using Slang.Generator.Domain.Nodes;
-using Slang.Generator.Domain.Nodes.Nodes;
+using Slang.Generator.Core.Entities;
+using Slang.Generator.Core.Nodes;
+using Slang.Generator.Core.Nodes.Nodes;
 
 namespace Slang.Tests.Helpers;
 
@@ -18,7 +18,7 @@ internal static class TextNodeBuilder
                 KeyCase: CaseStyle.Pascal,
                 KeyMapCase: CaseStyle.Camel,
                 ParamCase: paramCase,
-                PluralAuto: Generator.Domain.Entities.PluralAuto.Off,
+                PluralAuto: Slang.Generator.Core.Entities.PluralAuto.Off,
                 PluralParameter: "n"),
             raw,
             modifiers: new Dictionary<string, string>()
