@@ -1,6 +1,19 @@
 @Slang.WebApi_HostAddress = http://localhost:5287
 
-GET {{Slang.WebApi_HostAddress}}/weatherforecast/
+GET https://localhost:7133/weatherforecast/
 Accept: application/json
+Accept-Language: en-Us
+
+###
+
+GET https://localhost:7133/weatherforecast/
+Accept: application/json
+Accept-Language: ru-RU
+
+###
+
+GET https://localhost:7133/weatherforecast/
+Accept: application/json
+Accept-Language: ge-GE
 
 ###

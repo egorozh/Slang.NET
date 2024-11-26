@@ -1,0 +1,7 @@
+{
+  "base_culture": "en",
+  "gpt": {
+    "model": "gpt-4o-mini",
+    "description": "Web api slang example"
+  }
+}

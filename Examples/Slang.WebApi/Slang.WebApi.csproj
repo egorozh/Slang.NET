@@ -5,5 +5,13 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
-    
+
+    <ItemGroup>
+      <PackageReference Include="Slang.Net" Version="1.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <AdditionalFiles Include="i18n\*.i18n.json" />
+        <AdditionalFiles Include="slang.json" />
+    </ItemGroup>
 </Project>
