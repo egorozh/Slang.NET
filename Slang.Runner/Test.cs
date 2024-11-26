@@ -9,7 +9,7 @@ public static class Test
     {
         return ConfigRepository.Create(
             inputFileName: "strings",
-            @namespace: "Slang.Showcase",
+            @namespace: "Slang.Console",
             className: "Strings",
             baseLocale: "en");
     }
@@ -18,7 +18,7 @@ public static class Test
     {
         return ConfigRepository.Create(
             inputFileName: "feature1",
-            @namespace: "Slang.Showcase.MyNamespace",
+            @namespace: "Slang.Console.MyNamespace",
             className: "Feature1",
             baseLocale: "en");
     }

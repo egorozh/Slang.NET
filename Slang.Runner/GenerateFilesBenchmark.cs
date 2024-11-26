@@ -18,7 +18,7 @@ public class GenerateFilesBenchmark
     {
         _config = Test.GetConfig();
 
-        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Showcase";
+        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Slang.Console";
 
         string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
 

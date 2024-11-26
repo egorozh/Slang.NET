@@ -1,6 +1,6 @@
 ﻿using System;
-using Slang.Showcase;
-using Slang.Showcase.Features.Feature1;
+using Slang.Console;
+using Slang.Console.Features.Feature1;
 
 foreach (var culture in Feature1.SupportedCultures)
 {
