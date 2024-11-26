@@ -8,7 +8,9 @@
     <Project Path="Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />
     <Project Path="Gpt\Slang.Gpt\Slang.Gpt.csproj" Type="Classic C#" />
   </Folder>
-  <Folder Name="/Solution Items/" />
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="Slang.Generator\Slang.Generator.csproj" Type="Classic C#" />
   <Project Path="Slang.Runner\Slang.Runner.csproj" Type="Classic C#" />
   <Project Path="Slang.Shared\Slang.Shared.csproj" Type="Classic C#" />
