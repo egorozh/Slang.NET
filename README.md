@@ -463,4 +463,4 @@ Then use slang-gpt:
 slang-gpt <csproj> --target=ru --api-key=<api-key>
 ```
 
-See more: [Documentation](https://github.com/egorozh/Slang.NET/tree/develop/Slang.Gpt.Cli)
+See more: [Documentation](https://github.com/egorozh/Slang.NET/tree/develop/Gpt)
