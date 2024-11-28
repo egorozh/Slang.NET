@@ -9,7 +9,7 @@ Currently, only the [OpenAI API](https://platform.openai.com/docs/) is supported
 ### Install slang-gpt-cli:
 
 ```bash
-dotnet tool install -g slang.gpt.cli --prerelease
+dotnet tool install -g slang.gpt.cli
 ```
 
 Then add the following configuration in your slang.json:

@@ -442,7 +442,7 @@ Take advantage of GPT to internationalize your app with context-aware translatio
 Install slang-gpt-cli:
 
 ```bash
-dotnet tool install -g slang.gpt.cli --prerelease
+dotnet tool install -g slang.gpt.cli
 ```
 
 Then add the following configuration in your slang.json:
