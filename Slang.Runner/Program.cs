@@ -2,6 +2,7 @@
 using BenchmarkDotNet.Running;
 #endif
 
+using Slang.Generator.Core.Data;
 using Slang.Runner;
 
 #if DEBUG
@@ -10,15 +11,21 @@ Console.WriteLine("Start");
 
 var config = Test.GetConfig();
 
-I18NBuilder builder = new(config);
+const string sourceFilesDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Examples/Slang.Console/i18n";
 
-await builder.Build();
+Generator builder = new(config, sourceFilesDirectory);
 
-var config2 = Test.GetConfig2();
+await builder.Generate();
 
-I18NBuilder builder2 = new(config2);
+var config2 = ConfigRepository.Create(
+    inputFileName: "feature1",
+    @namespace: "Slang.Console.MyNamespace",
+    className: "Feature1",
+    baseLocale: "ru-RU");
 
-await builder2.Build();
+Generator builder2 = new(config2, sourceFilesDirectory);
+
+await builder2.Generate();
 
 Console.WriteLine("End");
 

@@ -39,7 +39,7 @@ public abstract class TranslationsRepository
         if (translationComposition.Keys.All(locale => !Equals(locale, rawConfig.BaseLocale)))
         {
             throw new Exception(
-                $"Translation file for base locale \"{rawConfig.BaseLocale.TwoLetterISOLanguageName}\" not found.");
+                $"Translation file for base locale \"{rawConfig.BaseLocale}\" not found.");
         }
 
         return translationComposition;

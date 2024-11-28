@@ -4,16 +4,11 @@ using Slang.Generator.Core.Entities;
 
 namespace Slang.Runner;
 
-internal class I18NBuilder(RawConfig config)
+internal class Generator(RawConfig config, string filesDirectory)
 {
-    public async Task Build()
+    public async Task Generate()
     {
-        //todo: getting input info from NET SOURCE GENERATOR
-        const string targetDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Examples/Slang.Console";
-
-        string sourceFilesDirectory = Path.Combine(targetDirectory, "i18n");
-
-        var paths = Directory.GetFiles(sourceFilesDirectory, "*.i18n.json")
+        var paths = Directory.GetFiles(filesDirectory, "*.i18n.json")
             .Where(file => Path.GetFileName(file).StartsWith(config.InputFileName));
 
         var files = paths
@@ -36,14 +31,14 @@ internal class I18NBuilder(RawConfig config)
         );
 
         await File.WriteAllTextAsync(
-            Path.Combine(sourceFilesDirectory, $"{config.ClassName}.g.cs"),
+            Path.Combine(filesDirectory, $"{config.ClassName}.g.cs"),
             result.Header
         );
 
         foreach ((var locale, string localeTranslations) in result.Translations)
         {
             await File.WriteAllTextAsync(
-                Path.Combine(sourceFilesDirectory, $"{config.ClassName}_{locale.TwoLetterISOLanguageName}.g.cs"),
+                Path.Combine(filesDirectory, $"{config.ClassName}_{locale}.g.cs"),
                 localeTranslations
             );
         }

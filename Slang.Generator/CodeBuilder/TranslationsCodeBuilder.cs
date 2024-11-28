@@ -26,7 +26,7 @@ internal static class TranslationsCodeBuilder
 
         foreach ((var locale, string localeTranslations) in result.Translations)
         {
-            context.AddSource($"{config.ClassName}_{locale.TwoLetterISOLanguageName}.g.cs", localeTranslations);
+            context.AddSource($"{config.ClassName}_{locale}.g.cs", localeTranslations);
         }
     }
 }

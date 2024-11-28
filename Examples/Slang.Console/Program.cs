@@ -1,5 +1,4 @@
-﻿using System;
-using Slang.Console;
+﻿using Slang.Console;
 using Slang.Console.Features.Feature1;
 
 foreach (var culture in Feature1.SupportedCultures)

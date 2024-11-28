@@ -33,7 +33,7 @@ internal static partial class Generator
               	{
               {{GenerateCultures(config, allLocales)}}
               
-              		private readonly static CultureInfo _baseCulture = _{{config.BaseLocale.TwoLetterISOLanguageName}};
+              		private readonly static CultureInfo _baseCulture = _{{config.BaseLocale.ToSafeName()}};
               
               		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
               		
@@ -90,7 +90,7 @@ internal static partial class Generator
             var locale = allLocales[i].Locale;
 
             buffer.AppendLineWithTab(
-                $"private readonly static CultureInfo _{locale.TwoLetterISOLanguageName} = new CultureInfo(\"{locale.Name}\");",
+                $"private readonly static CultureInfo _{locale.ToSafeName()} = new CultureInfo(\"{locale}\");",
                 tabCount: 2);
         }
 
@@ -112,7 +112,7 @@ internal static partial class Generator
                 : GetClassNameRoot(baseName: config.ClassName, locale: locale);
 
             buffer.AppendWithTab(
-                $"{{_{locale.TwoLetterISOLanguageName}, new {className}() }}", tabCount: 4);
+                $"{{_{locale.ToSafeName()}, new {className}() }}", tabCount: 4);
 
             if (i < allLocales.Count - 1)
                 buffer.Append(',');

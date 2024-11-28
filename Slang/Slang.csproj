@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         
-        <Version>1.1.1.0-preview1</Version>
+        <Version>1.1.1.0-preview3</Version>
         <PackageId>Slang.Net</PackageId>
 
         <PackageReadmeFile>README.md</PackageReadmeFile>

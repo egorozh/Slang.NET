@@ -11,8 +11,7 @@ public class GenerateFilesBenchmark
     private RawConfig _config = null!;
     private TranslationComposition _translationMap = null!;
     private GeneratorFacade.BenchmarkGeneratorData _benchData = null!;
-
-
+    
     [GlobalSetup]
     public async Task GlobalSetup()
     {

@@ -41,7 +41,7 @@ public static class Helper
     {
         string result = baseName.ToCase(CaseStyle.Pascal) +
                         (locale != null
-                            ? locale.TwoLetterISOLanguageName.ToCaseOfLocale(CaseStyle.Pascal)
+                            ? locale.ToString().ToCaseOfLocale(CaseStyle.Pascal)
                             : string.Empty);
 
         return result;
@@ -53,7 +53,7 @@ public static class Helper
         CultureInfo? locale = null
     )
     {
-        string languageTag = locale != null ? locale.TwoLetterISOLanguageName.ToCaseOfLocale(CaseStyle.Pascal) : string.Empty;
+        string languageTag = locale != null ? locale.ToString().ToCaseOfLocale(CaseStyle.Pascal) : string.Empty;
 
         return $"{parentName}{childName.ToCase(CaseStyle.Pascal)}{languageTag}";
     }
