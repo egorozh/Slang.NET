@@ -1,6 +1,7 @@
 ﻿<Solution>
   <Folder Name="/CLI/">
     <Project Path="CLI\Slang.CLI\Slang.CLI.csproj" Type="Classic C#" />
+    <File Path="CLI\README.md" />
   </Folder>
   <Folder Name="/Examples/">
     <Project Path="Examples\Slang.Console\Slang.Console.csproj" Type="Classic C#" />
