@@ -1,3 +1,17 @@
 {
-  "Welcome": "Добро пожаловать в Slang.CLI"
+  "Welcome": "Добро пожаловать в Slang.CLI",
+  "gpt": {
+    "description": "Перевести файлы локализации на целевую локализацию с помощью GPT",
+    "filePathOption": "Файл проекта csproj",
+    "apiKeyOption": "Ключ API для OpenAI",
+    "targetOption": "Целевая локализация",
+    "fullOption": "Пeрезаписать все строки целевой локализации",
+    "debugOption": "Записать логи в файл",
+    "start_translate": "Начало перевода c помощью GPT ...",
+    "csproj_not_found": "Файл проекта csproj {path:string} не найден",
+    "target_cultures": {
+      "one": "Целевая культура: {culture:string}",
+      "other": "Целевые культуры: {cultures:string}"
+    }
+  }
 }

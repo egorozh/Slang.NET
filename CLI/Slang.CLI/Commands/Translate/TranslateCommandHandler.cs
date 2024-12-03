@@ -2,6 +2,7 @@ using System.Globalization;
 using Project2015To2017.Reading;
 using Serilog;
 using Serilog.Core;
+using Slang.CLI.i18n;
 using Slang.Gpt;
 using Slang.Gpt.Domain.Utils;
 
@@ -9,14 +10,16 @@ namespace Slang.CLI.Commands.Translate;
 
 internal static class TranslateCommandHandler
 {
-    public static async Task HandleRootCommand(
+    public static async Task Handle(
         FileInfo? csproj,
-        string? apiKey,
+        string apiKey,
         string? targetId,
         bool full,
         bool debug)
     {
-        Console.WriteLine("Started translate command ...");
+        var texts = Strings.Loc.Gpt;
+
+        Console.WriteLine(texts.StartTranslate);
 
         if (apiKey == null)
             throw new Exception("Missing API key. Specify it with --api-key=...");
@@ -25,7 +28,7 @@ internal static class TranslateCommandHandler
             throw new Exception("Missing csproj filepath");
 
         if (!csproj.Exists)
-            throw new Exception($"csproj file {csproj} does not exist");
+            Console.WriteLine(texts.CsprojNotFound(csproj.FullName));
 
         ProjectReader reader = new();
         var project = reader.Read(csproj.FullName);
@@ -44,7 +47,13 @@ internal static class TranslateCommandHandler
             targetLocales = preset ?? [new CultureInfo(targetId)];
 
             Console.WriteLine();
-            Console.WriteLine($"Target: {string.Join(", ", targetLocales.Select(e => e.EnglishName))}");
+            Console.WriteLine(texts.TargetCultures(
+                    n: targetLocales.Count,
+                    culture: targetLocales[0].EnglishName,
+                    cultures: string.Join(", ", targetLocales.Select(e => e.EnglishName))
+                )
+            );
+
             Console.WriteLine();
         }
 
@@ -57,9 +66,10 @@ internal static class TranslateCommandHandler
             csProjDirectoryPath,
             gptConfig.BaseCulture
         );
-        
-        await SlangGpt.Execute(CreateLogger(csProjDirectoryPath, debug), httpClient, fileCollection, gptConfig,
-            targetLocales, full);
+
+        var logger = CreateLogger(csProjDirectoryPath, debug);
+
+        await SlangGpt.Execute(logger, httpClient, fileCollection, gptConfig, targetLocales, full);
     }
 
     private static ILogger CreateLogger(string logDirectory, bool debug)

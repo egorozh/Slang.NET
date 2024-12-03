@@ -30,7 +30,7 @@ internal static class ConfigRepository
 
                     var fileInfo = new FileInfo(filePath);
 
-                    if (fileInfo is { Exists: true, Name: "slang.json" })
+                    if (fileInfo is {Exists: true, Name: "slang.json"})
                     {
                         configJson = File.ReadAllText(fileInfo.FullName);
                         break;
@@ -60,10 +60,10 @@ internal static class ConfigRepository
             BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.BaseCulture) ? "en" : config.BaseCulture),
             Model: model,
             Description: config.GptConfig.Description,
-            MaxInputLength: !int.TryParse((string?) config.GptConfig.MaxInputLength, out int maxInputLength)
+            MaxInputLength: !int.TryParse(config.GptConfig.MaxInputLength, out int maxInputLength)
                 ? GptModel.DefaultInputLength
                 : maxInputLength,
-            Temperature: double.TryParse((string?) config.GptConfig.Temperature, out double temperature) ? temperature : null,
+            Temperature: double.TryParse(config.GptConfig.Temperature, out double temperature) ? temperature : null,
             Excludes: []
         );
 

@@ -1,32 +1,38 @@
 using System.CommandLine;
+using Slang.CLI.i18n;
 
 namespace Slang.CLI.Commands.Translate;
 
-internal sealed class GptTranslateCommand : RootCommand
+internal sealed class GptTranslateCommand : Command
 {
-    public GptTranslateCommand() : base("Translate locale files to target locale with GPT")
+    public GptTranslateCommand() : base("gpt", Strings.Loc.Gpt.Description)
     {
-        var fileArgument = new Argument<FileInfo?>(
+        var texts = Strings.Loc.Gpt;
+
+        Argument<FileInfo?> fileArgument = new(
             name: "csproj",
-            description: "csproj filepath");
+            description: texts.FilePathOption);
 
-        var apiOption = new Option<string?>(
+        Option<string> apiOption = new(
             name: "--api-key",
-            description: "API key");
+            description: texts.ApiKeyOption)
+        {
+            IsRequired = true
+        };
 
-        var targetOption = new Option<string?>(
+        Option<string?> targetOption = new(
             aliases: ["-t", "--target"],
-            description: "Target language");
+            description: texts.TargetOption);
 
-        var fullOption = new Option<bool>(
+        Option<bool> fullOption = new(
             aliases: ["-f", "--full"],
             getDefaultValue: () => false,
-            description: "Skip partial translation");
+            description: texts.FullOption);
 
-        var debugOption = new Option<bool>(
+        Option<bool> debugOption = new(
             aliases: ["-d", "--debug"],
             getDefaultValue: () => false,
-            description: "Write chat to file");
+            description: texts.DebugOption);
 
         Add(fileArgument);
         Add(apiOption);
@@ -34,7 +40,7 @@ internal sealed class GptTranslateCommand : RootCommand
         Add(fullOption);
         Add(debugOption);
 
-        this.SetHandler(TranslateCommandHandler.HandleRootCommand,
+        this.SetHandler(TranslateCommandHandler.Handle,
             fileArgument,
             apiOption,
             targetOption,
