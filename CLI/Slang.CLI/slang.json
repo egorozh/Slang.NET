@@ -1,0 +1,7 @@
+{
+  "base_culture": "ru",
+  "gpt": {
+    "model": "gpt-4o-mini",
+    "description": "Slang CLI - tool for localization"
+  }
+}
