@@ -2,6 +2,7 @@
 
 [![Nuget](https://img.shields.io/nuget/v/Slang.Net?label=Slang.Net)](https://www.nuget.org/packages/Slang.Net)
 [![Nuget](https://img.shields.io/nuget/v/Slang.Gpt.Cli?label=Slang.Gpt.Cli)](https://www.nuget.org/packages/Slang.Gpt.Cli)
+[![Nuget](https://img.shields.io/nuget/v/Slang.CLI?label=Slang.CLI)](https://www.nuget.org/packages/Slang.CLI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Type-safe i18n for .NET
