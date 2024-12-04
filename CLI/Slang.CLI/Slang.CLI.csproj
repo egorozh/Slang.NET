@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <Version>1.1.1.0-preview1</Version>
+        <Version>1.1.1.0-preview2</Version>
 
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>slang</ToolCommandName>
@@ -16,14 +16,17 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentResults" Version="3.16.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="OneOf" Version="3.0.271" />
+        <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" />
         <PackageReference Include="Project2015To2017" Version="4.2.0" />
         <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
         <PackageReference Include="Slang.Net" Version="1.1.1-preview3" />
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <AdditionalFiles Include="i18n\*.i18n.json" />
         <AdditionalFiles Include="slang.json" />
@@ -33,5 +36,5 @@
         <None Include="..\README.md" Pack="true" Visible="false" PackagePath="\" />
         <None Include="..\..\LICENSE" Pack="true" Visible="false" PackagePath="" />
     </ItemGroup>
-    
+
 </Project>

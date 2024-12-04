@@ -1,14 +1,31 @@
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using OneOf;
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
 namespace Slang.CLI.Commands.Translate;
 
+internal abstract class ConfigError;
+
+internal class ConfigNotFound : ConfigError;
+
+internal class ConfigNotSerialized : ConfigError;
+
+internal class ConfigModelNotFound(string? model) : ConfigError
+{
+    public string? Model { get; } = model;
+}
+
+internal class ConfigDescriptionMissing : ConfigError;
+
+[GenerateOneOf]
+internal partial class ConfigResult : OneOfBase<GptConfig, ConfigError>;
+
 internal static class ConfigRepository
 {
-    public static GptConfig? GetConfig(Project project, string csProjDirectory)
+    public static ConfigResult GetConfig(Project project, string csProjDirectory)
     {
         var additionalFiles = project.ItemGroups.SelectMany(g => g.Elements())
             .Where(item => item.Name == "AdditionalFiles")
@@ -40,21 +57,20 @@ internal static class ConfigRepository
         }
 
         if (configJson == null)
-            return null;
+            return new ConfigNotFound();
 
         var config = JsonSerializer.Deserialize(configJson, GlobalConfigContext.Default.GlobalConfigDto);
 
         if (config == null)
-            return null;
+            return new ConfigNotSerialized();
 
         var model = GptModel.Values.FirstOrDefault(e => e.Id == config.GptConfig?.Model);
 
         if (model == null)
-            throw new Exception(
-                $"Unknown model: {config.GptConfig?.Model}\nAvailable models: ${string.Join(", ", GptModel.Values.Select(e => e.Id))}");
+            return new ConfigModelNotFound(config.GptConfig?.Model);
 
         if (string.IsNullOrEmpty(config.GptConfig?.Description))
-            throw new Exception("Missing description");
+            return new ConfigDescriptionMissing();
 
         GptConfig gptConfig = new(
             BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.BaseCulture) ? "en" : config.BaseCulture),

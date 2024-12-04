@@ -11,27 +11,34 @@ namespace Slang.Gpt.Domain;
 internal record TranslateMetrics(
     int EndPromptCount,
     int InputTokens,
-    int OutputTokens);
+    int OutputTokens,
+    string? TargetPath);
 
-internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatGptRepository)
+internal record NoNewTranslationsMetrics(int EndPromptCount) : TranslateMetrics(EndPromptCount, 0, 0, null);
+
+public delegate void PartialTranslationHandler(string filePath);
+public delegate void StartRequestHandler(int promptCount);
+
+internal sealed class SlangGptTranslator(
+    ILogger logger,
+    ChatGptRepository chatGptRepository,
+    List<TranslationFile> files,
+    GptConfig gptConfig,
+    bool full,
+    PartialTranslationHandler partialTranslationHandler,
+    StartRequestHandler startRequestHandler)
 {
     /// <summary>
     /// Translates a file to a target locale.
     /// </summary>
     public async Task<TranslateMetrics> Translate(
-        List<TranslationFile> files,
-        GptConfig gptConfig,
         CultureInfo targetLocale,
         string outDir,
-        bool full,
         TranslationFile file,
         Dictionary<string, object?> originalTranslations,
         int promptCount
     )
     {
-        Console.WriteLine();
-        Console.WriteLine($"Translating <{file.Locale}> to <{targetLocale}> for {file.FileName} ...");
-
         // existing translations of target locale
         Dictionary<string, object?> existingTranslations = [];
 
@@ -39,7 +46,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
             outDir,
             $"{file.Namespace}_{targetLocale}{Constants.AdditionalFilePattern}"
         );
-        
+
         foreach (var destFile in files)
         {
             if (destFile.Namespace == file.Namespace
@@ -56,7 +63,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
                 {
                     existingTranslations = JsonHelpers.JsonDecode(raw);
 
-                    Console.WriteLine($" -> With partial translations from {destFile.FilePath}");
+                    partialTranslationHandler(destFile.FilePath);
                 }
                 catch (Exception e)
                 {
@@ -83,15 +90,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
         );
 
         if (inputTranslations.Count == 0)
-        {
-            Console.WriteLine(" -> No new translations");
-
-            return new TranslateMetrics(
-                EndPromptCount: promptCount,
-                InputTokens: 0,
-                OutputTokens: 0
-            );
-        }
+            return new NoNewTranslationsMetrics(EndPromptCount: promptCount);
 
         var prompts = Prompt.Prompt.GetPrompts(
             targetCulture: targetLocale,
@@ -108,7 +107,7 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
         {
             promptCount++;
 
-            Console.WriteLine($" -> Request #{promptCount}");
+            startRequestHandler(promptCount);
 
             var response = await chatGptRepository.DoRequest(
                 model: gptConfig.Model,
@@ -170,12 +169,11 @@ internal sealed class SlangGptTranslator(ILogger logger, ChatGptRepository chatG
             content: result
         );
 
-        Console.WriteLine($" -> Output: {targetPath}");
-
         return new TranslateMetrics(
             EndPromptCount: promptCount,
             InputTokens: inputTokens,
-            OutputTokens: outputTokens
+            OutputTokens: outputTokens,
+            targetPath
         );
     }
 

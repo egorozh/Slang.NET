@@ -12,6 +12,26 @@
     "target_cultures": {
       "one": "Target culture: {culture:string}",
       "other": "Target cultures: {cultures:string}"
+    },
+    "gpt_config(ignoreGpt)": "GPT config: {modelId:string} / {maxInputLength:int} max input length / {temperature:string} temperature",
+    "excludes(ignoreGpt)": "Excludes: {cultures:string}",
+    "get_config_error": {
+      "missing_description": "Description not provided",
+      "unknown_model": "Unknown model: {model:string}\nAvailable models: {models:string}",
+      "config_not_found": "Configuration not found",
+      "config_not_serialized": "Failed to deserialize the configuration"
+    },
+    "start_translate_locale": "Translating <{locale}> to <{targetCulture}> for {fileName:string} ...",
+    "partial_translate": " -> With partial translations from {filePath}",
+    "start_request": " -> Request #{promptCount}",
+    "no_new_translations": " -> No new translations",
+    "end_translate": " -> Output: {targetPath}",
+    "result": {
+      "summary": "Summary:",
+      "total_requests": "Total requests: {promptCount:int}",
+      "total_input_tokens": "Total input tokens: {inputTokens:int}",
+      "total_output_tokens": "Total output tokens: {outputTokens:int}",
+      "total_cost": "Total cost: {totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
     }
   }
 }

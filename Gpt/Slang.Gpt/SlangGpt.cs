@@ -7,34 +7,68 @@ using Slang.Gpt.Domain.Utils;
 
 namespace Slang.Gpt;
 
+public record struct GptResult(
+    int PromptCount,
+    int InputTokens,
+    int OutputTokens
+);
+
+public delegate void StartTranslateHandler(TranslationFile file, CultureInfo targetCulture);
+
+public delegate void NoNewTranslationsHandler();
+
+public delegate void EndTranslateHandler(string? targetPath);
+
 public static class SlangGpt
 {
     private const string ApiUrl = "https://api.openai.com/v1/chat/completions";
 
-    public static async Task Execute(
+    public static Task<GptResult> Execute(
         ILogger logger,
         HttpClient httpClient,
         SlangFileCollection fileCollection,
         GptConfig gptConfig,
+        StartTranslateHandler startTranslateHandler,
+        PartialTranslationHandler partialTranslationHandler,
+        StartRequestHandler startRequestHandler,
+        NoNewTranslationsHandler noNewTranslationsHandler,
+        EndTranslateHandler endTranslateHandler,
         List<CultureInfo>? targetLocales = null,
         bool full = false)
     {
-        Console.WriteLine(
-            $"GPT config: {gptConfig.Model.Id} / {gptConfig.MaxInputLength} max input length / {gptConfig.Temperature?.ToString() ?? "default"} temperature"
-        );
+        ChatGptRepository chatGptRepository = new(logger, httpClient, ApiUrl);
+        SlangGptTranslator slangGptTranslator = new(
+            logger,
+            chatGptRepository,
+            fileCollection.Files,
+            gptConfig,
+            full,
+            partialTranslationHandler,
+            startRequestHandler);
 
-        if (gptConfig.Excludes.Count > 0)
-        {
-            Console.WriteLine(
-                $"Excludes: {string.Join(", ", gptConfig.Excludes.Select(e => e.EnglishName))}");
-        }
+        return ExecuteImpl(
+            gptConfig,
+            fileCollection,
+            targetLocales,
+            slangGptTranslator,
+            startTranslateHandler,
+            noNewTranslationsHandler,
+            endTranslateHandler);
+    }
 
+
+    private static async Task<GptResult> ExecuteImpl(
+        GptConfig gptConfig,
+        SlangFileCollection fileCollection,
+        List<CultureInfo>? targetLocales,
+        SlangGptTranslator slangGptTranslator,
+        StartTranslateHandler startTranslateHandler,
+        NoNewTranslationsHandler noNewTranslationsHandler,
+        EndTranslateHandler endTranslateHandler)
+    {
         int promptCount = 0;
         int inputTokens = 0;
         int outputTokens = 0;
-
-        ChatGptRepository chatGptRepository = new(logger, httpClient, ApiUrl);
-        SlangGptTranslator slangGptTranslator = new(logger, chatGptRepository);
 
         foreach (var file in fileCollection.Files)
         {
@@ -53,40 +87,28 @@ public static class SlangGpt
 
             foreach (var targetLocale in targetLocalesEnumerable)
             {
+                startTranslateHandler(file, targetLocale);
+
                 var metrics = await slangGptTranslator.Translate(
-                    files: fileCollection.Files,
-                    gptConfig: gptConfig,
                     targetLocale: targetLocale,
                     outDir: outDir,
-                    full: full,
                     file: file,
                     originalTranslations: fileLocales,
                     promptCount: promptCount
                 );
 
+                if (metrics is NoNewTranslationsMetrics)
+                    noNewTranslationsHandler();
+                else
+                    endTranslateHandler(metrics.TargetPath);
+                
                 promptCount = metrics.EndPromptCount;
                 inputTokens += metrics.InputTokens;
                 outputTokens += metrics.OutputTokens;
             }
         }
 
-        Console.WriteLine();
-        Console.WriteLine("Summary:");
-        Console.WriteLine($" -> Total requests: {promptCount}");
-        Console.WriteLine($" -> Total input tokens: {inputTokens}");
-        Console.WriteLine($" -> Total output tokens: {outputTokens}");
-
-        double totalCost = inputTokens * gptConfig.Model.CostPerInputToken +
-                           outputTokens * gptConfig.Model.CostPerOutputToken;
-
-        CultureInfo dollarCulture = new("en-US");
-
-        string totalCostString = totalCost.ToString("C6", dollarCulture);
-        string perInputTokenCostString = gptConfig.Model.CostPerInputToken.ToString("C8", dollarCulture);
-        string perOutputTokenCostString = gptConfig.Model.CostPerOutputToken.ToString("C8", dollarCulture);
-
-        Console.WriteLine(
-            $" -> Total cost: {totalCostString} ({inputTokens} x {perInputTokenCostString} + {outputTokens} x {perOutputTokenCostString})");
+        return new GptResult(promptCount, inputTokens, outputTokens);
     }
 
     private static IEnumerable<CultureInfo> GetExistingLocales(

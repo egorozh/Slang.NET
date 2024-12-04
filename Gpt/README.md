@@ -6,10 +6,10 @@ Currently, only the [OpenAI API](https://platform.openai.com/docs/) is supported
 
 ## Getting Started
 
-### Install slang-gpt-cli:
+### Install Slang CLI
 
 ```bash
-dotnet tool install -g slang.gpt.cli
+dotnet tool install --global Slang.CLI
 ```
 
 Then add the following configuration in your slang.json:
@@ -27,7 +27,7 @@ Then add the following configuration in your slang.json:
 Let's run this:
 
 ```bash
-slang-gpt <csproj> --target=ru --api-key=<api-key>
+slang gpt <csproj> --target=ru --api-key=<api-key>
 ```
 
 ## Configuration
@@ -80,7 +80,7 @@ By default, slang_gpt will only translate missing keys to reduce costs.
 You may add the `--full` flag to translate all keys.
 
 ```bash
-slang-gpt <csproj> --target=ru --api-key=<api-key> --full
+slang gpt <csproj> --target=ru --api-key=<api-key> --full
 ```
 
 To avoid a specific subset of keys from being translated, you may add the `ignoreGpt` modifier to the key:
