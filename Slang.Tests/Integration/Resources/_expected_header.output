@@ -31,7 +31,7 @@ namespace Slang.Tests
             };
 
 
-		private readonly static CultureInfo _baseCulture = _en;
+		public static CultureInfo BaseCulture => _en;
 
 		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
 		
@@ -40,9 +40,9 @@ namespace Slang.Tests
 		public static void SetCulture(CultureInfo culture, bool uiOnly = false)
 		{
 			if (!uiOnly)
-				Thread.CurrentThread.CurrentCulture = culture;
+				CultureInfo.CurrentCulture = culture;
 
-			Thread.CurrentThread.CurrentUICulture = culture;
+			CultureInfo.CurrentUICulture = culture;
 			
 			Instance.OnCultureChanged();
 		}
@@ -65,7 +65,7 @@ namespace Slang.Tests
 					if (sameCulture != null)
 						return _translations[sameCulture];
 
-					return _translations[_baseCulture];
+					return _translations[BaseCulture];
 				}
 			}
 
