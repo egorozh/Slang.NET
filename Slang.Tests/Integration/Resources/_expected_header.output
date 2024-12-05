@@ -5,6 +5,8 @@
 ///
 /// Built on 01.01.2024 at 12:00 UTC
 
+#nullable enable
+
 using Slang;
 using Slang.Tests;
 using System;
