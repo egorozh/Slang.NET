@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Slang.Generator.Helpers;
 
-namespace Slang.Generator.SourceGenerator.Extensions;
+namespace Slang.Generator.Extensions;
 
 internal static class TypeSymbolExtensions
 {

@@ -1,7 +1,6 @@
 # Slang.NET
 
 [![Nuget](https://img.shields.io/nuget/v/Slang.Net?label=Slang.Net)](https://www.nuget.org/packages/Slang.Net)
-[![Nuget](https://img.shields.io/nuget/v/Slang.Gpt.Cli?label=Slang.Gpt.Cli)](https://www.nuget.org/packages/Slang.Gpt.Cli)
 [![Nuget](https://img.shields.io/nuget/v/Slang.CLI?label=Slang.CLI)](https://www.nuget.org/packages/Slang.CLI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -461,7 +460,7 @@ Then add the following configuration in your slang.json:
 Then use slang-gpt:
 
 ```bash
-slang gpt <csproj> --target=ru --api-key=<api-key>
+slang gpt --target=en --api-key=<api-key>
 ```
 
 See more: [Documentation](Gpt/README.md)

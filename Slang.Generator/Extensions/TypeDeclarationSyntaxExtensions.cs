@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Slang.Generator.SourceGenerator.Extensions;
+namespace Slang.Generator.Extensions;
 
 
 internal static class TypeDeclarationSyntaxExtensions

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Slang.Generator.Core.Generator;
+namespace Slang.Generator.Core.Generator.Internal;
 
 internal static class CultureInfoExtensions
 {

@@ -26,7 +26,7 @@ public static class GeneratorFacade
         );
 
         // generate .g.dart file
-        return Generator.Generator.Generate(
+        return Generator.Internal.Generator.Generate(
             config: config,
             translations: translationModelList
         );
@@ -46,7 +46,7 @@ public static class GeneratorFacade
     // test method for benchmark
     public static BuildResult GenerateOnly(BenchmarkGeneratorData input)
     {
-        return Generator.Generator.Generate(
+        return Generator.Internal.Generator.Generate(
             config: input.Config,
             translations: input.TranslationModelList
         );

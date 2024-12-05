@@ -1,9 +1,9 @@
 using System.Text;
 using Slang.Generator.Core.Generator.Entities;
 using Slang.Generator.Core.NodesData;
-using static Slang.Generator.Core.Generator.Helper;
+using static Slang.Generator.Core.Generator.Internal.Helper;
 
-namespace Slang.Generator.Core.Generator;
+namespace Slang.Generator.Core.Generator.Internal;
 
 internal static partial class Generator
 {
@@ -18,6 +18,8 @@ internal static partial class Generator
               ///
               /// Built on {{config.GeneratedDate.ToShortDateString()}} at {{config.GeneratedDate.ToShortTimeString()}} UTC
 
+              #nullable enable
+              
               using Slang;
               using {{config.Namespace}};
               using System;

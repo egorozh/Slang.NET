@@ -2,7 +2,7 @@ using System.Globalization;
 using Slang.Generator.Core.Generator.Entities;
 using Slang.Generator.Core.NodesData;
 
-namespace Slang.Generator.Core.Generator;
+namespace Slang.Generator.Core.Generator.Internal;
 
 internal static partial class Generator
 {

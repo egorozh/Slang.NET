@@ -27,7 +27,7 @@ Then add the following configuration in your slang.json:
 Let's run this:
 
 ```bash
-slang gpt <csproj> --target=ru --api-key=<api-key>
+slang gpt --target=en --api-key=<api-key>
 ```
 
 ## Configuration
@@ -41,12 +41,13 @@ slang gpt <csproj> --target=ru --api-key=<api-key>
 
 ## Command line arguments
 
-| Argument         | Description              | Required | Default                |
-|------------------|--------------------------|----------|------------------------|
-| `--target=`      | Target language          | NO       | (all existing locales) |
-| `--api-key=`     | API key                  | YES      |                        |
-| `-f` / `--full`  | Skip partial translation | NO       | (partial translation)  |
-| `-d` / `--debug` | Write chat to file       | NO       | (no chat output)       |
+| Argument         | Description              | Required | Default                              |
+|------------------|--------------------------|----------|--------------------------------------|
+| `--project=`     | Path to the <*.csproj>   | NO       | (first project in current directory) |
+| `--target=`      | Target language          | NO       | (all existing locales)               |
+| `--api-key=`     | API key                  | YES      |                                      |
+| `-f` / `--full`  | Skip partial translation | NO       | (partial translation)                |
+| `-d` / `--debug` | Write chat to file       | NO       | (no chat output)                     |
 
 ## Models
 
@@ -80,7 +81,7 @@ By default, slang_gpt will only translate missing keys to reduce costs.
 You may add the `--full` flag to translate all keys.
 
 ```bash
-slang gpt <csproj> --target=ru --api-key=<api-key> --full
+slang gpt --target=ge --api-key=<api-key> --full
 ```
 
 To avoid a specific subset of keys from being translated, you may add the `ignoreGpt` modifier to the key:

@@ -5,8 +5,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Slang.Generator.CodeBuilder;
 using Slang.Generator.Core.Data;
 using Slang.Generator.Core.Entities;
+using Slang.Generator.Extensions;
 using Slang.Generator.Models;
-using Slang.Generator.SourceGenerator.Extensions;
 using Slang.Shared;
 
 namespace Slang.Generator;

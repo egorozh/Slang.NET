@@ -1,5 +1,5 @@
 using Microsoft.CodeAnalysis;
-using Slang.Generator.SourceGenerator.Extensions;
+using Slang.Generator.Extensions;
 using static Microsoft.CodeAnalysis.SymbolDisplayTypeQualificationStyle;
 
 namespace Slang.Generator.Models;

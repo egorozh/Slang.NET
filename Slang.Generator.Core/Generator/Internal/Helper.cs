@@ -3,7 +3,7 @@ using System.Text;
 using Slang.Generator.Core.Entities;
 using Slang.Generator.Core.Nodes.Utils;
 
-namespace Slang.Generator.Core.Generator;
+namespace Slang.Generator.Core.Generator.Internal;
 
 public static class Helper
 {

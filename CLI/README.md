@@ -1,13 +1,13 @@
-# Slang.Net - CLI
+# Slang CLI
 
 ## Getting Started
 
-### Install slang-cli:
+### Install Slang.CLI:
 
 ```bash
-dotnet tool install -g slang.cli
+dotnet tool install --global Slang.CLI
 ```
 
 ### Use translate command
 
-See [README.md](../Gpt/README.md)
+See [Translate with GPT](../Gpt/README.md)

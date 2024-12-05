@@ -2,10 +2,11 @@
 using BenchmarkDotNet.Running;
 #endif
 
-using Slang.Generator.Core.Data;
 using Slang.Runner;
 
 #if DEBUG
+using Slang.Generator.Core.Data;
+
 
 Console.WriteLine("Start");
 

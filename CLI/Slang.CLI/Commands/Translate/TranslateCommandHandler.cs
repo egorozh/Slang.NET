@@ -91,7 +91,7 @@ internal static class TranslateCommandHandler
             partialTranslationHandler: filePath => Console.WriteLine(texts.PartialTranslate(filePath)),
             startRequestHandler: promptCount => Console.WriteLine(texts.StartRequest(promptCount)),
             noNewTranslationsHandler: () => Console.WriteLine(texts.NoNewTranslations),
-            endTranslateHandler: targetPath => Console.WriteLine(texts.EndTranslate(targetPath)),
+            endTranslateHandler: targetPath => Console.WriteLine(texts.EndTranslate(targetPath!)),
             targetLocales, full);
 
         ShowResult(gptConfig, res);
@@ -128,7 +128,7 @@ internal static class TranslateCommandHandler
             error switch
             {
                 ConfigDescriptionMissing => errorTests.MissingDescription,
-                ConfigModelNotFound e => errorTests.UnknownModel(e.Model,
+                ConfigModelNotFound e => errorTests.UnknownModel(e.Model!,
                     string.Join(", ", GptModel.Values.Select(info => info.Id))),
                 ConfigNotFound => errorTests.ConfigNotFound,
                 ConfigNotSerialized => errorTests.ConfigNotSerialized,

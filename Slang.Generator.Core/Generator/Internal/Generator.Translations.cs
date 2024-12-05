@@ -3,9 +3,9 @@ using System.Text;
 using Slang.Generator.Core.Generator.Entities;
 using Slang.Generator.Core.Nodes.Nodes;
 using Slang.Generator.Core.NodesData;
-using static Slang.Generator.Core.Generator.Helper;
+using static Slang.Generator.Core.Generator.Internal.Helper;
 
-namespace Slang.Generator.Core.Generator;
+namespace Slang.Generator.Core.Generator.Internal;
 
 internal static partial class Generator
 {
@@ -38,6 +38,8 @@ internal static partial class Generator
         } while (queue.Count > 0);
 
         return $$"""
+                 #nullable enable
+                 
                  using Slang;
                  using {{config.Namespace}};
                  using System;
