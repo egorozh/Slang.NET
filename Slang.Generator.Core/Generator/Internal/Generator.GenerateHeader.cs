@@ -35,7 +35,7 @@ internal static partial class Generator
               	{
               {{GenerateCultures(config, allLocales)}}
               
-              		private readonly static CultureInfo _baseCulture = _{{config.BaseLocale.ToSafeName()}};
+              		public static CultureInfo BaseCulture => _{{config.BaseLocale.ToSafeName()}};
               
               		public static IReadOnlyList<CultureInfo> SupportedCultures => _translations.Keys.ToList();
               		
@@ -44,9 +44,9 @@ internal static partial class Generator
               		public static void SetCulture(CultureInfo culture, bool uiOnly = false)
               		{
               			if (!uiOnly)
-              				Thread.CurrentThread.CurrentCulture = culture;
+              				CultureInfo.CurrentCulture = culture;
               
-              			Thread.CurrentThread.CurrentUICulture = culture;
+              			CultureInfo.CurrentUICulture = culture;
               			
               			Instance.OnCultureChanged();
               		}
@@ -69,7 +69,7 @@ internal static partial class Generator
               					if (sameCulture != null)
               						return _translations[sameCulture];
               
-              					return _translations[_baseCulture];
+              					return _translations[BaseCulture];
               				}
               			}
               
