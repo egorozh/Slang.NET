@@ -1,0 +1,38 @@
+{
+  "Welcome": "Slang.CLIへようこそ",
+  "gpt": {
+    "description": "GPTを使ってファイルを目的のローカリゼーションに変換します",
+    "filePathOption": "プロジェクトファイルへのパス <*.csproj>",
+    "apiKeyOption": "OpenAI用のAPIキー",
+    "targetOption": "目的のローカリゼーション",
+    "fullOption": "ターゲットローカリゼーションのすべての文字列を再記述します",
+    "debugOption": "ログをファイルに記録します",
+    "start_translate": "GPTを使って翻訳を開始します ...",
+    "csproj_not_found": "プロジェクトファイルcsproj {path:string}が見つかりません",
+    "csproj_not_found_in_working_dir": "起動用のプロジェクトが見つかりません。{path:string} にプロジェクトが存在することを確認するか、--projectオプションを使ってプロジェクトのパスを指定してください。",
+    "target_cultures": {
+      "one": "ターゲットカルチャー: {culture:string}",
+      "other": "ターゲットカルチャー: {cultures:string}"
+    },
+    "get_config_error": {
+      "missing_description": "説明が指定されていません",
+      "unknown_model": "不明なモデル: {model:string}\n利用可能なモデル: {models:string}",
+      "config_not_found": "構成が見つかりません",
+      "config_not_serialized": "構成の逆シリアル化に失敗しました"
+    },
+    "gpt_config(ignoreGpt)": "GPT構成: {modelId:string} / 最大入力長: {maxInputLength:int} / 温度: {temperature:string}",
+    "excludes(ignoreGpt)": "除外: {cultures:string}",
+    "start_translate_locale": "{locale}を{targetCulture}に翻訳中 {fileName:string} ...",
+    "partial_translate": " -→ 部分的な翻訳 {filePath}",
+    "start_request": " -→ リクエスト #{promptCount}",
+    "no_new_translations": " -→ 翻訳する新しい文字列はありません",
+    "end_translate": " -→ 出力ファイル: {targetPath}",
+    "result": {
+      "summary": "結果:",
+      "total_requests": "全リクエスト数: {promptCount:int}",
+      "total_input_tokens": "全入力トークン数: {inputTokens:int}",
+      "total_output_tokens": "全出力トークン数: {outputTokens:int}",
+      "total_cost": "総コスト: {totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
+    }
+  }
+}

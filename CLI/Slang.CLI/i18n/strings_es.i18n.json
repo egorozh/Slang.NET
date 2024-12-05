@@ -1,0 +1,38 @@
+{
+  "Welcome": "Bienvenido a Slang.CLI",
+  "gpt": {
+    "description": "Convertir archivos de localización a la localización de destino con la ayuda de GPT",
+    "filePathOption": "Ruta al archivo del proyecto <*.csproj>",
+    "apiKeyOption": "Clave API para OpenAI",
+    "targetOption": "Localización de destino",
+    "fullOption": "Reescribir todas las cadenas de la localización de destino",
+    "debugOption": "Registrar los logs en un archivo",
+    "start_translate": "Comenzando la traducción con la ayuda de GPT ...",
+    "csproj_not_found": "El archivo del proyecto csproj {path:string} no se encontró",
+    "csproj_not_found_in_working_dir": "No se pudo encontrar el proyecto para ejecutar. Asegúrate de que el proyecto existe en {path:string}, o proporciona la ruta al proyecto con --project.",
+    "target_cultures": {
+      "one": "Localización de destino: {culture:string}",
+      "other": "Localizaciones de destino: {cultures:string}"
+    },
+    "get_config_error": {
+      "missing_description": "La descripción no se ha proporcionado",
+      "unknown_model": "Modelo desconocido: {model:string}\nModelos disponibles: {models:string}",
+      "config_not_found": "La configuración no se encontró",
+      "config_not_serialized": "No se pudo deserializar la configuración"
+    },
+    "gpt_config(ignoreGpt)": "Configuración de GPT: {modelId:string} / {maxInputLength:int} longitud máxima de entrada / {temperature:string} temperatura",
+    "excludes(ignoreGpt)": "Excluye: {cultures:string}",
+    "start_translate_locale": "Traduciendo <{locale}> a <{targetCulture}> para {fileName:string} ...",
+    "partial_translate": " -> Traducción parcial para {filePath}",
+    "start_request": " -> Solicitud #{promptCount}",
+    "no_new_translations": " -> No hay nuevas cadenas para traducir",
+    "end_translate": " -> Archivo de salida: {targetPath}",
+    "result": {
+      "summary": "Total:",
+      "total_requests": "Total de solicitudes: {promptCount:int}",
+      "total_input_tokens": "Total de tokens de entrada: {inputTokens:int}",
+      "total_output_tokens": "Total de tokens de salida: {outputTokens:int}",
+      "total_cost": "Costo total: {totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
+    }
+  }
+}

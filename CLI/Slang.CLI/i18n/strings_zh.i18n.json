@@ -1,0 +1,38 @@
+{
+  "Welcome": "欢迎来到 Slang.CLI",
+  "gpt": {
+    "description": "使用 GPT 将本地化文件转换为目标语言",
+    "filePathOption": "项目文件路径 <*.csproj>",
+    "apiKeyOption": "OpenAI API 密钥",
+    "targetOption": "目标本地化",
+    "fullOption": "重写所有目标本地化的字符串",
+    "debugOption": "将日志写入文件",
+    "start_translate": "开始进行翻译，使用 GPT ...",
+    "csproj_not_found": "未找到项目文件 csproj {path:string}",
+    "csproj_not_found_in_working_dir": "在当前工作目录中未能找到项目进行启动。请确保项目存在于 {path:string}，或通过 --project 提供项目路径。",
+    "target_cultures": {
+      "one": "目标文化：{culture:string}",
+      "other": "目标文化：{cultures:string}"
+    },
+    "get_config_error": {
+      "missing_description": "未提供描述",
+      "unknown_model": "未知模型：{model:string}\n可用模型：{models:string}",
+      "config_not_found": "未找到配置",
+      "config_not_serialized": "未能反序列化配置"
+    },
+    "gpt_config(ignoreGpt)": "GPT 配置：{modelId:string} / {maxInputLength:int} 最大输入长度 / {temperature:string} 温度",
+    "excludes(ignoreGpt)": "排除：{cultures:string}",
+    "start_translate_locale": "将 <{locale}> 转换为 <{targetCulture}>，文件：{fileName:string} ...",
+    "partial_translate": " -> 部分翻译，文件：{filePath}",
+    "start_request": " -> 请求 #{promptCount}",
+    "no_new_translations": " -> 没有新的字符串进行翻译",
+    "end_translate": " -> 输出文件：{targetPath}",
+    "result": {
+      "summary": "结果：",
+      "total_requests": "总请求数：{promptCount:int}",
+      "total_input_tokens": "输入令牌总数：{inputTokens:int}",
+      "total_output_tokens": "输出令牌总数：{outputTokens:int}",
+      "total_cost": "总费用：{totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
+    }
+  }
+}
