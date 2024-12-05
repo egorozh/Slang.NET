@@ -2,13 +2,14 @@
   "Welcome": "Добро пожаловать в Slang.CLI",
   "gpt": {
     "description": "Перевести файлы локализации на целевую локализацию с помощью GPT",
-    "filePathOption": "Файл проекта csproj",
+    "filePathOption": "Путь к файлу проекта <*.csproj>",
     "apiKeyOption": "Ключ API для OpenAI",
     "targetOption": "Целевая локализация",
     "fullOption": "Пeрезаписать все строки целевой локализации",
     "debugOption": "Записать логи в файл",
     "start_translate": "Начало перевода c помощью GPT ...",
     "csproj_not_found": "Файл проекта csproj {path:string} не найден",
+    "csproj_not_found_in_working_dir": "Не удалось найти проект для запуска. Убедитесь, что проект существует в {path:string}, или передайте путь к проекту с помощью --project.",
     "target_cultures": {
       "one": "Целевая культура: {culture:string}",
       "other": "Целевые культуры: {cultures:string}"

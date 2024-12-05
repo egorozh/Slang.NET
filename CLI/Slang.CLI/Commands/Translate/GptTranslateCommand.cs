@@ -9,8 +9,8 @@ internal sealed class GptTranslateCommand : Command
     {
         var texts = Strings.Loc.Gpt;
 
-        Argument<FileInfo?> fileArgument = new(
-            name: "csproj",
+        Option<FileInfo?> fileArgument = new(
+            name: "--project",
             description: texts.FilePathOption);
 
         Option<string> apiOption = new(

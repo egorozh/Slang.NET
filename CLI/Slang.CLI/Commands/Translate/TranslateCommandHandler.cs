@@ -26,10 +26,24 @@ internal static class TranslateCommandHandler
             throw new Exception("Missing API key. Specify it with --api-key=...");
 
         if (csproj == null)
-            throw new Exception("Missing csproj filepath");
+        {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] projectFiles = Directory.GetFiles(currentDirectory, "*.csproj");
+
+            if (projectFiles.Length == 0)
+            {
+                Console.WriteLine(texts.CsprojNotFoundInWorkingDir(currentDirectory));
+                return;
+            }
+
+            csproj = new FileInfo(projectFiles[0]);
+        }
 
         if (!csproj.Exists)
+        {
             Console.WriteLine(texts.CsprojNotFound(csproj.FullName));
+            return;
+        }
 
         ProjectReader reader = new();
         var project = reader.Read(csproj.FullName);

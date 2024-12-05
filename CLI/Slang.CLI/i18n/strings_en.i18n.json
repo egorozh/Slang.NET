@@ -2,25 +2,26 @@
   "Welcome": "Welcome to Slang.CLI",
   "gpt": {
     "description": "Translating localization files to the target localization using GPT",
-    "filePathOption": "Project csproj file",
+    "filePathOption": "Path to the project file <*.csproj>",
     "apiKeyOption": "API key for OpenAI",
     "targetOption": "Target localization",
     "fullOption": "Overwrite all strings of the target localization",
     "debugOption": "Log to file",
     "start_translate": "Started translating with GPT...",
     "csproj_not_found": "Project csproj file {path:string} not found",
+    "csproj_not_found_in_working_dir": "Couldn't find a project to run. Ensure a project exists in {path:string}, or pass the path to the project using --project.",
     "target_cultures": {
       "one": "Target culture: {culture:string}",
       "other": "Target cultures: {cultures:string}"
     },
-    "gpt_config(ignoreGpt)": "GPT config: {modelId:string} / {maxInputLength:int} max input length / {temperature:string} temperature",
-    "excludes(ignoreGpt)": "Excludes: {cultures:string}",
     "get_config_error": {
       "missing_description": "Description not provided",
       "unknown_model": "Unknown model: {model:string}\nAvailable models: {models:string}",
       "config_not_found": "Configuration not found",
       "config_not_serialized": "Failed to deserialize the configuration"
     },
+    "gpt_config(ignoreGpt)": "GPT config: {modelId:string} / {maxInputLength:int} max input length / {temperature:string} temperature",
+    "excludes(ignoreGpt)": "Excludes: {cultures:string}",
     "start_translate_locale": "Translating <{locale}> to <{targetCulture}> for {fileName:string} ...",
     "partial_translate": " -> With partial translations from {filePath}",
     "start_request": " -> Request #{promptCount}",
