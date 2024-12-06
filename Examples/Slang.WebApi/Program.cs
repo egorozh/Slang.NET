@@ -6,7 +6,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     string[] supportedCultures = Strings.SupportedCultures.Select(c => c.ToString()).ToArray();
     
-    options.SetDefaultCulture(supportedCultures[0])
+    options.SetDefaultCulture(Strings.BaseCulture.ToString())
         .AddSupportedCultures(supportedCultures)
         .AddSupportedUICultures(supportedCultures);
 });

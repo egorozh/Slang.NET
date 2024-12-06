@@ -6,6 +6,7 @@
   <Folder Name="/Examples/">
     <Project Path="Examples\Slang.Console\Slang.Console.csproj" Type="Classic C#" />
     <Project Path="Examples\Slang.WebApi\Slang.WebApi.csproj" Type="Classic C#" />
+    <File Path="Examples\README.md" />
   </Folder>
   <Folder Name="/Gpt/">
     <Project Path="Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />

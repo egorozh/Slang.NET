@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Slang.Net" Version="1.1.1-preview5" />
+      <PackageReference Include="Slang.Net" Version="1.1.1" />
     </ItemGroup>
 
     <ItemGroup>

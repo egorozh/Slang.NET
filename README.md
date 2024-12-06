@@ -449,8 +449,9 @@ Then add the following configuration in your slang.json:
 
 ```json
 {
-  "base_culture": "ru",
+  "base_culture": "en",
   "gpt": {
+    "base_culture": "ru",
     "model": "gpt-4o-mini",
     "description": "Showcase for Slang.Net.Gpt"
   }

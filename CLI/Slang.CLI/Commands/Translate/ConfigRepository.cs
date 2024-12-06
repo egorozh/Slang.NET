@@ -47,7 +47,7 @@ internal static class ConfigRepository
 
                     var fileInfo = new FileInfo(filePath);
 
-                    if (fileInfo is {Exists: true, Name: "slang.json"})
+                    if (fileInfo is { Exists: true, Name: "slang.json" })
                     {
                         configJson = File.ReadAllText(fileInfo.FullName);
                         break;
@@ -72,8 +72,12 @@ internal static class ConfigRepository
         if (string.IsNullOrEmpty(config.GptConfig?.Description))
             return new ConfigDescriptionMissing();
 
+        string baseCulture = string.IsNullOrEmpty(config.GptConfig.BaseCulture)
+            ? string.IsNullOrEmpty(config.BaseCulture) ? "en" : config.BaseCulture
+            : config.GptConfig.BaseCulture;
+
         GptConfig gptConfig = new(
-            BaseCulture: new CultureInfo(string.IsNullOrEmpty(config.BaseCulture) ? "en" : config.BaseCulture),
+            BaseCulture: new CultureInfo(baseCulture),
             Model: model,
             Description: config.GptConfig.Description,
             MaxInputLength: !int.TryParse(config.GptConfig.MaxInputLength, out int maxInputLength)
@@ -96,6 +100,8 @@ internal record GlobalConfigDto
 
 internal record GptConfigDto
 {
+    [JsonPropertyName("base_culture")] public string? BaseCulture { get; set; }
+
     [JsonPropertyName("model")] public string? Model { get; set; }
 
     [JsonPropertyName("description")] public string? Description { get; set; }

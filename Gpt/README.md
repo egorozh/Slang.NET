@@ -16,8 +16,9 @@ Then add the following configuration in your slang.json:
 
 ```json
 {
-  "base_culture": "ru",
+  "base_culture": "en",
   "gpt": {
+    "base_culture": "ru",
     "model": "gpt-4o-mini",
     "description": "Showcase for Slang.Net.Gpt"
   }
@@ -32,12 +33,13 @@ slang gpt --target=en --api-key=<api-key>
 
 ## Configuration
 
-| Key                | Type     | Usage                            | Required | Default             |
-|--------------------|----------|----------------------------------|----------|---------------------|
-| `model`            | `string` | Model name                       | YES      |                     |
-| `max_input_length` | `int`    | Max input characters per request | NO       | (inferred by model) |
-| `temperature`      | `double` | Temperature parameter for GPT    | NO       | (API default)       |
-| `description`      | `string` | App description                  | YES      |                     |
+| Key                | Type     | Usage                            | Required  | Default                   |
+|--------------------|----------|----------------------------------|-----------|---------------------------|
+| `model`            | `string` | Model name                       | YES       |                           |
+| `base_culture`     | `string` | Base culture for GPT translation | NO        | (root base_culture or en) |
+| `max_input_length` | `int`    | Max input characters per request | NO        | (inferred by model)       |
+| `temperature`      | `double` | Temperature parameter for GPT    | NO        | (API default)             |
+| `description`      | `string` | App description                  | YES       |                           |
 
 ## Command line arguments
 
