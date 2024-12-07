@@ -1,0 +1,24 @@
+{
+  "welcome": "Welcome to Avalonia!",
+  "file": "File: {filePath:string}",
+  "simple_header": "Simple Line",
+  "interpolation_header": "String Interpolation",
+  "pluralization_header": "Pluralization",
+  "selected_files": {
+    "one": "Selected {n} file",
+    "few": "Selected {n} files",
+    "many": "Selected {n} files",
+    "other": "Selected {n} files"
+  },
+  "formatting_header": "Formatting",
+  "price": "Price: {price}",
+  "@price": {
+    "placeholders": {
+      "price": {
+        "type": "decimal",
+        "format": "C"
+      }
+    }
+  },
+  "change_language_header": "Change Language"
+}

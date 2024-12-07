@@ -1,0 +1,8 @@
+﻿{
+  "base_culture": "en-US",
+  "gpt": {
+    "base_culture": "ru-RU",
+    "model": "gpt-4o-mini",
+    "description": "Simple avalonia example for slang.net"
+  }
+}

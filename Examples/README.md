@@ -8,6 +8,12 @@ A command line interface for Slang
 
 [See](../CLI/README.md)
 
+## Slang.Desktop.Avalonia
+
+An example of using Slang in a desktop application using Avalonia
+
+[See](Slang.Desktop.Avalonia)
+
 ## Slang.WebApi
 
 An example of using Slang in a Web API application

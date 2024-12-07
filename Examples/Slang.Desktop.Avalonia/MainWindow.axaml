@@ -1,0 +1,84 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="clr-namespace:Slang.Desktop.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Slang.Desktop.Avalonia.MainWindow"
+        Title="Slang.Desktop.Avalonia"
+        x:DataType="avalonia:MainViewModel">
+
+    <Window.Styles>
+        <Style Selector="Expander">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="IsExpanded" Value="True" />
+        </Style>
+    </Window.Styles>
+
+    <Design.DataContext>
+        <avalonia:MainViewModel />
+    </Design.DataContext>
+
+    <StackPanel>
+        <Expander Header="{Binding  Root.SimpleHeader, Source={x:Static avalonia:Strings.Instance}}">
+            <TextBlock Text="{Binding  Root.Welcome, Source={x:Static avalonia:Strings.Instance}}" />
+        </Expander>
+
+        <Expander Header="{Binding  Root.InterpolationHeader, Source={x:Static avalonia:Strings.Instance}}">
+            <TextBlock>
+                <TextBlock.Text>
+                    <MultiBinding Converter="{x:Static avalonia:Converters.File}">
+                        <Binding Source="{x:Static avalonia:Strings.Instance}" Path="Root" />
+                        <Binding Path="FilePath" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Expander>
+
+        <Expander Header="{Binding  Root.PluralizationHeader, Source={x:Static avalonia:Strings.Instance}}">
+            <StackPanel Orientation="Horizontal">
+                <NumericUpDown Value="{Binding SelectedFilesCount}"
+                               Minimum="0" Maximum="1000"
+                               ParsingNumberStyle="Integer"
+                               Margin="0 0 10 0" />
+                <TextBlock VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{x:Static avalonia:Converters.SelectedFiles}">
+                            <Binding Source="{x:Static avalonia:Strings.Instance}" Path="Root" />
+                            <Binding Path="SelectedFilesCount" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </Expander>
+
+        <Expander Header="{Binding  Root.FormattingHeader, Source={x:Static avalonia:Strings.Instance}}">
+            <StackPanel Orientation="Horizontal">
+                <NumericUpDown Value="{Binding Price}"
+                               Minimum="0" Maximum="1000"
+                               ParsingNumberStyle="Currency"
+                               Margin="0 0 10 0" />
+                <TextBlock VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{x:Static avalonia:Converters.Price}">
+                            <Binding Source="{x:Static avalonia:Strings.Instance}" Path="Root" />
+                            <Binding Path="Price" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </Expander>
+
+        <Expander Header="{Binding  Root.ChangeLanguageHeader, Source={x:Static avalonia:Strings.Instance}}">
+            <ComboBox ItemsSource="{x:Static avalonia:Strings.SupportedCultures}"
+                      SelectedItem="{Binding SelectedCulture}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NativeName}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Expander>
+
+    </StackPanel>
+</Window>

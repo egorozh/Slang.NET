@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/Examples/">
     <Project Path="Examples\Slang.Console\Slang.Console.csproj" Type="Classic C#" />
+    <Project Path="Examples\Slang.Desktop.Avalonia\Slang.Desktop.Avalonia.csproj" Type="Classic C#" />
     <Project Path="Examples\Slang.WebApi\Slang.WebApi.csproj" Type="Classic C#" />
     <File Path="Examples\README.md" />
   </Folder>
