@@ -40,7 +40,7 @@ void ShowLocales()
 
     var formattingBloc = Feature1.Instance.Root.Formatting;
 
-    string? price = formattingBloc.DecimalExample(12.23123M);
+    string price = formattingBloc.DecimalExample(12.23123M);
     
     Console.WriteLine(price);
     Console.WriteLine(formattingBloc.LongExample(124214));

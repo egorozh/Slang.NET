@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
+
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationManifestfest>app.manifest</ApplicationManifestfest>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     </PropertyGroup>
 
@@ -18,12 +17,16 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
+
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+
         <PackageReference Include="Slang.Net" Version="1.1.1" />
+
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="slang.json" />
-      <AdditionalFiles Include="i18n\*.i18n.json" />
+        <AdditionalFiles Include="slang.json" />
+        <AdditionalFiles Include="i18n\*.i18n.json" />
     </ItemGroup>
+    
 </Project>

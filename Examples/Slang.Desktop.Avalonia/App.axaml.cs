@@ -4,12 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Slang.Desktop.Avalonia;
 
-public partial class App : Application
+public class App : Application
 {
-    public override void Initialize()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
     public override void OnFrameworkInitializationCompleted()
     {
