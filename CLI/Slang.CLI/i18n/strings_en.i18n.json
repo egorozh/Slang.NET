@@ -34,5 +34,8 @@
       "total_output_tokens": "Total output tokens: {outputTokens:int}",
       "total_cost": "Total cost: {totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
     }
+  },
+  "migrate": {
+    "description": "Migration of strings from a .resx file to a .i18n.json file"
   }
 }

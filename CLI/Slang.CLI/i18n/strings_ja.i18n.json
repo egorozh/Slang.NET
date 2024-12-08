@@ -34,5 +34,8 @@
       "total_output_tokens": "全出力トークン数: {outputTokens:int}",
       "total_cost": "総コスト: {totalCost:string} ({inputTokens:int} x {perInputTokenCost:string} + {outputTokens:int} x {perOutputTokenCost:string})"
     }
+  },
+  "migrate": {
+    "description": ".resxファイルから.i18n.jsonファイルへの行の移行"
   }
 }
