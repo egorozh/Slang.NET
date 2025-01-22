@@ -465,3 +465,8 @@ slang gpt --target=en --api-key=<api-key>
 ```
 
 See more: [Documentation](Gpt/README.md)
+
+## Additional Materials
+
+### Articles
+- [Хабр (ru)](https://habr.com/ru/articles/874066/)
