@@ -4,14 +4,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:loc="clr-namespace:Slang.Desktop"
         xmlns:presentation="clr-namespace:Slang.Desktop.Features.Main.Presentation"
+        xmlns:presentation1="clr-namespace:Slang.Desktop.Features.Project.Presentation"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Slang.Desktop.Features.Main.Presentation.MainWindow"
         Title="Slang Desktop"
         x:DataType="presentation:MainViewModel">
 
-    <Grid>
-        <Button Content="{Binding Root.Main.OpenProject, Source={x:Static loc:Strings.Instance}}"
+    <Grid RowDefinitions="Auto *">
+        <Button Grid.Row="0"
+                Content="{Binding Root.Main.OpenProject, Source={x:Static loc:Strings.Instance}}"
                 Command="{Binding OpenProjectCommand}" />
+
+        <presentation1:ProjectView Grid.Row="1"
+                                   IsVisible="{Binding ., Converter={x:Static ObjectConverters.IsNotNull}}"
+                                   DataContext="{Binding Project}" />
     </Grid>
 
 </Window>
