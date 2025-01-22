@@ -11,12 +11,12 @@ internal static partial class Generator
     {
         return
             $$"""
-              /// Generated file. Do not edit.
-              ///
-              ///
-              /// Locales: {{allLocales.Count}}
-              ///
-              /// Built on {{config.GeneratedDate.ToShortDateString()}} at {{config.GeneratedDate.ToShortTimeString()}} UTC
+              // Generated file. Do not edit.
+              //
+              //
+              // Locales: {{allLocales.Count}}
+              //
+              // Built on {{config.GeneratedDate.ToShortDateString()}} at {{config.GeneratedDate.ToShortTimeString()}} UTC
 
               #nullable enable
               
