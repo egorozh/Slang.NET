@@ -19,6 +19,7 @@
     <File Path="README.md" />
     <File Path="Directory.Build.props" />
   </Folder>
+  <Project Path="Slang.Desktop\Slang.Desktop.csproj" Type="Classic C#" />
   <Project Path="Slang.Generator.Core\Slang.Generator.Core.csproj" Type="Classic C#" />
   <Project Path="Slang.Generator\Slang.Generator.csproj" Type="Classic C#" />
   <Project Path="Slang.Runner\Slang.Runner.csproj" Type="Classic C#" />

@@ -1,0 +1,8 @@
+﻿{
+  "base_culture": "ru-RU",
+  "gpt": {
+    "base_culture": "ru-RU",
+    "model": "gpt-4o-mini",
+    "description": "Localization UI manager for Slang.Net"
+  }
+}

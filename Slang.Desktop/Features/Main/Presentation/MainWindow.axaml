@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:loc="clr-namespace:Slang.Desktop"
+        xmlns:presentation="clr-namespace:Slang.Desktop.Features.Main.Presentation"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Slang.Desktop.Features.Main.Presentation.MainWindow"
+        Title="Slang Desktop"
+        x:DataType="presentation:MainViewModel">
+
+    <Grid>
+        <Button Content="{Binding Root.Main.OpenProject, Source={x:Static loc:Strings.Instance}}"
+                Command="{Binding OpenProjectCommand}" />
+    </Grid>
+
+</Window>
