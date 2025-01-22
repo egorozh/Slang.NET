@@ -92,7 +92,7 @@ internal static partial class Generator
             var locale = allLocales[i].Locale;
 
             buffer.AppendLineWithTab(
-                $"private readonly static CultureInfo _{locale.ToSafeName()} = new CultureInfo(\"{locale}\");",
+                $"private static readonly CultureInfo _{locale.ToSafeName()} = new CultureInfo(\"{locale}\");",
                 tabCount: 2);
         }
 
@@ -100,7 +100,7 @@ internal static partial class Generator
 
         buffer.AppendLine(
             $$"""
-                      private readonly static Dictionary<CultureInfo, {{config.ClassName}}> _translations =
+                      private static readonly Dictionary<CultureInfo, {{config.ClassName}}> _translations =
                           new Dictionary<CultureInfo, {{config.ClassName}}>(capacity: {{allLocales.Count}})
                           {
               """);
