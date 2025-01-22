@@ -9,12 +9,7 @@ public static class Converters
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values is [Strings root, string filePath])
-            {
-                return root.File(filePath);
-            }
-        
-            return null;
+            return values is [Strings root, string filePath] ? root.File(filePath) : null;
         }
     }
     
@@ -24,12 +19,7 @@ public static class Converters
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values is [Strings root, int selectedFilesCount])
-            {
-                return root.SelectedFiles(selectedFilesCount);
-            }
-
-            return null;
+            return values is [Strings root, int selectedFilesCount] ? root.SelectedFiles(selectedFilesCount) : null;
         }
     }
     
@@ -39,12 +29,7 @@ public static class Converters
     {
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values is [Strings root, decimal price])
-            {
-                return root.Price(price);
-            }
-
-            return null;
+            return values is [Strings root, decimal price] ? root.Price(price) : null;
         }
     }
     
