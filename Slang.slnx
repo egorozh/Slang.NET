@@ -19,6 +19,8 @@
   </Folder>
   <Folder Name="/Utilities/Desktop/">
     <Project Path="Utilities\Desktop\Slang.Desktop\Slang.Desktop.csproj" Type="Classic C#" />
+    <File Path="Utilities\Desktop\Slang-desktop-screenshot.jpg" />
+    <File Path="Utilities\Desktop\README.md" />
   </Folder>
   <Folder Name="/Utilities/Gpt/">
     <Project Path="Utilities\Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />

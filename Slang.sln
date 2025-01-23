@@ -42,6 +42,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.CLI", "Utilities\CLI\Slang.CLI\Slang.CLI.csproj", "{32D19FC6-82E9-45DF-EC9F-35C79A13C647}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Desktop", "Desktop", "{8A3D9811-1B74-EE40-DAD4-6426832E1BDA}"
+	ProjectSection(SolutionItems) = preProject
+		Utilities\Desktop\Slang-desktop-screenshot.jpg = Utilities\Desktop\Slang-desktop-screenshot.jpg
+		Utilities\Desktop\README.md = Utilities\Desktop\README.md
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slang.Desktop", "Utilities\Desktop\Slang.Desktop\Slang.Desktop.csproj", "{917AC75E-0BAB-4A86-8871-B4F29EF7B195}"
 EndProject

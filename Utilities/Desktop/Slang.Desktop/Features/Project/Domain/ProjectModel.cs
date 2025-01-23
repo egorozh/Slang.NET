@@ -1,5 +1,5 @@
-﻿namespace Slang.Desktop.Features.Project.Domain;
+﻿using Slang.Generator.Core.NodesData;
 
-public record ProjectModel(
-    string csProjectPath
-    );
+namespace Slang.Desktop.Features.Project.Domain;
+
+public record ProjectModel(string CsProjectPath, List<I18NData> Nodes);

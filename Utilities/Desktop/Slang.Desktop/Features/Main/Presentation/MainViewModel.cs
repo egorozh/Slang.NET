@@ -29,16 +29,16 @@ public partial class MainViewModel(ProjectRepository repository) : ObservableObj
         };
 
         IsLoading = true;
-        
+
         var result = await window.StorageProvider.OpenFilePickerAsync(options);
 
         if (!result.Any())
             return;
-        
+
         var project = await repository.OpenProject(result[0].Path.AbsolutePath);
         
-        IsLoading = false;
-        
         Project = new ProjectViewModel(project);
+        
+        IsLoading = false;
     }
 }

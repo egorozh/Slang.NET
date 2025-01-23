@@ -8,5 +8,5 @@ public class NodeViewModel
 
     public CultureValue[] Cultures { get; set; }
 
-    public ObservableCollection<NodeViewModel> Children { get; } = new();
+    public ObservableCollection<NodeViewModel> Children { get; set; } = new();
 }

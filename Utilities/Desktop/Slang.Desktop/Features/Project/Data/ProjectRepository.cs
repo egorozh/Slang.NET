@@ -40,15 +40,14 @@ public class ProjectRepository
                     Locale: f.Locale
                 )).ToList()
             });
-
         
-        var translationModelList = NodesDataRepository.GetNodesData(
+        var nodes = NodesDataRepository.GetNodesData(
             slangConfig.BaseCulture,
             translationMap,
             Generator.Core.Entities.PluralAuto.Ordinal,
             "n"
         );
-        
-        return new ProjectModel(filePath);
+
+        return new ProjectModel(filePath, nodes);
     }
 }
