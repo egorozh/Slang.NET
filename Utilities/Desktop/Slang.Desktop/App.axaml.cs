@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Slang.Desktop.Features.Main.Presentation;
+using Slang.Desktop.Features.Project.Data;
 
 namespace Slang.Desktop;
 
@@ -16,7 +17,7 @@ public class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainViewModel(new ProjectRepository())
             };
         }
 

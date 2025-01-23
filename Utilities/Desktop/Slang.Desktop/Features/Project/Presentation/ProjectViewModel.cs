@@ -14,12 +14,12 @@ public class ProjectViewModel : ObservableObject
         CultureInfo.GetCultureInfo("en-US"),
         CultureInfo.GetCultureInfo("de-DE")
     ];
-    
+
     private readonly ObservableCollection<NodeViewModel> _nodes;
 
     public HierarchicalTreeDataGridSource<NodeViewModel> Source { get; }
 
-    public ProjectViewModel()
+    public ProjectViewModel(Domain.ProjectModel projectModel)
     {
         _nodes =
         [
@@ -48,24 +48,13 @@ public class ProjectViewModel : ObservableObject
                 new TextColumn<NodeViewModel, string>("Key", x => x.Key),
                 x => x.Children)
         );
-        Source.Columns.AddRange(_cultures.Select(x => new TextColumn<NodeViewModel, string>(
-            header: x.TwoLetterISOLanguageName,
-            getter: n => n.Cultures.First(y => y.Culture == x).Value)));
+        Source.Columns.AddRange(_cultures.Select(x =>
+                new TextColumn<NodeViewModel, string>(
+                    header: x.TwoLetterISOLanguageName,
+                    getter: n => n.Cultures.First(y => y.Culture == x).Value)
+                
+            )
+        );
+        Source.ExpandAll();
     }
-}
-
-public class NodeViewModel
-{
-    public string? Key { get; set; }
-
-    public CultureValue[] Cultures { get; set; }
-
-    public ObservableCollection<NodeViewModel> Children { get; } = new();
-}
-
-public class CultureValue
-{
-    public CultureInfo Culture { get; set; }
-
-    public string? Value { get; set; }
 }

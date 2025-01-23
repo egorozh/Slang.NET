@@ -1,8 +1,4 @@
 ﻿<Solution>
-  <Folder Name="/CLI/">
-    <Project Path="CLI\Slang.CLI\Slang.CLI.csproj" Type="Classic C#" />
-    <File Path="CLI\README.md" />
-  </Folder>
   <Folder Name="/Examples/">
     <Project Path="Examples\Slang.Console\Slang.Console.csproj" Type="Classic C#" />
     <Project Path="Examples\Slang.Desktop.Avalonia\Slang.Desktop.Avalonia.csproj" Type="Classic C#" />
@@ -10,16 +6,23 @@
     <File Path="Examples\README.md" />
     <File Path="Examples\Directory.Build.props" />
   </Folder>
-  <Folder Name="/Gpt/">
-    <Project Path="Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />
-    <Project Path="Gpt\Slang.Gpt\Slang.Gpt.csproj" Type="Classic C#" />
-    <File Path="Gpt\README.md" />
-  </Folder>
   <Folder Name="/Solution Items/">
     <File Path="README.md" />
     <File Path="Directory.Build.props" />
   </Folder>
-  <Project Path="Slang.Desktop\Slang.Desktop.csproj" Type="Classic C#" />
+  <Folder Name="/Utilities/" />
+  <Folder Name="/Utilities/CLI/">
+    <Project Path="Utilities\CLI\Slang.CLI\Slang.CLI.csproj" Type="Classic C#" />
+    <File Path="Utilities\CLI\README.md" />
+  </Folder>
+  <Folder Name="/Utilities/Desktop/">
+    <Project Path="Utilities\Desktop\Slang.Desktop\Slang.Desktop.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Utilities/Gpt/">
+    <Project Path="Utilities\Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />
+    <Project Path="Utilities\Gpt\Slang.Gpt\Slang.Gpt.csproj" Type="Classic C#" />
+    <File Path="Utilities\Gpt\README.md" />
+  </Folder>
   <Project Path="Slang.Generator.Core\Slang.Generator.Core.csproj" Type="Classic C#" />
   <Project Path="Slang.Generator\Slang.Generator.csproj" Type="Classic C#" />
   <Project Path="Slang.Runner\Slang.Runner.csproj" Type="Classic C#" />

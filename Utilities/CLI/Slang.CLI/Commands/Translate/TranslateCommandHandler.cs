@@ -70,8 +70,7 @@ internal static class TranslateCommandHandler
         );
 
         var logger = CreateLogger(csProjDirectoryPath, debug);
-
-
+        
         Console.WriteLine(
             texts.GptConfig(gptConfig.Model.Id, gptConfig.MaxInputLength,
                 gptConfig.Temperature?.ToString() ?? "default")

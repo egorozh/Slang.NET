@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Slang.Shared\Slang.Shared.csproj" />
+      <ProjectReference Include="..\..\..\Slang.Shared\Slang.Shared.csproj" />
     </ItemGroup>
     
 </Project>
