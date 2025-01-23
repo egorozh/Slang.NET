@@ -34,7 +34,7 @@ public class GenerateFilesBenchmark
         );
 
         _translationMap = await TranslationsRepository.Build(
-            _config,
+            _config.BaseLocale,
             fileCollection: fileCollection
         );
 

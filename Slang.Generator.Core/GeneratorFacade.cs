@@ -15,8 +15,10 @@ public static class GeneratorFacade
     {
         // build translation model
         var translationModelList = NodesDataRepository.GetNodesData(
-            rawConfig,
-            translationComposition
+            rawConfig.BaseLocale,
+            translationComposition,
+            rawConfig.PluralAuto,
+            rawConfig.PluralParameter
         );
 
         // generate config
@@ -38,8 +40,10 @@ public static class GeneratorFacade
         TranslationComposition translationComposition)
     {
         var _ = NodesDataRepository.GetNodesData(
-            rawConfig,
-            translationComposition
+            rawConfig.BaseLocale,
+            translationComposition,
+            rawConfig.PluralAuto,
+            rawConfig.PluralParameter
         );
     }
 
@@ -74,8 +78,10 @@ public static class GeneratorFacade
         );
 
         internal readonly List<I18NData> TranslationModelList = NodesDataRepository.GetNodesData(
-            rawConfig,
-            translationMap
+            rawConfig.BaseLocale,
+            translationMap,
+            rawConfig.PluralAuto,
+            rawConfig.PluralParameter
         );
     }
 }

@@ -29,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\Slang.Generator.Core\Slang.Generator.Core.csproj" />
       <ProjectReference Include="..\..\Slang.Utilities.Core\Slang.Utilities.Core.csproj" />
     </ItemGroup>
 

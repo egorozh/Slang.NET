@@ -21,7 +21,7 @@ internal class Generator(RawConfig config, string filesDirectory)
         );
 
         // STEP 2: scan translations
-        var translationMap = await TranslationsRepository.Build(config, fileCollection: fileCollection);
+        var translationMap = await TranslationsRepository.Build(config.BaseLocale, fileCollection: fileCollection);
 
         // STEP 3: generate .g.dart content
         var result = GeneratorFacade.Generate(

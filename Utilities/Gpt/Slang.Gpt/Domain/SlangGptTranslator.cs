@@ -5,6 +5,7 @@ using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Prompt;
 using Slang.Gpt.Domain.Utils;
 using Slang.Shared;
+using Slang.Utilities.Core.Translate;
 
 namespace Slang.Gpt.Domain;
 

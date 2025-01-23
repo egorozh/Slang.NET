@@ -4,6 +4,7 @@ using Slang.Gpt.Data;
 using Slang.Gpt.Domain;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Utils;
+using Slang.Utilities.Core.Translate;
 
 namespace Slang.Gpt;
 

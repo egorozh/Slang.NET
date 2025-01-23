@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Slang.Shared\Slang.Shared.csproj" />
+      <ProjectReference Include="..\..\Slang.Utilities.Core\Slang.Utilities.Core.csproj" />
     </ItemGroup>
     
 </Project>

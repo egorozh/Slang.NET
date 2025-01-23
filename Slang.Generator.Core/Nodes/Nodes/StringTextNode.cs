@@ -1,6 +1,6 @@
 namespace Slang.Generator.Core.Nodes.Nodes;
 
-internal record StringTextNode : Node, ILeafNode
+public record StringTextNode : Node, ILeafNode
 {
     public StringTextNode(string Path,
         IReadOnlyDictionary<string, string> Modifiers,

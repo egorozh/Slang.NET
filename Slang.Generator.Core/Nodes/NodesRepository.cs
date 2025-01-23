@@ -19,12 +19,12 @@ internal record BuildModelConfig(
 
 internal static partial class NodesRepository
 {
-    public static BuildModelConfig ToBuildModelConfig(RawConfig rawConfig) => new(
+    public static BuildModelConfig ToBuildModelConfig(PluralAuto pluralAuto, string pluralParameter) => new(
         KeyCase: CaseStyle.Pascal,
         KeyMapCase: CaseStyle.Camel,
         ParamCase: CaseStyle.Camel,
-        PluralAuto: rawConfig.PluralAuto,
-        PluralParameter: rawConfig.PluralParameter
+        PluralAuto: pluralAuto,
+        PluralParameter: pluralParameter
     );
 
 

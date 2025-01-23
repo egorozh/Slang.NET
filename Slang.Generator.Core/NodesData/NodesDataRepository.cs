@@ -12,25 +12,25 @@ namespace Slang.Generator.Core.NodesData;
 /// <param name="BaseLocale">whether or not this is the base locale</param>
 /// <param name="Locale">the locale (the part after the underscore)</param>
 /// <param name="Root">the actual strings</param>
-internal record I18NData(
+public record I18NData(
     bool BaseLocale,
     CultureInfo Locale,
     ObjectNode Root
 );
 
-internal static class NodesDataRepository
+public static class NodesDataRepository
 {
     /// Combine all namespaces and build the internal model
     /// The returned locales are sorted (base locale first)
     ///
     /// After this method call, information about the namespace is lost.
     /// It will be just a normal parent.
-    public static List<I18NData> GetNodesData(RawConfig rawConfig, TranslationComposition composition)
+    public static List<I18NData> GetNodesData(CultureInfo baseLocale, TranslationComposition composition, PluralAuto pluralAuto, string pluralParameter)
     {
-        var buildConfig = NodesRepository.ToBuildModelConfig(rawConfig);
+        var buildConfig = NodesRepository.ToBuildModelConfig(pluralAuto, pluralParameter);
 
         KeyValuePair<CultureInfo, Dictionary<string, object?>>? baseEntry = composition
-            .FirstOrDefault(entry => Equals(entry.Key, rawConfig.BaseLocale));
+            .FirstOrDefault(entry => Equals(entry.Key, baseLocale));
 
         if (!baseEntry.HasValue)
             throw new Exception("Base locale not found");
@@ -42,7 +42,7 @@ internal static class NodesDataRepository
 
         return composition
             .Select(localeEntry =>
-                CreateNodesData(rawConfig,
+                CreateNodesData(baseLocale,
                     localeEntry.Key,
                     localeEntry.Value,
                     baseResult,
@@ -51,13 +51,13 @@ internal static class NodesDataRepository
     }
 
     private static I18NData CreateNodesData(
-        RawConfig rawConfig,
+        CultureInfo baseLocale,
         CultureInfo locale,
         Dictionary<string, object?> map,
         BuildModelResult baseResult,
         BuildModelConfig buildConfig)
     {
-        bool @base = Equals(locale, rawConfig.BaseLocale);
+        bool @base = Equals(locale, baseLocale);
 
         if (@base)
         {

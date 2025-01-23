@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Xml.Linq;
 using Project2015To2017.Definition;
-using Slang.Gpt.Data;
 using Slang.Shared;
 
 namespace Slang.Utilities.Core.Translate;

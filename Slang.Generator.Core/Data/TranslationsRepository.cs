@@ -1,5 +1,4 @@
 using System.Globalization;
-using Slang.Generator.Core.Entities;
 
 namespace Slang.Generator.Core.Data;
 
@@ -12,7 +11,7 @@ public class TranslationComposition : Dictionary<CultureInfo, Dictionary<string,
 public abstract class TranslationsRepository
 {
     /// This method transforms files to an intermediate model [TranslationComposition].
-    public static async Task<TranslationComposition> Build(RawConfig rawConfig, SlangFileCollection fileCollection)
+    public static async Task<TranslationComposition> Build(CultureInfo baseCulture, SlangFileCollection fileCollection)
     {
         TranslationComposition translationComposition = new();
 
@@ -36,10 +35,10 @@ public abstract class TranslationsRepository
             }
         }
 
-        if (translationComposition.Keys.All(locale => !Equals(locale, rawConfig.BaseLocale)))
+        if (translationComposition.Keys.All(locale => !Equals(locale, baseCulture)))
         {
             throw new Exception(
-                $"Translation file for base locale \"{rawConfig.BaseLocale}\" not found.");
+                $"Translation file for base locale \"{baseCulture}\" not found.");
         }
 
         return translationComposition;

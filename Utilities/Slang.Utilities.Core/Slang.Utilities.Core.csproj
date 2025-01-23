@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference Include="..\Gpt\Slang.Gpt\Slang.Gpt.csproj" />
+      <ProjectReference Include="..\..\Slang.Shared\Slang.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

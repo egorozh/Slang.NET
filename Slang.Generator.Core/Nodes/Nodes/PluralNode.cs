@@ -1,12 +1,12 @@
 namespace Slang.Generator.Core.Nodes.Nodes;
 
-internal enum PluralType
+public enum PluralType
 {
     Cardinal,
     Ordinal
 }
 
-internal enum Quantity
+public enum Quantity
 {
     zero,
     one,
@@ -18,7 +18,7 @@ internal enum Quantity
 
 /// <param name="ParamName">name of the plural parameter</param>
 /// <param name="ParamType">type of the plural parameter defaults to num</param>
-internal record PluralNode(
+public record PluralNode(
     string Path,
     IReadOnlyDictionary<string, string> Modifiers,
     ExtendData? ExtendData,

@@ -5,25 +5,25 @@ using OneOf;
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
-namespace Slang.Utilities.Core.Translate;
+namespace Slang.CLI.Commands.Translate;
 
-public abstract class ConfigError;
+internal abstract class ConfigError;
 
-public class ConfigNotFound : ConfigError;
+internal class ConfigNotFound : ConfigError;
 
-public class ConfigNotSerialized : ConfigError;
+internal class ConfigNotSerialized : ConfigError;
 
-public class ConfigModelNotFound(string? model) : ConfigError
+internal class ConfigModelNotFound(string? model) : ConfigError
 {
     public string? Model { get; } = model;
 }
 
-public class ConfigDescriptionMissing : ConfigError;
+internal class ConfigDescriptionMissing : ConfigError;
 
 [GenerateOneOf]
-public partial class ConfigResult : OneOfBase<GptConfig, ConfigError>;
+internal partial class ConfigResult : OneOfBase<GptConfig, ConfigError>;
 
-public static class ConfigRepository
+internal static class ConfigRepository
 {
     public static ConfigResult GetConfig(Project project, string csProjDirectory)
     {
@@ -80,10 +80,10 @@ public static class ConfigRepository
             BaseCulture: new CultureInfo(baseCulture),
             Model: model,
             Description: config.GptConfig.Description,
-            MaxInputLength: !int.TryParse(config.GptConfig.MaxInputLength, out int maxInputLength)
+            MaxInputLength: !int.TryParse((string?)config.GptConfig.MaxInputLength, out int maxInputLength)
                 ? GptModel.DefaultInputLength
                 : maxInputLength,
-            Temperature: double.TryParse(config.GptConfig.Temperature, out double temperature) ? temperature : null,
+            Temperature: double.TryParse((string?)config.GptConfig.Temperature, out double temperature) ? temperature : null,
             Excludes: []
         );
 
