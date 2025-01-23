@@ -18,6 +18,8 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Project2015To2017" Version="4.2.0" />
         <PackageReference Include="Slang.Net" Version="1.1.2" />
     </ItemGroup>
 
@@ -25,5 +27,9 @@
         <AdditionalFiles Include="i18n\*.i18n.json" />
         <AdditionalFiles Include="slang.json" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Slang.Utilities.Core\Slang.Utilities.Core.csproj" />
+    </ItemGroup>
+
 </Project>

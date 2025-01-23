@@ -4,9 +4,9 @@ using Project2015To2017.Definition;
 using Slang.Gpt.Data;
 using Slang.Shared;
 
-namespace Slang.CLI.Commands.Translate;
+namespace Slang.Utilities.Core.Translate;
 
-internal static class AdditionalFilesRepository
+public static class AdditionalFilesRepository
 {
     public static SlangFileCollection GetFileCollection(
         Project project,

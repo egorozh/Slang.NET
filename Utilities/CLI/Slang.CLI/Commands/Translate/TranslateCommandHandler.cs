@@ -6,6 +6,7 @@ using Slang.CLI.i18n;
 using Slang.Gpt;
 using Slang.Gpt.Domain.Models;
 using Slang.Gpt.Domain.Utils;
+using Slang.Utilities.Core.Translate;
 
 namespace Slang.CLI.Commands.Translate;
 

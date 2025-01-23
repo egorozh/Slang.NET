@@ -5,25 +5,25 @@ using OneOf;
 using Project2015To2017.Definition;
 using Slang.Gpt.Domain.Models;
 
-namespace Slang.CLI.Commands.Translate;
+namespace Slang.Utilities.Core.Translate;
 
-internal abstract class ConfigError;
+public abstract class ConfigError;
 
-internal class ConfigNotFound : ConfigError;
+public class ConfigNotFound : ConfigError;
 
-internal class ConfigNotSerialized : ConfigError;
+public class ConfigNotSerialized : ConfigError;
 
-internal class ConfigModelNotFound(string? model) : ConfigError
+public class ConfigModelNotFound(string? model) : ConfigError
 {
     public string? Model { get; } = model;
 }
 
-internal class ConfigDescriptionMissing : ConfigError;
+public class ConfigDescriptionMissing : ConfigError;
 
 [GenerateOneOf]
-internal partial class ConfigResult : OneOfBase<GptConfig, ConfigError>;
+public partial class ConfigResult : OneOfBase<GptConfig, ConfigError>;
 
-internal static class ConfigRepository
+public static class ConfigRepository
 {
     public static ConfigResult GetConfig(Project project, string csProjDirectory)
     {

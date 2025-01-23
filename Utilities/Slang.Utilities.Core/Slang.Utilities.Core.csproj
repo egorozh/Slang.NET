@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\Gpt\Slang.Gpt\Slang.Gpt.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentResults" Version="3.16.0" />
+        <PackageReference Include="OneOf" Version="3.0.271" />
+        <PackageReference Include="OneOf.SourceGenerator" Version="3.0.271" />
+        <PackageReference Include="Project2015To2017" Version="4.2.0" />
+    </ItemGroup>
+</Project>

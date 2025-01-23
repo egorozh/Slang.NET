@@ -10,7 +10,9 @@
     <File Path="README.md" />
     <File Path="Directory.Build.props" />
   </Folder>
-  <Folder Name="/Utilities/" />
+  <Folder Name="/Utilities/">
+    <Project Path="Utilities\Slang.Utilities.Core\Slang.Utilities.Core.csproj" Type="Classic C#" />
+  </Folder>
   <Folder Name="/Utilities/CLI/">
     <Project Path="Utilities\CLI\Slang.CLI\Slang.CLI.csproj" Type="Classic C#" />
     <File Path="Utilities\CLI\README.md" />

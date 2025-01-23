@@ -464,7 +464,7 @@ Then use slang-gpt:
 slang gpt --target=en --api-key=<api-key>
 ```
 
-See more: [Documentation](Gpt/README.md)
+See more: [Documentation](Utilities/Gpt/README.md)
 
 ## Additional Materials
 
