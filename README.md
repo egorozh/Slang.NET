@@ -470,3 +470,6 @@ See more: [Documentation](Utilities/Gpt/README.md)
 
 ### Articles
 - [Хабр (ru)](https://habr.com/ru/articles/874066/)
+
+### Videos
+- [Youtube (ru)](https://youtu.be/95l-KzxW9tM)
