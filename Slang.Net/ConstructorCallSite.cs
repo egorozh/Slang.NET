@@ -1,0 +1,14 @@
+﻿namespace Slang;
+
+internal record ConstructorCallSite : ServiceCallSite
+{
+    public ConstructorCallSite(ServiceIdentity identity, INamedTypeSymbol implementationType, ServiceCallSite[] parameters, KeyValuePair<IParameterSymbol, ServiceCallSite>[] optionalParameters, ServiceLifetime lifetime, int? reverseIndex, bool? isDisposable)
+        : base(identity, implementationType, lifetime, isDisposable)
+    {
+        Parameters = parameters;
+        OptionalParameters = optionalParameters;
+    }
+
+    public ServiceCallSite[] Parameters { get; }
+    public KeyValuePair<IParameterSymbol, ServiceCallSite>[] OptionalParameters { get; }
+}

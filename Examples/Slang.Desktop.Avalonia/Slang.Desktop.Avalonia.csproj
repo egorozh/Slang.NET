@@ -20,7 +20,7 @@
 
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 
-        <PackageReference Include="Slang.Net" Version="9.0.0" />
+        <PackageReference Include="Slang.Net" Version="9.0.1" />
 
     </ItemGroup>
 

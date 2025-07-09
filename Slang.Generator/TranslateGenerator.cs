@@ -35,7 +35,7 @@ public class TranslateGenerator : IIncrementalGenerator
                                         classDeclaration.HasOrPotentiallyHasAttributes(),
                     (ctx, token) =>
                     {
-                        INamedTypeSymbol typeSymbol = (INamedTypeSymbol) ctx.TargetSymbol;
+                        INamedTypeSymbol typeSymbol = (INamedTypeSymbol)ctx.TargetSymbol;
 
                         // Gather all generation info, and any diagnostics
                         TranslationsParam info = ValidateTargetTypeAndGetInfo(ctx.Attributes[0]);
@@ -71,7 +71,7 @@ public class TranslateGenerator : IIncrementalGenerator
 
                 if (jsonText != null)
                 {
-                    var config = JsonSerializer.Deserialize(jsonText, GlobalConfigContext.Default.GlobalConfigDto);
+                    var config = JsonSerializer.Deserialize<GlobalConfigDto>(jsonText);
 
                     return new ProjectParam(BaseCulture: config?.BaseCulture);
                 }
@@ -143,6 +143,3 @@ internal record GlobalConfigDto
 {
     [JsonPropertyName("base_culture")] public string? BaseCulture { get; set; }
 }
-
-[JsonSerializable(typeof(GlobalConfigDto))]
-internal partial class GlobalConfigContext : JsonSerializerContext;

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+<!--        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>-->
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <RootNamespace>Slang.Generator</RootNamespace>
+<!--        <GenerateSourceGeneratorLogs>true</GenerateSourceGeneratorLogs>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+<!--      <ProjectReference Include="..\Slang.Generator.Core\Slang.Generator.Core.csproj" />-->
+<!--      <ProjectReference Include="..\Slang.Shared\Slang.Shared.csproj" />-->
+    </ItemGroup>
+</Project>
