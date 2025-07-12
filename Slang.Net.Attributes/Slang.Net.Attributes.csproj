@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <TargetFrameworks>netstandard2.0;</TargetFrameworks>
         <IsPackable>true</IsPackable>
         <LangVersion>preview</LangVersion>
         <RootNamespace>Slang</RootNamespace>
         <DefineConstants>$(DefineConstants);SLANG_ATTRIBUTES_PACKAGE;GENERIC_ATTRIBUTES</DefineConstants>
-        <Version>9.1.0</Version>
+        <Version>9.2.0</Version>
         <Version Condition="'$(ReleaseVersion)' != ''">$(ReleaseVersion)</Version>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>

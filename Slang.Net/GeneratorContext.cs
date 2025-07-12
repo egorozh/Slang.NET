@@ -7,12 +7,18 @@ internal readonly struct GeneratorContext
 
     public GeneratorContext(
         SourceProductionContext sourceProductionContext,
-        ImmutableArray<TypeDeclarationSyntax> candidateTypes,
+        Result result,
+        ImmutableArray<JsonFile> jsonFiles,
+        ImmutableArray<ProjectParam> projectParams,
         Compilation compilation)
     {
         _sourceProductionContext = sourceProductionContext;
-        CandidateTypes = candidateTypes;
+
+        Result = result;
+        JsonFiles = jsonFiles;
+        ProjectParams = projectParams;
         Compilation = compilation;
+
         _compilationAnalysisContext = null;
     }
 #else
@@ -32,18 +38,21 @@ internal readonly struct GeneratorContext
 
     private readonly CompilationAnalysisContext? _compilationAnalysisContext;
 
-    public GeneratorContext(CompilationAnalysisContext compilationAnalysisContext, SyntaxCollector syntaxCollector)
-    {
-        _compilationAnalysisContext = compilationAnalysisContext;
-        
-        CandidateTypes = syntaxCollector.CandidateTypes;
-        Compilation = compilationAnalysisContext.Compilation;
-        _sourceProductionContext = null;
-    }
+    // public GeneratorContext(CompilationAnalysisContext compilationAnalysisContext, SyntaxCollector syntaxCollector)
+    // {
+    //     _compilationAnalysisContext = compilationAnalysisContext;
+    //
+    //     CandidateType = syntaxCollector.CandidateTypes.First();
+    //     Compilation = compilationAnalysisContext.Compilation;
+    //     _sourceProductionContext = null;
+    // }
+
 
     public Compilation Compilation { get; }
-    
-    public IEnumerable<TypeDeclarationSyntax> CandidateTypes { get; }
+
+    public Result Result { get; }
+    public ImmutableArray<JsonFile> JsonFiles { get; }
+    public ImmutableArray<ProjectParam> ProjectParams { get; }
 
     public void ReportDiagnostic(Diagnostic diagnostic)
     {
