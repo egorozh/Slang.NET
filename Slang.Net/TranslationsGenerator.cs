@@ -9,7 +9,7 @@ namespace Slang;
 
 [Generator]
 #pragma warning disable RS1001 // We don't want this to be discovered as analyzer but it simplifies testing
-public partial class ContainerGenerator
+public partial class TranslationsGenerator
     //: DiagnosticAnalyzer
 #pragma warning restore RS1001 // We don't want this to be discovered as analyzer but it simplifies testing
 {

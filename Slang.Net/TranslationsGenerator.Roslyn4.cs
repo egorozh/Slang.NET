@@ -35,7 +35,7 @@ namespace Slang
 
 
 #pragma warning disable RS1001 // We don't want this to be discovered as analyzer but it simplifies testing
-    public partial class ContainerGenerator : IIncrementalGenerator
+    public partial class TranslationsGenerator : IIncrementalGenerator
 #pragma warning restore RS1001 // We don't want this to be discovered as analyzer but it simplifies testing
     {
         private const string AttributeFullName = "Slang.TranslationsAttribute";

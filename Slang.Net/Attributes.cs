@@ -13,7 +13,7 @@ namespace Slang
 #if SLANG_ATTRIBUTES_PACKAGE
     public
 #else
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang", null)]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang.Net", null)]
     internal
 #endif
     class TranslationsAttribute: Attribute
@@ -30,7 +30,7 @@ namespace Slang
 #if SLANG_ATTRIBUTES_PACKAGE
     public
 #else
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang", null)]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang.Net", null)]
     internal
 #endif
         delegate string PluralResolver(
@@ -46,7 +46,7 @@ namespace Slang
 #if SLANG_ATTRIBUTES_PACKAGE
     public
 #else
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang", null)]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang.Net", null)]
     internal
 #endif
         enum PluralAuto
@@ -61,7 +61,7 @@ namespace Slang
 #if SLANG_ATTRIBUTES_PACKAGE
     public
 #else
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang", null)]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Slang.Net", null)]
     internal
 #endif
         static partial class PluralResolvers
