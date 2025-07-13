@@ -10,13 +10,13 @@
         <AdditionalFiles Include="slang.json" />
     </ItemGroup>
 
-<!--    <ItemGroup>-->
-<!--        &lt;!&ndash;        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" />&ndash;&gt;-->
-<!--        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />-->
-<!--    </ItemGroup>-->
-
     <ItemGroup>
-        <PackageReference Include="Slang.Net" Version="9.2.0" />
+        <!--        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" />-->
+        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
+
+    <!--    <ItemGroup>-->
+    <!--        <PackageReference Include="Slang.Net" Version="9.2.0" />-->
+    <!--    </ItemGroup>-->
 
 </Project>

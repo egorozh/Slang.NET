@@ -4,19 +4,19 @@
         <TargetFrameworks>netstandard2.0;</TargetFrameworks>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>9.2.0</Version>
+        <Version>9.7.0</Version>
         <Version Condition="'$(ReleaseVersion)' != ''">$(ReleaseVersion)</Version>
-        <EnableDefaultItems>false</EnableDefaultItems>
+<!--        <EnableDefaultItems>false</EnableDefaultItems>-->
         <RootNamespace>Slang</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="$(MSBuildThisFileDirectory)/Attributes.cs" />
-        <Compile Include="$(MSBuildThisFileDirectory)/**/*.cs" />
+<!--        <Compile Include="$(MSBuildThisFileDirectory)/**/*.cs" />-->
 <!--        <Compile Include="$(MSBuildThisFileDirectory)/*.cs" />-->
         <Compile Remove="$(MSBuildThisFileDirectory)/Attributes.cs" />
     </ItemGroup>

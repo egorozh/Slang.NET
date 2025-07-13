@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <ItemGroup>
-      <PackageReference Include="Slang.Net" Version="9.0.1" />
+      <PackageReference Include="Slang.Net" Version="9.7.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,9 +1,6 @@
 <Project>
     <PropertyGroup>
         <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);_SlangReferences</PrepareForBuildDependsOn>
-        <DefineConstants Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND
-		                            ($([MSBuild]::VersionGreaterThanOrEquals($(_TargetFrameworkVersionWithoutV), '7.0')) OR
-									($([MSBuild]::VersionGreaterThanOrEquals($(_TargetFrameworkVersionWithoutV), '6.0')) AND '$(LangVersion)'=='preview'))">$(DefineConstants);GENERIC_ATTRIBUTES</DefineConstants>
     </PropertyGroup>
     <Target Name="_SlangMultiTargetRoslyn3"
             Condition="'$(SupportsRoslynComponentVersioning)' != 'true'"
@@ -17,7 +14,7 @@
     <Target Name="_SlangReferences" DependsOnTargets="ResolvePackageAssets">
         <PropertyGroup>
             <_SlangAttributesReferenced
-                Condition="@(PackageDependencies->WithMetadataValue('Identity', 'Slang.Attributes')->Count()) != 0">true</_SlangAttributesReferenced>
+                Condition="@(PackageDependencies->WithMetadataValue('Identity', 'Slang.Net.Attributes')->Count()) != 0">true</_SlangAttributesReferenced>
             <DefineConstants Condition="'$(_SlangAttributesReferenced)' == 'true'">$(DefineConstants);SLANG_ATTRIBUTES_REFERENCED</DefineConstants>
         </PropertyGroup>
     </Target>
