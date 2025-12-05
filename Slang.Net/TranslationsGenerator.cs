@@ -72,7 +72,7 @@ public partial class TranslationsGenerator
         catch (Exception)
         {
             // context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.UnexpectedErrorDescriptor, Location.None,
-            //     e.ToString().Replace("\n", " ")));
+            //     e.ToString().Replace("\n", " "),e.StackTrace));
         }
     }
 

@@ -26,8 +26,9 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-        <PackageReference Include="System.Text.Json" Version="8.0.5" PrivateAssets="all" />
-        <PackageReference Include="YamlDotNet" Version="16.3.0" PrivateAssets="all" />
+        <PackageReference Include="System.Text.Json" Version="9.0.11" PrivateAssets="all" />
+        <PackageReference Include="YamlDotNet" Version="16.3.0" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="YamlDotNet.System.Text.Json" Version="1.7.1" PrivateAssets="all" GeneratePathProperty="true" />
         <!--        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" GeneratePathProperty="true" PrivateAssets="all" />-->
     </ItemGroup>
 
@@ -45,7 +46,6 @@
         <!--            Pack="true" Visible="false" />-->
         <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
         <None Include="$(OutputPath)\netstandard2.0\$(AssemblyName).dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
-
 
         <None Include="$(OutputPath)\netstandard2.0\System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.0/cs" Pack="true" Visible="false" />
         <None Include="$(OutputPath)\netstandard2.0\System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.12/cs" Pack="true" Visible="false" />
@@ -78,6 +78,20 @@
     <!--    <ItemGroup>-->
     <!--        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />-->
     <!--    </ItemGroup>-->
+    
+    <!-- See https://github.com/dotnet/roslyn-sdk/blob/0313c80ed950ac4f4eef11bb2e1c6d1009b328c4/samples/CSharp/SourceGenerators/SourceGeneratorSamples/SourceGeneratorSamples.csproj#L13-L30
+    and https://github.com/dotnet/roslyn/discussions/47517#discussioncomment-64145 -->
+    <PropertyGroup>
+        <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+    </PropertyGroup>
+
+    <Target Name="GetDependencyTargetPaths">
+        <!-- Manually include the DLL of each NuGet package that this analyzer uses. -->
+        <ItemGroup>
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\YamlDotNet.dll" IncludeRuntimeDependency="false" />
+            <TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet_System_Text_Json)\lib\netstandard2.0\YamlDotNet.System.Text.Json.dll" IncludeRuntimeDependency="false" />
+        </ItemGroup>
+    </Target>
 
     <Import Project="Slang.Common.props" />
 

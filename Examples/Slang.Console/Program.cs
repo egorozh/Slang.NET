@@ -51,9 +51,9 @@ void ShowLocales()
     Console.WriteLine(formattingBloc.FloatExample(123.31414f));
 
     var formattingBloc2 = Feature2.Instance.Root.Formatting;
-
+    
     string price2 = formattingBloc2.DecimalExample(12.23123M);
-
+    
     Console.WriteLine(price2);
     Console.WriteLine(formattingBloc2.LongExample(124214));
     Console.WriteLine(formattingBloc2.IntExample(123));
