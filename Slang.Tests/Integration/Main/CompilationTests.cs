@@ -28,7 +28,7 @@ public class CompilationTests
             .Cast<MetadataReference>()
             .ToList();
 
-        var assembly = typeof(PluralResolver).Assembly;
+        var assembly = typeof(PluralResolvers).Assembly;
 
         references.Add(MetadataReference.CreateFromFile(assembly.Location));
 

@@ -12,7 +12,7 @@ Console.WriteLine("Start");
 
 var config = Test.GetConfig();
 
-const string sourceFilesDirectory = "/Users/egorozh/RiderProjects/Slang.NET/Examples/Slang.Console/i18n";
+const string sourceFilesDirectory = "../../../../Examples/Slang.Console/i18n";
 
 Generator builder = new(config, sourceFilesDirectory);
 
@@ -27,6 +27,16 @@ var config2 = ConfigRepository.Create(
 Generator builder2 = new(config2, sourceFilesDirectory);
 
 await builder2.Generate();
+
+var config3 = ConfigRepository.Create(
+    inputFileName: "feature2",
+    @namespace: "Slang.Console.MyNamespace",
+    className: "Feature2",
+    baseLocale: "ru-RU");
+
+Generator builder3 = new(config3, sourceFilesDirectory);
+
+await builder3.Generate();
 
 Console.WriteLine("End");
 

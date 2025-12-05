@@ -51,6 +51,12 @@ public class SystemTextJsonRawProvider : IRawProvider
                     dict.Add(property.Name, property.Value);
 
                 break;
+            case Dictionary<object, object?> dictionary:
+                dict = [];
+                foreach (var property in dictionary)
+                    dict.Add((string)property.Key, property.Value);
+
+                break;
             default:
                 return null;
         }

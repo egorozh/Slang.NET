@@ -18,7 +18,7 @@ internal static class TextNodeBuilder
                 KeyCase: CaseStyle.Pascal,
                 KeyMapCase: CaseStyle.Camel,
                 ParamCase: paramCase,
-                PluralAuto: Slang.Generator.Core.Entities.PluralAuto.Off,
+                PluralAutoEntity: PluralAutoEntity.Off,
                 PluralParameter: "n"),
             raw,
             modifiers: new Dictionary<string, string>()

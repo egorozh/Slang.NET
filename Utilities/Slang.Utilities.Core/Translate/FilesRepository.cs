@@ -36,7 +36,7 @@ internal static class FilesRepository
             // could also be a non-base locale when directory name is a locale
             return new TranslationFile(
                 Locale: baseCulture,
-                Namespace: fileName.Replace(Constants.AdditionalFilePattern, ""),
+                Namespace: fileName.Replace(Constants.AdditionalFileJsonPattern, ""),
                 FileName: fileName,
                 FilePath: filePath,
                 Read: contentFactory);

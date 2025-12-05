@@ -6,11 +6,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Slang.Generator.Core\Slang.Generator.Core.csproj" />
+        <ProjectReference Include="..\Slang.Net\Slang.Net.csproj"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
+        <PackageReference Include="BenchmarkDotNet" Version="0.14.0"/>
     </ItemGroup>
 
 </Project>

@@ -8,14 +8,14 @@ internal readonly struct GeneratorContext
     public GeneratorContext(
         SourceProductionContext sourceProductionContext,
         Result result,
-        ImmutableArray<JsonFile> jsonFiles,
+        ImmutableArray<LangFile> langFiles,
         ImmutableArray<ProjectParam> projectParams,
         Compilation compilation)
     {
         _sourceProductionContext = sourceProductionContext;
 
         Result = result;
-        JsonFiles = jsonFiles;
+        LangFiles = langFiles;
         ProjectParams = projectParams;
         Compilation = compilation;
 
@@ -51,7 +51,7 @@ internal readonly struct GeneratorContext
     public Compilation Compilation { get; }
 
     public Result Result { get; }
-    public ImmutableArray<JsonFile> JsonFiles { get; }
+    public ImmutableArray<LangFile> LangFiles { get; }
     public ImmutableArray<ProjectParam> ProjectParams { get; }
 
     public void ReportDiagnostic(Diagnostic diagnostic)

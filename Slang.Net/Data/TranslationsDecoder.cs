@@ -1,12 +1,16 @@
 using System.Text.Json;
+using YamlDotNet.Serialization;
 
 namespace Slang.Generator.Core.Data;
 
 public static class TranslationsDecoder
 {
     /// Decodes with the specified file type
-    public static Dictionary<string, object?> DecodeWithFileType(string json)
+    public static Dictionary<string, object?> DecodeWithFileType(string content, string type)
     {
-        return JsonSerializer.Deserialize<Dictionary<string, object?>>(json)!;
+        if (type == "yaml")
+            return new Deserializer().Deserialize<Dictionary<string, object>>(content)!;
+
+        return JsonSerializer.Deserialize<Dictionary<string, object?>>(content)!;
     }
 }

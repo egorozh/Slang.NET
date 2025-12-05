@@ -27,6 +27,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
         <PackageReference Include="System.Text.Json" Version="8.0.5" PrivateAssets="all" />
+        <PackageReference Include="YamlDotNet" Version="16.3.0" PrivateAssets="all" />
         <!--        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" GeneratePathProperty="true" PrivateAssets="all" />-->
     </ItemGroup>
 
@@ -80,4 +81,7 @@
 
     <Import Project="Slang.Common.props" />
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Slang.Tests"/>
+    </ItemGroup>
 </Project>

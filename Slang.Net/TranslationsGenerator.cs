@@ -24,7 +24,7 @@ public partial class TranslationsGenerator
             string className = hierarchy.MetadataName;
             string namespaceName = hierarchy.Namespace;
 
-            if (context.JsonFiles.Length < 1)
+            if (context.LangFiles.Length < 1)
                 return;
 
             if (string.IsNullOrEmpty(info?.InputFileName))
@@ -53,17 +53,17 @@ public partial class TranslationsGenerator
             );
             //
 
-            var paths = context.JsonFiles
+            var paths = context.LangFiles
                 .Where(file => file.FileName.StartsWith(config.InputFileName));
 
             var fileCollection = FilesRepository.GetFileCollection(
                 config.BaseLocale,
                 allFiles: paths.Select(file => (file.FileName, file.Content!))
             );
-
-            // foreach (var jsonFile in context.JsonFiles)
+            // var _i = 0;
+            // foreach (var jsonFile in context.LangFiles)
             // {
-            //     context.AddSource($"Translations{_i++}.g.cs",
+            //     context.AddSource($"Translations{_i++}.g.cs", //{error}|{baseLocale}|{jsonFile.FileName}
             //         error + baseLocale + " | " + jsonFile.FileName);
             // }
 
@@ -72,7 +72,7 @@ public partial class TranslationsGenerator
         catch (Exception)
         {
             // context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.UnexpectedErrorDescriptor, Location.None,
-            //     e.ToString().Replace(Environment.NewLine, " ")));
+            //     e.ToString().Replace("\n", " ")));
         }
     }
 

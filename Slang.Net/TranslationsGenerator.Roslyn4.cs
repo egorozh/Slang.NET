@@ -17,7 +17,7 @@ namespace Slang
         string? BaseCulture
     );
 
-    public record struct JsonFile(
+    public record struct LangFile(
         string FileName,
         string? Content
     );
@@ -67,10 +67,12 @@ namespace Slang
                             return new Result(info, hierarchy);
                         });
 
-            var jsonFilesProvider =
+            var langFilesProvider =
                 ctx.AdditionalTextsProvider
-                    .Where(file => file.Path.EndsWith(Constants.AdditionalFilePattern))
-                    .Select((file, cancellationToken) => new JsonFile
+                    .Where(file =>
+                        file.Path.EndsWith(Constants.AdditionalFileJsonPattern) ||
+                        file.Path.EndsWith(Constants.AdditionalFileYamlPattern))
+                    .Select((file, cancellationToken) => new LangFile
                     (
                         FileName: Path.GetFileName(file.Path),
                         Content: file.GetText(cancellationToken)?.ToString()
@@ -95,7 +97,7 @@ namespace Slang
 
             var input = attributedClasses
                 .Combine(configFileProvider.Collect())
-                .Combine(jsonFilesProvider.Collect())
+                .Combine(langFilesProvider.Collect())
                 .Combine(ctx.CompilationProvider);
 
             ctx.RegisterSourceOutput(
@@ -103,13 +105,13 @@ namespace Slang
                 (productionContext, data) =>
                 {
                     var compilation = data.Right;
-                    var jsonFiles = data.Left.Right;
+                    var langFiles = data.Left.Right;
                     var projectParams = data.Left.Left.Right;
                     var syntax = data.Left.Left.Left;
 
                     Execute(new GeneratorContext(productionContext,
                         syntax,
-                        jsonFiles,
+                        langFiles,
                         projectParams,
                         compilation
                     ));
@@ -132,5 +134,6 @@ namespace Slang
 
 internal record GlobalConfigDto
 {
-    [JsonPropertyName("base_culture")] public string? BaseCulture { get; set; }
+    [JsonPropertyName("base_culture")]
+    public string? BaseCulture { get; set; }
 }
