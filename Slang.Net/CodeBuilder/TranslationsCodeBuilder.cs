@@ -12,6 +12,7 @@ internal static class TranslationsCodeBuilder
         RawConfig config,
         SlangFileCollection fileCollection)
     {
+        //Debugger.Launch();
         // STEP 2: scan translations
         var translationMap = await TranslationsRepository.Build(config.BaseLocale, fileCollection: fileCollection);
 

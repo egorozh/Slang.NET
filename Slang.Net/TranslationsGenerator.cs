@@ -34,6 +34,8 @@ public partial class TranslationsGenerator
 
             string pluralParameter = string.IsNullOrEmpty(info?.PluralParameter) ? "n" : info!.PluralParameter!;
             string rootPropertyName = string.IsNullOrEmpty(info?.RootPropertyName) ? "Root" : info!.RootPropertyName!;
+            string startCharacter = string.IsNullOrEmpty(info?.StartCharacter) ? "{" : info!.StartCharacter!;
+            string endCharacter = string.IsNullOrEmpty(info?.EndCharacter) ? "}" : info!.EndCharacter!;
             string? baseLocale = string.IsNullOrEmpty(globalConfig.BaseCulture)
                 ? "en"
                 : globalConfig.BaseCulture;
@@ -49,7 +51,9 @@ public partial class TranslationsGenerator
                 InputFileName: info?.InputFileName!,
                 PluralAutoEntity: PluralAutoEntity.Cardinal,
                 PluralParameter: pluralParameter,
-                RootPropertyName: rootPropertyName
+                RootPropertyName: rootPropertyName,
+                StartCharacter: startCharacter,
+                EndCharacter: endCharacter
             );
             //
 
@@ -69,10 +73,10 @@ public partial class TranslationsGenerator
 
             _ = TranslationsCodeBuilder.Generate(context, config, fileCollection);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            // context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.UnexpectedErrorDescriptor, Location.None,
-            //     e.ToString().Replace("\n", " "),e.StackTrace));
+            context.ReportDiagnostic(Diagnostic.Create(DiagnosticDescriptors.UnexpectedErrorDescriptor, Location.None,
+                e.ToString().Replace("\n", " "), e.StackTrace));
         }
     }
 
@@ -115,12 +119,16 @@ public partial class TranslationsGenerator
         var pluralAuto = attributeData.GetNamedArgument<PluralAutoEntity?>("PluralAuto");
         string? pluralParameter = attributeData.GetNamedArgument<string>("PluralParameter");
         string? rootPropertyName = attributeData.GetNamedArgument<string>("RootPropertyName");
+        string? startCharacter = attributeData.GetNamedArgument<string>("StartCharacter");
+        string? endCharacter = attributeData.GetNamedArgument<string>("EndCharacter");
 
         return new TranslationsParam(
             InputFileName: inputFileName,
             PluralAuto: pluralAuto,
             PluralParameter: pluralParameter,
-            RootPropertyName: rootPropertyName
+            RootPropertyName: rootPropertyName,
+            StartCharacter: startCharacter,
+            EndCharacter: endCharacter
         );
     }
 }

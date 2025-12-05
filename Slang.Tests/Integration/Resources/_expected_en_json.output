@@ -1,0 +1,33 @@
+#nullable enable
+
+using Slang;
+using Slang.Tests;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+
+namespace Slang.Tests
+{
+	partial class TestLocales
+	{
+		protected virtual TestLocales _root { get; } // ignore: unused_field
+
+		public TestLocales()
+		{
+			_root = this;
+		}
+
+		// Translations
+
+		/// In en, this message translates to:
+		/// **"[{"Some":17,"Json":"1234"}]"**
+		public virtual string SomeJson => "[{\"Some\":17,\"Json\":\"1234\"}]";
+
+		/// In en, this message translates to:
+		/// **"asd {some}"**
+		public virtual string SomeExt(int some) => $"asd {some}";
+
+   }
+}

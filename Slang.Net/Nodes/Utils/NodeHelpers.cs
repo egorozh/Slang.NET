@@ -10,17 +10,17 @@ internal static class NodeHelpers
     {
         const string dynamicType = "dynamic";
 
-        if (entries.All(child => child is StringTextNode {ParamTypeMap.Count: 0}))
+        if (entries.All(child => child is StringTextNode { ParamTypeMap.Count: 0 }))
             return "string";
 
         if (entries.All(child => child is ListNode))
         {
-            string childGenericType = ((ListNode) entries.First()).GenericType;
+            string childGenericType = ((ListNode)entries.First()).GenericType;
 
             foreach (var node in entries)
             {
                 var child = (ListNode)node;
-                
+
                 if (childGenericType != child.GenericType)
                 {
                     childGenericType = dynamicType; // default
@@ -30,14 +30,14 @@ internal static class NodeHelpers
             return $"List<{childGenericType}>"; // all lists have the same generic type
         }
 
-        if (entries.All(child => child is ObjectNode {IsMap: true}))
+        if (entries.All(child => child is ObjectNode { IsMap: true }))
         {
-            string childGenericType = ((ObjectNode) entries.First()).GenericType;
+            string childGenericType = ((ObjectNode)entries.First()).GenericType;
 
             foreach (var node in entries)
             {
                 var child = (ObjectNode)node;
-                
+
                 if (childGenericType != child.GenericType)
                 {
                     childGenericType = dynamicType; // default
@@ -93,18 +93,24 @@ internal static class NodeHelpers
     public static ParseInterpolationResult ParseInterpolation(
         string raw,
         string defaultType,
-        CaseStyle? paramCase
+        CaseStyle? paramCase,
+        string startCharacter,
+        string endCharacter
     )
     {
         Dictionary<string, string> @params = [];
 
-        string parsedContent = ReplaceBracesInterpolation(raw, replacer: match =>
-        {
-            string rawParam = match.Substring(1, match.Length - 2);
-            var parsedParam = ParseParam(rawParam: rawParam, defaultType: defaultType, caseStyle: paramCase);
-            @params[parsedParam.ParamName] = parsedParam.ParamType;
-            return $"{{{parsedParam.ParamName}}}";
-        });
+        string parsedContent = ReplaceBracesInterpolation(
+            raw,
+            startCharacter: startCharacter,
+            endCharacter: endCharacter,
+            replacer: match =>
+            {
+                string rawParam = match.Substring(startCharacter.Length, match.Length - (startCharacter.Length + endCharacter.Length));
+                var parsedParam = ParseParam(rawParam: rawParam, defaultType: defaultType, caseStyle: paramCase);
+                @params[parsedParam.ParamName] = parsedParam.ParamType;
+                return $"{{{parsedParam.ParamName}}}";
+            });
 
         return new ParseInterpolationResult(parsedContent, @params);
     }
@@ -133,18 +139,22 @@ internal static class NodeHelpers
 
     /// Replaces every {x} with the result of [replacer].
     private static string ReplaceBracesInterpolation(
-        string s, Func<string, string> replacer
+        string s,
+        Func<string, string> replacer,
+        string startCharacter,
+        string endCharacter
     )
     {
         return ReplaceBetween(
             input: s,
-            startCharacter: "{",
-            endCharacter: "}",
+            startCharacter: startCharacter,
+            endCharacter: endCharacter,
             replacer: replacer
         );
     }
 
-    private static string ReplaceBetween(string input,
+    private static string ReplaceBetween(
+        string input,
         string startCharacter,
         string endCharacter,
         Func<string, string> replacer)
@@ -169,15 +179,15 @@ internal static class NodeHelpers
             {
                 // ignore because of preceding \
                 int length = startIndex - 1;
-                if (length > 0)               // на случай, если startIndex == 1
-                    buffer.Append(curr, 0, length);   // перегрузка StringBuilder.Append(string, int, int)
+                if (length > 0) // на случай, если startIndex == 1
+                    buffer.Append(curr, 0, length); // перегрузка StringBuilder.Append(string, int, int)
                 buffer.Append(startCharacter);
                 if (startIndex + 1 < curr.Length)
                 {
                     int offset = startIndex + startCharacterLength;
                     curr = offset < curr.Length
-                        ? curr.Substring(offset)   // начиная с offset до конца строки
-                        : string.Empty;            // защитимся от выхода за пределы
+                        ? curr.Substring(offset) // начиная с offset до конца строки
+                        : string.Empty; // защитимся от выхода за пределы
                     continue;
                 }
 
@@ -190,7 +200,7 @@ internal static class NodeHelpers
             {
                 // ignore because of preceding @: which indicates an escaped, linked translation
                 buffer.Append(curr.Substring(0, startIndex + 1));
-                
+
                 if (startIndex + 1 < curr.Length)
                 {
                     curr = curr.Substring(startIndex + startCharacterLength);
@@ -203,7 +213,7 @@ internal static class NodeHelpers
             if (startIndex != 0)
             {
                 // add prefix
-                if (startIndex > 0)            // чтобы не бросить ArgumentOutOfRangeException
+                if (startIndex > 0) // чтобы не бросить ArgumentOutOfRangeException
                     buffer.Append(curr, 0, startIndex);
             }
 
@@ -211,13 +221,13 @@ internal static class NodeHelpers
             if (endIndex == -1)
             {
                 int count = curr.Length - startIndex;
-                if (count > 0)                         // защищаемся от пустого хвоста
+                if (count > 0) // защищаемся от пустого хвоста
                     buffer.Append(curr, startIndex, count);
                 break;
             }
 
             int length2 = (endIndex + endCharacterLength) - startIndex;
-            if (length2 > 0)                     // защита от отрицательной / нулевой длины
+            if (length2 > 0) // защита от отрицательной / нулевой длины
             {
                 string slice = curr.Substring(startIndex, length2);
                 buffer.Append(replacer(slice));
@@ -225,8 +235,8 @@ internal static class NodeHelpers
             int offset2 = endIndex + endCharacterLength;
 
             curr = offset2 < curr.Length
-                ? curr.Substring(offset2)   // вся строка с offset до конца
-                : string.Empty;    
+                ? curr.Substring(offset2) // вся строка с offset до конца
+                : string.Empty;
         } while (!string.IsNullOrEmpty(curr));
 
         return buffer.ToString();

@@ -50,6 +50,12 @@
         <None Include="$(OutputPath)\netstandard2.0\System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.0/cs" Pack="true" Visible="false" />
         <None Include="$(OutputPath)\netstandard2.0\System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.12/cs" Pack="true" Visible="false" />
 
+        <None Include="$(OutputPath)\netstandard2.0\YamlDotNet.dll" PackagePath="analyzers/dotnet/roslyn4.0/cs" Pack="true" Visible="false" />
+        <None Include="$(OutputPath)\netstandard2.0\YamlDotNet.dll" PackagePath="analyzers/dotnet/roslyn4.12/cs" Pack="true" Visible="false" />
+
+        <None Include="$(OutputPath)\netstandard2.0\YamlDotNet.System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.0/cs" Pack="true" Visible="false" />
+        <None Include="$(OutputPath)\netstandard2.0\YamlDotNet.System.Text.Json.dll" PackagePath="analyzers/dotnet/roslyn4.12/cs" Pack="true" Visible="false" />
+
         <Content Include="build\Slang.Net.targets" Pack="True" PackagePath="build" />
     </ItemGroup>
 

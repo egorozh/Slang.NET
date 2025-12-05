@@ -10,7 +10,9 @@ namespace Slang
         string? InputFileName,
         PluralAutoEntity? PluralAuto,
         string? PluralParameter,
-        string? RootPropertyName
+        string? RootPropertyName,
+        string? StartCharacter,
+        string? EndCharacter
     );
 
     public record struct ProjectParam(
@@ -126,6 +128,7 @@ namespace Slang
             // });
 
             ctx.RegisterPostInitializationOutput(c => { c.AddSource("Attributes.cs", ReadAttributesFile()); });
+            
         }
     }
 }

@@ -14,17 +14,25 @@ internal record BuildModelConfig(
     CaseStyle? KeyMapCase,
     CaseStyle? ParamCase,
     PluralAutoEntity PluralAutoEntity,
-    string PluralParameter
+    string PluralParameter,
+    string StartCharacter,
+    string EndCharacter
 );
 
 internal static partial class NodesRepository
 {
-    public static BuildModelConfig ToBuildModelConfig(PluralAutoEntity pluralAutoEntity, string pluralParameter) => new(
+    public static BuildModelConfig ToBuildModelConfig(
+        PluralAutoEntity pluralAutoEntity,
+        string pluralParameter,
+        string startCharacter,
+        string endCharacter) => new(
         KeyCase: CaseStyle.Pascal,
         KeyMapCase: CaseStyle.Camel,
         ParamCase: CaseStyle.Camel,
         PluralAutoEntity: pluralAutoEntity,
-        PluralParameter: pluralParameter
+        PluralParameter: pluralParameter,
+        StartCharacter: startCharacter,
+        EndCharacter: endCharacter
     );
 
 

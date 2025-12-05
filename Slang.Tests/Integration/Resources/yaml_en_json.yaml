@@ -1,0 +1,2 @@
+SomeJson: '[{"Some":17,"Json":"1234"}]'
+SomeExt: 'asd {{some: int}}'

@@ -1,6 +1,7 @@
 ﻿using Slang.Console;
 using Slang.Console.Features.Feature1;
 using Slang.Console.Features.Feature2;
+using Slang.Console.Features.Feature3;
 
 foreach (var culture in Feature1.SupportedCultures)
 {
@@ -60,4 +61,6 @@ void ShowLocales()
     Console.WriteLine(formattingBloc2.TimeSpanExample(TimeSpan.FromMinutes(13)));
     Console.WriteLine(formattingBloc2.ObjectExample2("Hello World!"));
     Console.WriteLine(formattingBloc2.FloatExample(123.31414f));
+
+    Console.WriteLine(Feature3.Instance.Root.SomeExt(3));
 }

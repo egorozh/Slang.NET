@@ -19,7 +19,9 @@ internal static class TextNodeBuilder
                 KeyMapCase: CaseStyle.Camel,
                 ParamCase: paramCase,
                 PluralAutoEntity: PluralAutoEntity.Off,
-                PluralParameter: "n"),
+                PluralParameter: "n",
+                StartCharacter: "{",
+                EndCharacter: "}"),
             raw,
             modifiers: new Dictionary<string, string>()
         );

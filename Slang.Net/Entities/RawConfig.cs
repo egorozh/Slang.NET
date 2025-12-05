@@ -12,5 +12,7 @@ public record RawConfig(
     string ClassName,
     PluralAutoEntity PluralAutoEntity,
     string PluralParameter,
-    string RootPropertyName
+    string RootPropertyName,
+    string StartCharacter,
+    string EndCharacter
 );
