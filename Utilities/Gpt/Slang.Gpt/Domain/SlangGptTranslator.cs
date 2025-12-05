@@ -45,7 +45,7 @@ internal sealed class SlangGptTranslator(
 
         string targetPath = Path.Combine(
             outDir,
-            $"{file.Namespace}_{targetLocale}{Constants.AdditionalFilePattern}"
+            $"{file.Namespace}_{targetLocale}{Constants.AdditionalFileJsonPattern}"
         );
 
         foreach (var destFile in files)

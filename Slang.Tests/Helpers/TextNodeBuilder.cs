@@ -18,8 +18,10 @@ internal static class TextNodeBuilder
                 KeyCase: CaseStyle.Pascal,
                 KeyMapCase: CaseStyle.Camel,
                 ParamCase: paramCase,
-                PluralAuto: Slang.Generator.Core.Entities.PluralAuto.Off,
-                PluralParameter: "n"),
+                PluralAutoEntity: PluralAutoEntity.Off,
+                PluralParameter: "n",
+                StartCharacter: "{",
+                EndCharacter: "}"),
             raw,
             modifiers: new Dictionary<string, string>()
         );

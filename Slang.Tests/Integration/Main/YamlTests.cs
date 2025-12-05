@@ -1,11 +1,10 @@
 using System.Globalization;
 using Slang.Generator.Core;
 using Slang.Generator.Core.Data;
-using static Slang.Tests.Integration.EmbeddedLoader;
 
 namespace Slang.Tests.Integration.Main;
 
-public class JsonTests
+public class YamlTests
 {
     private string _enInput;
     private string _deInput;
@@ -16,32 +15,34 @@ public class JsonTests
     [SetUp]
     public void Setup()
     {
-        _enInput = LoadResource("Slang.Tests.Integration.Resources.json_en.json");
-        _deInput = LoadResource("Slang.Tests.Integration.Resources.json_de.json");
-        _expectedOutputHeader = LoadResource("Slang.Tests.Integration.Resources._expected_header.output");
-        _expectedOutputEn = LoadResource("Slang.Tests.Integration.Resources._expected_en.output");
-        _expectedOutputDe = LoadResource("Slang.Tests.Integration.Resources._expected_de.output");
+        _enInput = EmbeddedLoader.LoadResource("Slang.Tests.Integration.Resources.yaml_en.yaml");
+        _deInput = EmbeddedLoader.LoadResource("Slang.Tests.Integration.Resources.yaml_de.yaml");
+        _expectedOutputHeader = EmbeddedLoader.LoadResource("Slang.Tests.Integration.Resources._expected_header.output");
+        _expectedOutputEn = EmbeddedLoader.LoadResource("Slang.Tests.Integration.Resources._expected_en.output");
+        _expectedOutputDe = EmbeddedLoader.LoadResource("Slang.Tests.Integration.Resources._expected_de.output");
     }
 
     [Test]
-    public void Json()
+    public void Yaml()
     {
         CultureInfo en = new("en");
         CultureInfo de = new("de");
 
         var result = GeneratorFacade.Generate(
             rawConfig: ConfigRepository.Create(
-                inputFileName: "json",
+                inputFileName: "yaml",
                 @namespace: "Slang.Tests",
                 className: "TestLocales"
             ),
             new TranslationComposition
             {
-                {en, TranslationsDecoder.DecodeWithFileType(_enInput, "json")},
-                {de, TranslationsDecoder.DecodeWithFileType(_deInput, "json")}
+                { en, TranslationsDecoder.DecodeWithFileType(_enInput, "yaml") },
+                { de, TranslationsDecoder.DecodeWithFileType(_deInput, "yaml") }
             },
             new DateTime(2024, 1, 1, 12, 0, 0)
         );
+        
+        Console.Write(result.Translations[en]);
         Assert.Multiple(() =>
         {
             Assert.That(result.Header, Is.EqualTo(_expectedOutputHeader));

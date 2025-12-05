@@ -45,7 +45,7 @@ public static class AdditionalFilesRepository
                         {
                             var fileInfo = new FileInfo(file);
 
-                            if (fileInfo.Exists && fileInfo.Name.EndsWith(Constants.AdditionalFilePattern))
+                            if (fileInfo.Exists && fileInfo.Name.EndsWith(Constants.AdditionalFileJsonPattern))
                                 yield return fileInfo;
                         }
                     }
@@ -55,7 +55,7 @@ public static class AdditionalFilesRepository
 
                         var fileInfo = new FileInfo(filePath);
 
-                        if (fileInfo.Exists && fileInfo.Name.EndsWith(Constants.AdditionalFilePattern))
+                        if (fileInfo.Exists && fileInfo.Name.EndsWith(Constants.AdditionalFileJsonPattern))
                             yield return fileInfo;
                     }
                 }

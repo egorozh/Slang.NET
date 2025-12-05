@@ -22,7 +22,7 @@ public abstract class TranslationsRepository
 
             try
             {
-                translations = TranslationsDecoder.DecodeWithFileType(content);
+                translations = TranslationsDecoder.DecodeWithFileType(content, file.Type);
             }
             catch (Exception e)
             {

@@ -18,7 +18,9 @@ public static class GeneratorFacade
             rawConfig.BaseLocale,
             translationComposition,
             rawConfig.PluralAutoEntity,
-            rawConfig.PluralParameter
+            rawConfig.PluralParameter,
+            rawConfig.StartCharacter,
+            rawConfig.EndCharacter
         );
 
         // generate config
@@ -43,7 +45,9 @@ public static class GeneratorFacade
             rawConfig.BaseLocale,
             translationComposition,
             rawConfig.PluralAutoEntity,
-            rawConfig.PluralParameter
+            rawConfig.PluralParameter,
+            rawConfig.StartCharacter,
+            rawConfig.EndCharacter
         );
     }
 
@@ -81,7 +85,9 @@ public static class GeneratorFacade
             rawConfig.BaseLocale,
             translationMap,
             rawConfig.PluralAutoEntity,
-            rawConfig.PluralParameter
+            rawConfig.PluralParameter,
+            rawConfig.StartCharacter,
+            rawConfig.EndCharacter
         );
     }
 }

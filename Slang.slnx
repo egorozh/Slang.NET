@@ -1,8 +1,8 @@
 ﻿<Solution>
   <Folder Name="/Examples/">
-    <Project Path="Examples\Slang.Console\Slang.Console.csproj" Type="Classic C#" />
-    <Project Path="Examples\Slang.Desktop.Avalonia\Slang.Desktop.Avalonia.csproj" Type="Classic C#" />
-    <Project Path="Examples\Slang.WebApi\Slang.WebApi.csproj" Type="Classic C#" />
+    <Project Path="Examples\Slang.Console\Slang.Console.csproj" />
+    <Project Path="Examples\Slang.Desktop.Avalonia\Slang.Desktop.Avalonia.csproj" />
+    <Project Path="Examples\Slang.WebApi\Slang.WebApi.csproj" />
     <File Path="Examples\README.md" />
     <File Path="Examples\Directory.Build.props" />
   </Folder>
@@ -11,26 +11,28 @@
     <File Path="Directory.Build.props" />
   </Folder>
   <Folder Name="/Utilities/">
-    <Project Path="Utilities\Slang.Utilities.Core\Slang.Utilities.Core.csproj" Type="Classic C#" />
+    <Project Path="Utilities\Slang.Utilities.Core\Slang.Utilities.Core.csproj" />
   </Folder>
   <Folder Name="/Utilities/CLI/">
-    <Project Path="Utilities\CLI\Slang.CLI\Slang.CLI.csproj" Type="Classic C#" />
+    <Project Path="Utilities\CLI\Slang.CLI\Slang.CLI.csproj" />
     <File Path="Utilities\CLI\README.md" />
   </Folder>
   <Folder Name="/Utilities/Desktop/">
-    <Project Path="Utilities\Desktop\Slang.Desktop\Slang.Desktop.csproj" Type="Classic C#" />
+    <Project Path="Utilities\Desktop\Slang.Desktop\Slang.Desktop.csproj" />
     <File Path="Utilities\Desktop\Slang-desktop-screenshot.jpg" />
     <File Path="Utilities\Desktop\README.md" />
   </Folder>
   <Folder Name="/Utilities/Gpt/">
-    <Project Path="Utilities\Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" Type="Classic C#" />
-    <Project Path="Utilities\Gpt\Slang.Gpt\Slang.Gpt.csproj" Type="Classic C#" />
+    <Project Path="Utilities\Gpt\Slang.Gpt.Tests\Slang.Gpt.Tests.csproj" />
+    <Project Path="Utilities\Gpt\Slang.Gpt\Slang.Gpt.csproj" />
     <File Path="Utilities\Gpt\README.md" />
   </Folder>
-  <Project Path="Slang.Generator.Core\Slang.Generator.Core.csproj" Type="Classic C#" />
-  <Project Path="Slang.Generator\Slang.Generator.csproj" Type="Classic C#" />
-  <Project Path="Slang.Runner\Slang.Runner.csproj" Type="Classic C#" />
-  <Project Path="Slang.Shared\Slang.Shared.csproj" Type="Classic C#" />
-  <Project Path="Slang.Tests\Slang.Tests.csproj" Type="Classic C#" />
-  <Project Path="Slang\Slang.csproj" Type="Classic C#" />
+  <Project Path="Slang.Generator.Core\Slang.Generator.Core.csproj" />
+  <Project Path="Slang.Generator\Slang.Generator.csproj" />
+  <Project Path="Slang.Net.Attributes/Slang.Net.Attributes.csproj" />
+  <Project Path="Slang.Net/Slang.Net.csproj" />
+  <Project Path="Slang.Runner\Slang.Runner.csproj" />
+  <Project Path="Slang.Shared\Slang.Shared.csproj" />
+  <Project Path="Slang.Tests\Slang.Tests.csproj" />
+  <Project Path="Slang\Slang.csproj" />
 </Solution>

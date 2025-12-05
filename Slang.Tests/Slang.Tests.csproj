@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
         <PackageReference Include="NUnit" Version="3.13.3" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
@@ -17,8 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Slang.Generator.Core\Slang.Generator.Core.csproj" />
-        <ProjectReference Include="..\Slang\Slang.csproj" />
+        <ProjectReference Include="..\Slang.Net.Attributes\Slang.Net.Attributes.csproj" />
+        <ProjectReference Include="..\Slang.Net\Slang.Net.csproj" />
     </ItemGroup>
 
     <ItemGroup>

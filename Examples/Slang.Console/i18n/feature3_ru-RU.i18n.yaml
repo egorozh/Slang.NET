@@ -1,0 +1,2 @@
+SomeJson: '[{"aaa": "bbb"}]'
+SomeExt: 'asd {{some: int}}'

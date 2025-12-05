@@ -25,9 +25,15 @@ public static class NodesDataRepository
     ///
     /// After this method call, information about the namespace is lost.
     /// It will be just a normal parent.
-    public static List<I18NData> GetNodesData(CultureInfo baseLocale, TranslationComposition composition, PluralAutoEntity pluralAutoEntity, string pluralParameter)
+    public static List<I18NData> GetNodesData(
+        CultureInfo baseLocale,
+        TranslationComposition composition,
+        PluralAutoEntity pluralAutoEntity,
+        string pluralParameter,
+        string startCharacter,
+        string endCharacter)
     {
-        var buildConfig = NodesRepository.ToBuildModelConfig(pluralAutoEntity, pluralParameter);
+        var buildConfig = NodesRepository.ToBuildModelConfig(pluralAutoEntity, pluralParameter, startCharacter, endCharacter);
 
         KeyValuePair<CultureInfo, Dictionary<string, object?>>? baseEntry = composition
             .FirstOrDefault(entry => Equals(entry.Key, baseLocale));

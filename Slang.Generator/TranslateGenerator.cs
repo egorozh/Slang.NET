@@ -56,7 +56,9 @@ public class TranslateGenerator : IIncrementalGenerator
             generationInfoWithErrors.Select(static (item, _) => item.Value)!;
 
         var jsonFiles = context.AdditionalTextsProvider
-            .Where(file => file.Path.EndsWith(Constants.AdditionalFilePattern))
+            .Where(file =>
+                file.Path.EndsWith(Constants.AdditionalFileJsonPattern) ||
+                file.Path.EndsWith(Constants.AdditionalFileYamlPattern))
             .Select((file, cancellationToken) => new
             {
                 FileName = Path.GetFileName(file.Path),
@@ -141,5 +143,6 @@ public class TranslateGenerator : IIncrementalGenerator
 
 internal record GlobalConfigDto
 {
-    [JsonPropertyName("base_culture")] public string? BaseCulture { get; set; }
+    [JsonPropertyName("base_culture")]
+    public string? BaseCulture { get; set; }
 }

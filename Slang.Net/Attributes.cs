@@ -25,6 +25,10 @@ namespace Slang
         public PluralAuto PluralAuto { get; set; } = PluralAuto.Cardinal;
 
         public string? PluralParameter { get; set; }
+
+        public string StartCharacter { get; set; } = "{";
+        
+        public string EndCharacter { get; set; } = "}";
     }
     
 #if SLANG_ATTRIBUTES_PACKAGE

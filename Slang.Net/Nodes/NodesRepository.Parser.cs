@@ -130,7 +130,9 @@ internal static partial class NodesRepository
         (string? parsedContent, var paramTypeMap) = NodeHelpers.ParseInterpolation(
             raw: shouldEscape ? EscapeContent(value) : value,
             defaultType: "object",
-            paramCase: config.ParamCase
+            paramCase: config.ParamCase,
+            startCharacter: config.StartCharacter,
+            endCharacter: config.EndCharacter
         );
 
         var @params = new HashSet<string>(paramTypeMap.Keys);

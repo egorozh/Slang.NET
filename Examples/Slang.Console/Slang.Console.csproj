@@ -6,8 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="i18n\*.i18n.json" />
-        <AdditionalFiles Include="slang.json" />
+        <AdditionalFiles Include="i18n\*.i18n.json"/>
+        <AdditionalFiles Include="i18n\*.i18n.yaml"/>
+        <AdditionalFiles Include="slang.json"/>
     </ItemGroup>
 
     <ItemGroup>

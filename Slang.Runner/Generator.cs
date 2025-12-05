@@ -9,6 +9,7 @@ internal class Generator(RawConfig config, string filesDirectory)
     public async Task Generate()
     {
         var paths = Directory.GetFiles(filesDirectory, "*.i18n.json")
+            .Concat(Directory.GetFiles(filesDirectory, "*.i18n.yaml"))
             .Where(file => Path.GetFileName(file).StartsWith(config.InputFileName));
 
         var files = paths

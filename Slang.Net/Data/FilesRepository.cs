@@ -13,7 +13,8 @@ public record struct SlangFileCollection(List<TranslationFile> Files);
 /// <param name="Locale">The inferred locale of this file (by file name, directory name, or config)</param>
 public record struct TranslationFile(
     Func<Task<string>> Read,
-    CultureInfo Locale
+    CultureInfo Locale,
+    string Type
 );
 
 public static class FilesRepository
@@ -54,10 +55,13 @@ public static class FilesRepository
         return GetTranslationFile(baseCulture, fileName, () => Task.FromResult(content));
     }
 
-    internal static TranslationFile? GetTranslationFile(CultureInfo baseCulture, string fileName,
+    internal static TranslationFile? GetTranslationFile(
+        CultureInfo baseCulture,
+        string fileName,
         Func<Task<string>> contentFactory)
     {
         string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
+        string fileNameExtension = Path.GetExtension(fileName).Split('.').Last();
 
         var baseFileMatch = Regexes.BaseFileRegex.Match(fileNameNoExtension);
 
@@ -68,7 +72,8 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: baseCulture,
-                Read: contentFactory);
+                Read: contentFactory,
+                Type: fileNameExtension);
         }
 
         // secondary files (strings_x)
@@ -89,7 +94,8 @@ public static class FilesRepository
 
             return new TranslationFile(
                 Locale: locale,
-                Read: contentFactory);
+                Read: contentFactory,
+                Type: fileNameExtension);
         }
 
         return null;

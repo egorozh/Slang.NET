@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;</TargetFrameworks>
         <LangVersion>preview</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>9.7.0</Version>
+        <Version>10.0.1</Version>
         <Version Condition="'$(ReleaseVersion)' != ''">$(ReleaseVersion)</Version>
 <!--        <EnableDefaultItems>false</EnableDefaultItems>-->
         <RootNamespace>Slang</RootNamespace>
