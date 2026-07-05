@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using Slang.Generator.Core.Generator.Entities;
 using Slang.Generator.Core.NodesData;
@@ -16,7 +17,7 @@ internal static partial class Generator
               //
               // Locales: {{allLocales.Count}}
               //
-              // Built on {{config.GeneratedDate.ToShortDateString()}} at {{config.GeneratedDate.ToShortTimeString()}} UTC
+              // Built on {{config.GeneratedDate.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture)}} at {{config.GeneratedDate.ToString("HH:mm", CultureInfo.InvariantCulture)}} UTC
 
               #nullable enable
               
