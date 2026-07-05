@@ -97,7 +97,7 @@ public static class FilesRepository
 
     private static async Task<string> ReadFileContentAsync(string fileName)
     {
-        await using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, 4096,
+        using var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read, 4096,
             FileOptions.Asynchronous);
         
         using var reader = new StreamReader(stream);

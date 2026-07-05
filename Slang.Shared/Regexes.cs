@@ -2,29 +2,13 @@ using System.Text.RegularExpressions;
 
 namespace Slang.Shared;
 
-public static partial class Regexes
+public static class Regexes
 {
-    public static readonly Regex FileWithLocaleRegex = MyFileWithLocaleRegex();
-    public static readonly Regex BaseFileRegex = MyBaseFileRegex();
-    public static readonly Regex LinkedRegex = MyLinkedRegex();
-    public static readonly Regex ModifierRegex = MyModifierRegex();
-    public static readonly Regex UnicodeRegex = MyUnicodeRegex();
-
-    [GeneratedRegex(FileWithLocaleRegular)]
-    private static partial Regex MyFileWithLocaleRegex();
-
-    [GeneratedRegex(BaseFileRegular)]
-    private static partial Regex MyBaseFileRegex();
-
-    [GeneratedRegex(LinkedRegular)]
-    private static partial Regex MyLinkedRegex();
-
-    [GeneratedRegex(ModifierRegular)]
-    private static partial Regex MyModifierRegex();
-
-    [GeneratedRegex(UnicodeRegular)]
-    private static partial Regex MyUnicodeRegex();
-
+    public static readonly Regex FileWithLocaleRegex = new(FileWithLocaleRegular, RegexOptions.Compiled);
+    public static readonly Regex BaseFileRegex = new(BaseFileRegular, RegexOptions.Compiled);
+    public static readonly Regex LinkedRegex = new(LinkedRegular, RegexOptions.Compiled);
+    public static readonly Regex ModifierRegex = new(ModifierRegular, RegexOptions.Compiled);
+    public static readonly Regex UnicodeRegex = new(UnicodeRegular, RegexOptions.Compiled);
 
     /// Finds the parts of the locale. It must start with an underscore.
     /// groups for strings-zh-Hant-TW:

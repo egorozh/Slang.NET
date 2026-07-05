@@ -398,3 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 # JetBrains IDE
 .idea/
+# macOS
+.DS_Store
+
+# Rider per-project settings
+*.csproj.DotSettings

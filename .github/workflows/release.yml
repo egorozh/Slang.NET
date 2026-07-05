@@ -1,0 +1,43 @@
+name: Release
+
+# Publishes Slang.Net to NuGet when a version tag is pushed, e.g. v9.8.0.
+# Requires the NUGET_API_KEY repository secret.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore
+        run: dotnet restore Slang.slnx
+
+      - name: Build
+        run: dotnet build Slang.slnx --no-restore --configuration Release -p:ReleaseVersion=${{ steps.version.outputs.version }}
+
+      - name: Test
+        run: |
+          dotnet test Slang.Tests/Slang.Tests.csproj --no-build --configuration Release
+          dotnet test Utilities/Gpt/Slang.Gpt.Tests/Slang.Gpt.Tests.csproj --no-build --configuration Release
+
+      - name: Pack
+        run: dotnet pack Slang/Slang.csproj --no-build --configuration Release -p:ReleaseVersion=${{ steps.version.outputs.version }} -o ./artifacts
+
+      - name: Push to NuGet
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate

@@ -53,7 +53,7 @@ public static class StringExtensions
         for (int i = 1; i < result.Length; i++)
             result[i] = char.ToLower(result[i]);
 
-        return new string(result);
+        return result.ToString();
     }
     
     private static readonly HashSet<char> SymbolSet = [' ', '.', '_', '-', '/', '\\'];

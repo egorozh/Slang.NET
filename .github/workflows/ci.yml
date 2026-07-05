@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Restore
+        run: dotnet restore Slang.slnx
+
+      - name: Build
+        run: dotnet build Slang.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: |
+          dotnet test Slang.Tests/Slang.Tests.csproj --no-build --configuration Release
+          dotnet test Utilities/Gpt/Slang.Gpt.Tests/Slang.Gpt.Tests.csproj --no-build --configuration Release
+
+      - name: Pack (validation only)
+        run: dotnet pack Slang/Slang.csproj --no-build --configuration Release -o ./artifacts
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nupkg
+          path: ./artifacts/*.nupkg

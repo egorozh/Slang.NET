@@ -1,2 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!-- Ships inside the analyzer package, so it must load in the netstandard2.0 compiler host (VS included). -->
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="PolySharp" PrivateAssets="all" />
+        <PackageReference Include="System.Text.Json" />
+    </ItemGroup>
+
 </Project>

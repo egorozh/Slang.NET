@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
         <OutputType>Exe</OutputType>
+        <TargetFrameworks />
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,12 +12,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!--        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" />-->
-        <ProjectReference Include="..\..\Slang.Net\Slang.Net.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\..\Slang\Slang.csproj" />
+        <ProjectReference Include="..\..\Slang.Generator\Slang.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\..\Slang.Generator.Core\Slang.Generator.Core.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\..\Slang.Shared\Slang.Shared.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
-
-    <!--    <ItemGroup>-->
-    <!--        <PackageReference Include="Slang.Net" Version="9.2.0" />-->
-    <!--    </ItemGroup>-->
 
 </Project>

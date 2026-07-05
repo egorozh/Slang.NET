@@ -21,7 +21,7 @@ public static class NodeUtils
         if (!match.Success)
             return new NodePathInfo(Path: originalKey, Modifiers: Empty);
 
-        string[] modifiers = match.Groups[2].Value.Split(",");
+        string[] modifiers = match.Groups[2].Value.Split(',');
 
         Dictionary<string, string> resultMap = [];
 
@@ -29,7 +29,7 @@ public static class NodeUtils
         {
             if (modifier.Contains('='))
             {
-                string[] parts = modifier.Split("=");
+                string[] parts = modifier.Split('=');
 
                 if (parts.Length != 2)
                     throw new Exception("Hints must be in format \"key:value\" or \"key\"");

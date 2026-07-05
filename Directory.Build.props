@@ -1,16 +1,34 @@
 <Project>
 
     <PropertyGroup>
-        <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
+        <!-- Default for framework projects. Single-target projects must clear the plural
+             form and set the singular one:
+                 <TargetFrameworks />
+                 <TargetFramework>net9.0</TargetFramework>
+             Setting only TargetFramework while TargetFrameworks stays inherited desyncs
+             restore from build and silently breaks NuGet build assets. -->
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
 
+    <PropertyGroup Label="Package metadata">
         <Authors>egorozh</Authors>
         <Description>Type-safe i18n for .NET</Description>
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
-        <PackageTags>18n, localization, netcore, net, source-generator, Resources</PackageTags>
+        <PackageTags>i18n, localization, netcore, net, source-generator, Resources</PackageTags>
+    </PropertyGroup>
+
+    <PropertyGroup Label="SourceLink and deterministic builds">
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
     </PropertyGroup>
 
 </Project>

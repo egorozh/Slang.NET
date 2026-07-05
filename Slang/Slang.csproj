@@ -1,11 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        
-        <Version>9.0.0.0</Version>
+
+        <Version>9.8.0</Version>
+        <Version Condition="'$(ReleaseVersion)' != ''">$(ReleaseVersion)</Version>
         <PackageId>Slang.Net</PackageId>
 
+        <IsPackable>true</IsPackable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
@@ -14,13 +16,24 @@
         <ProjectReference Include="..\Slang.Generator\Slang.Generator.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
+    <!-- The generator and its dependency closure are bundled as analyzers.
+         netstandard2.0 keeps the package loadable in every compiler host, including Visual Studio.
+         Roslyn assemblies (Microsoft.CodeAnalysis.*, System.Collections.Immutable, System.Reflection.Metadata)
+         are provided by the host and must not be packed. -->
     <ItemGroup Label="Package">
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net8.0\Slang.Generator.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net8.0\Slang.Generator.Core.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net8.0\Slang.Shared.dll" PackagePath="analyzers\dotnet\roslyn4.0\cs" Pack="true" Visible="false" />
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net9.0\Slang.Generator.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net9.0\Slang.Generator.Core.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
-        <None Include="..\Slang.Generator\bin\$(Configuration)\net9.0\Slang.Shared.dll" PackagePath="analyzers\dotnet\roslyn4.12\cs" Pack="true" Visible="false" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\Slang.Generator.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\Slang.Generator.Core.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\Slang.Shared.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Text.Json.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Text.Encodings.Web.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Buffers.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Memory.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Numerics.Vectors.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\System.Threading.Tasks.Extensions.dll" />
+        <_GeneratorOutput Include="..\Slang.Generator\bin\$(Configuration)\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll" />
+
+        <None Include="@(_GeneratorOutput)" PackagePath="analyzers\dotnet\cs" Pack="true" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>

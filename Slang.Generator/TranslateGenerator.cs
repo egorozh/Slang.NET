@@ -90,7 +90,7 @@ public class TranslateGenerator : IIncrementalGenerator
             if (jsonFiles.Length < 1)
                 return;
 
-            if (string.IsNullOrEmpty(info.InputFileName))
+            if (info.InputFileName is not { Length: > 0 } inputFileName)
                 return;
 
             string className = hierarchy.MetadataName;
@@ -101,11 +101,11 @@ public class TranslateGenerator : IIncrementalGenerator
             var config = ConfigRepository.Create(
                 className: className,
                 @namespace: namespaceName,
-                baseLocale: string.IsNullOrEmpty(globalConfig.BaseCulture) ? "en" : globalConfig.BaseCulture,
+                baseLocale: globalConfig.BaseCulture is { Length: > 0 } baseCulture ? baseCulture : "en",
                 pluralAuto: info.PluralAuto ?? PluralAuto.Cardinal,
-                pluralParameter: string.IsNullOrEmpty(info.PluralParameter) ? "n" : info.PluralParameter,
-                rootPropertyName: string.IsNullOrEmpty(info.RootPropertyName) ? "Root" : info.RootPropertyName,
-                inputFileName: info.InputFileName
+                pluralParameter: info.PluralParameter is { Length: > 0 } pluralParameter ? pluralParameter : "n",
+                rootPropertyName: info.RootPropertyName is { Length: > 0 } rootPropertyName ? rootPropertyName : "Root",
+                inputFileName: inputFileName
             );
 
             var paths = jsonFiles
