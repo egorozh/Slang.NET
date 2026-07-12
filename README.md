@@ -470,6 +470,7 @@ See more: [Documentation](Utilities/Gpt/README.md)
 
 ### Articles
 - [Хабр (ru)](https://habr.com/ru/articles/874066/)
+- [Medium (en)](https://medium.com/@egorozh.dev/simple-net-app-localization-with-slang-net-0d8a6363a459)
 
 ### Videos
 - [Youtube (ru)](https://youtu.be/95l-KzxW9tM)
