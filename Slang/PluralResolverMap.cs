@@ -20,6 +20,12 @@ public partial class PluralResolvers
     /// Contribution would be nice! (Only this file needs to be changed)
     private static readonly Dictionary<string, Resolvers> ResolverMap = new()
     {
+        // Bulgarian
+        {
+            "bg", new Resolvers(
+                Cardinal: (n, _, one, _, _, _, other) => n == 1 ? one ?? other! : other!,
+                Ordinal: (_, _, _, _, _, _, other) => other!)
+        },
         // Czech
         {
             "cs", new Resolvers(
@@ -118,6 +124,12 @@ public partial class PluralResolvers
                 }
             )
         },
+        // Hungarian
+        {
+            "hu", new Resolvers(
+                Cardinal: (n, _, one, _, _, _, other) => n == 1 ? one ?? other! : other!,
+                Ordinal: (_, _, _, _, _, _, other) => other!)
+        },
         // Italian
         {
             "it", new Resolvers(
@@ -170,6 +182,23 @@ public partial class PluralResolvers
                 Ordinal: (_, _, _, _, _, _, other) => other!
             )
         },
+        // Romanian
+        {
+            "ro", new Resolvers(
+                Cardinal: (n, zero, one, _, few, _, other) =>
+                {
+                    if (n == 1)
+                        return one ?? other!;
+
+                    int fr100 = n % 100;
+
+                    if (n == 0 || Math.Clamp(fr100, 1, 19) == fr100)
+                        return few ?? other!;
+
+                    return other!;
+                },
+                Ordinal: (_, _, _, _, _, _, other) => other!)
+        },
         // Russian
         {
             "ru", new Resolvers(
@@ -198,6 +227,24 @@ public partial class PluralResolvers
                 },
                 Ordinal: (_, _, _, _, _, _, other) => other!)
         },
+        // Serbian
+        {
+            "sr", new Resolvers(
+                Cardinal: (n, _, one, _, few, _, other) =>
+                {
+                    int fr10 = n % 10;
+                    int fr100 = n % 100;
+
+                    if (fr10 == 1 && fr100 != 11)
+                        return one ?? other!;
+
+                    if (Math.Clamp(fr10, 2, 4) == fr10 && Math.Clamp(fr100, 12, 14) != fr100)
+                        return few ?? other!;
+
+                    return other!;
+                },
+                Ordinal: (_, _, _, _, _, _, other) => other!)
+        },
         // Swedish
         {
             "sv", new Resolvers(
@@ -218,6 +265,27 @@ public partial class PluralResolvers
                     return other!;
                 }
             )
+        },
+        // Ukrainian
+        {
+            "uk", new Resolvers(
+                Cardinal: (n, zero, one, _, few, many, other) =>
+                {
+                    if (n == 0)
+                        return zero ?? other!;
+
+                    int fr10 = n % 10;
+                    int fr100 = n % 100;
+
+                    if (fr10 == 1 && fr100 != 11)
+                        return one ?? other!;
+
+                    if (Math.Clamp(fr10, 2, 4) == fr10 && Math.Clamp(fr100, 12, 14) != fr100)
+                        return few ?? other!;
+
+                    return many ?? other!;
+                },
+                Ordinal: (_, _, _, _, _, _, other) => other!)
         },
         // Vietnamese
         {
