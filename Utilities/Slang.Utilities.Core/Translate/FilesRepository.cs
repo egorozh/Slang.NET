@@ -26,48 +26,29 @@ internal static class FilesRepository
         string filePath,
         Func<Task<string>> contentFactory)
     {
-        string fileNameNoExtension = Path.GetFileNameWithoutExtension(fileName).Split('.').First();
+        if (TranslationFileNames.Parse(fileName) is not { } parsed)
+            return null;
 
-        var baseFileMatch = Regexes.BaseFileRegex.Match(fileNameNoExtension);
-
-        if (baseFileMatch.Success)
+        if (parsed.LocaleTag is not { } localeTag)
         {
             // base file (file without locale, may be multiples due to namespaces!)
             // could also be a non-base locale when directory name is a locale
             return new TranslationFile(
                 Locale: baseCulture,
-                Namespace: fileName.Replace(Constants.AdditionalFilePattern, ""),
+                Namespace: parsed.Namespace,
                 FileName: fileName,
                 FilePath: filePath,
                 Read: contentFactory);
         }
 
-        // secondary files (strings_x)
-        var match = Regexes.FileWithLocaleRegex.Match(fileNameNoExtension);
+        if (!TranslationFileNames.TryCreateCulture(localeTag, out var locale))
+            return null;
 
-        if (match.Success)
-        {
-            string @namespace = match.Groups[1].Value;
-
-            string language = match.Groups[2].Value;
-
-            //todo: scriptCode not supported
-            string _ = match.Groups[3].Value;
-
-            string country = match.Groups[4].Value;
-
-            var locale = new CultureInfo(string.IsNullOrWhiteSpace(country)
-                ? $"{language}"
-                : $"{language}-{country}");
-
-            return new TranslationFile(
-                Locale: locale,
-                Namespace: @namespace,
-                FileName: fileName,
-                FilePath: filePath,
-                Read: contentFactory);
-        }
-
-        return null;
+        return new TranslationFile(
+            Locale: locale,
+            Namespace: parsed.Namespace,
+            FileName: fileName,
+            FilePath: filePath,
+            Read: contentFactory);
     }
 }

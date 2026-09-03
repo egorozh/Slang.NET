@@ -11,6 +11,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Release tracking for the diagnostics this generator reports (RS2008). -->
+        <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+        <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Update="Generator\Internal\Generator.GenerateHeader.cs">
             <DependentUpon>Generator.cs</DependentUpon>
         </Compile>

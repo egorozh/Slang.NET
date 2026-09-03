@@ -30,6 +30,9 @@ Install-Package dotnet add package Slang.Net
 
 `i18n/strings_en.i18n.json` or `i18n/strings_en-US.i18n.json` or `i18n/strings.i18n.json` (for base culture)
 
+> **Note** The locale part of the file name is `language[-Script][-COUNTRY]`, so a script subtag is supported as
+> well: `i18n/strings_sr-Cyrl-RS.i18n.json`, `i18n/strings_sr-Latn-RS.i18n.json`, `i18n/strings_zh-Hant.i18n.json`.
+
 ```json
 {
   "screen": {

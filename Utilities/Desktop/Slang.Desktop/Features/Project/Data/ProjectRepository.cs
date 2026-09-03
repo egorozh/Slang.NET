@@ -37,7 +37,8 @@ public class ProjectRepository
             {
                 Files = fileCollection.Files.Select(f => new TranslationFile(
                     Read: f.Read,
-                    Locale: f.Locale
+                    Locale: f.Locale,
+                    FileName: f.FileName
                 )).ToList()
             });
         
