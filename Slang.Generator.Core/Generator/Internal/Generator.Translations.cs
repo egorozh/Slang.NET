@@ -712,12 +712,23 @@ internal static partial class Generator
 
         // parameters are union sets over all plural forms
         List<string> paramSet = [];
-        Dictionary<string, string?> paramTypeMap = [];
+        Dictionary<string, string> paramTypeMap = [];
 
         foreach (var textNode in textNodeList)
         {
-            paramSet.AddRange(textNode.Params);
-            paramTypeMap!.AddAll(textNode.ParamTypeMap);
+            foreach (string param in textNode.Params)
+            {
+                // the same placeholder may appear in several forms, but it is one parameter
+                if (!paramSet.Contains(param))
+                    paramSet.Add(param);
+            }
+
+            foreach (var entry in textNode.ParamTypeMap)
+            {
+                // a type declared in any form wins over the untyped default
+                if (!paramTypeMap.TryGetValue(entry.Key, out string? existingType) || existingType == "object")
+                    paramTypeMap[entry.Key] = entry.Value;
+            }
         }
 
         string builderParam = $"{node.ParamName}Builder";
@@ -728,7 +739,7 @@ internal static partial class Generator
 
         for (int i = 0; i < @params.Count; i++)
         {
-            buffer.Append($", {paramTypeMap[@params[i]] ?? "int"} ");
+            buffer.Append($", {(paramTypeMap.TryGetValue(@params[i], out string? paramType) ? paramType : "object")} ");
             buffer.Append(@params[i]);
         }
 
