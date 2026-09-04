@@ -3,7 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
 
-        <Version>10.1.0</Version>
+        <Version>10.1.1</Version>
         <Version Condition="'$(ReleaseVersion)' != ''">$(ReleaseVersion)</Version>
         <PackageId>Slang.Net</PackageId>
 

@@ -1,3 +1,5 @@
+![Slang.NET](https://raw.githubusercontent.com/egorozh/Slang.NET/main/assets/icon-128.png)
+
 # Slang.NET
 
 [![Nuget](https://img.shields.io/nuget/v/Slang.Net?label=Slang.Net)](https://www.nuget.org/packages/Slang.Net)

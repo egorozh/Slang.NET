@@ -21,7 +21,14 @@
         <PackageProjectUrl>https://github.com/egorozh/Slang.NET</PackageProjectUrl>
         <RepositoryUrl>https://github.com/egorozh/Slang.NET</RepositoryUrl>
         <PackageTags>i18n, localization, netcore, net, source-generator, Resources</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
+
+    <!-- Shared package icon. The path is anchored to this file so every packable project,
+         at any depth, picks up the same asset. Non-packable projects ignore it. -->
+    <ItemGroup Label="Package icon">
+        <None Include="$(MSBuildThisFileDirectory)assets\icon.png" Pack="true" Visible="false" PackagePath="\" />
+    </ItemGroup>
 
     <PropertyGroup Label="SourceLink and deterministic builds">
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
