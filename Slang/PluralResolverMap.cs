@@ -13,6 +13,24 @@ public partial class PluralResolvers
         },
         Ordinal: (n, _, _, _, _, _, other) => other ?? n.ToString());
 
+    /// Serbian, Croatian and Bosnian share one CLDR rule:
+    /// 1, 21, 101 — one; 2–4, 22–24 — few; everything else (incl. 11–14) — other.
+    private static readonly Resolvers SouthSlavicResolvers = new(
+        Cardinal: (n, _, one, _, few, _, other) =>
+        {
+            int fr10 = n % 10;
+            int fr100 = n % 100;
+
+            if (fr10 == 1 && fr100 != 11)
+                return one ?? other!;
+
+            if (Math.Clamp(fr10, 2, 4) == fr10 && Math.Clamp(fr100, 12, 14) != fr100)
+                return few ?? other!;
+
+            return other!;
+        },
+        Ordinal: (_, _, _, _, _, _, other) => other!);
+
     /// Predefined pluralization resolvers
     /// See https://unicode-org.github.io/cldr-staging/charts/latest/supplemental/language_plural_rules.html
     /// Sorted by language alphabetically
@@ -26,6 +44,8 @@ public partial class PluralResolvers
                 Cardinal: (n, _, one, _, _, _, other) => n == 1 ? one ?? other! : other!,
                 Ordinal: (_, _, _, _, _, _, other) => other!)
         },
+        // Bosnian
+        { "bs", SouthSlavicResolvers },
         // Czech
         {
             "cs", new Resolvers(
@@ -124,6 +144,8 @@ public partial class PluralResolvers
                 }
             )
         },
+        // Croatian
+        { "hr", SouthSlavicResolvers },
         // Hungarian
         {
             "hu", new Resolvers(
@@ -227,24 +249,20 @@ public partial class PluralResolvers
                 },
                 Ordinal: (_, _, _, _, _, _, other) => other!)
         },
-        // Serbian
+        // Slovenian (has a dual): by n % 100 — 1 one, 2 two, 3–4 few, other
         {
-            "sr", new Resolvers(
-                Cardinal: (n, _, one, _, few, _, other) =>
+            "sl", new Resolvers(
+                Cardinal: (n, _, one, two, few, _, other) => (n % 100) switch
                 {
-                    int fr10 = n % 10;
-                    int fr100 = n % 100;
-
-                    if (fr10 == 1 && fr100 != 11)
-                        return one ?? other!;
-
-                    if (Math.Clamp(fr10, 2, 4) == fr10 && Math.Clamp(fr100, 12, 14) != fr100)
-                        return few ?? other!;
-
-                    return other!;
+                    1 => one ?? other!,
+                    2 => two ?? other!,
+                    3 or 4 => few ?? other!,
+                    _ => other!
                 },
                 Ordinal: (_, _, _, _, _, _, other) => other!)
         },
+        // Serbian
+        { "sr", SouthSlavicResolvers },
         // Swedish
         {
             "sv", new Resolvers(
